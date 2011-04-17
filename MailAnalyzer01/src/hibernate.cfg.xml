@@ -22,5 +22,7 @@
 
     <mapping class="br.com.mailanalyzer.domain.TermVariation" />
     <mapping class="br.com.mailanalyzer.domain.DomainObject" />
+    <mapping class="br.com.mailanalyzer.domain.Message" />
+    <mapping class="br.com.mailanalyzer.domain.ProcessedMessage" />
   </session-factory>
 </hibernate-configuration>
