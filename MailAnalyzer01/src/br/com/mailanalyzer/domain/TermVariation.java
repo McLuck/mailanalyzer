@@ -2,6 +2,7 @@ package br.com.mailanalyzer.domain;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
+import javax.persistence.Table;
 
 
 /**
@@ -10,7 +11,7 @@ import javax.persistence.Entity;
  * 
  */
 @Entity
-//@Table(name="termvariation",catalog="mailanalyzer")
+@Table(name="termvariation")
 public class TermVariation extends DomainObject implements Serializable {
  
 	private static final long serialVersionUID = 1L;
