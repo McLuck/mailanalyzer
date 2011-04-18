@@ -1,6 +1,7 @@
 package br.com.mailanalyzer.domain;
 
 import java.io.Serializable;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
@@ -13,13 +14,16 @@ import javax.persistence.Table;
 @Entity
 @Table(name="termvariation")
 public class TermVariation extends DomainObject implements Serializable {
- 
-	private static final long serialVersionUID = 1L;
-	 
+        @Column(name = "id")
+        private static final long serialVersionUID = 1L;
+
+        @Column(name = "name")
 	private String name;
-	 
+
+        @Column(name = "variations")
 	private String variations;
-	 
+
+        @Column(name = "replacer")
 	private String replacer;
 	 
 	/**

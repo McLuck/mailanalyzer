@@ -1,16 +1,28 @@
 package br.com.mailanalyzer.domain;
 
 //import br.com.mailanalyzer.commands.CommandListener;
+
+import javax.persistence.Column;
+import javax.persistence.Table;
+
+
 //import br.com.mailanalyzer.commands.Command;
 /**
  * 
  *  @author Guilherme Lucas
  * 
  */
+
+@Table(name = "subject")
 public class Subject extends DomainObject {
 
+    @Column(name = "name")
     private String name;
+
+    @Column(name = "otext")
     private String text;
+
+    
     private String commandFlowName;
     //private Field[] fileds;
     private ProcessedMessage processedMessage;
