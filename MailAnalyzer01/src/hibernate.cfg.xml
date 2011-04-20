@@ -22,6 +22,7 @@
 
     <mapping class="br.com.mailanalyzer.domain.TermVariation" />
     <mapping class="br.com.mailanalyzer.domain.DomainObject" />
+    <mapping class="br.com.mailanalyzer.domain.ActiveReceiver" />
     <mapping class="br.com.mailanalyzer.domain.Message" />
     <mapping class="br.com.mailanalyzer.domain.ProcessedMessage" />
   </session-factory>
