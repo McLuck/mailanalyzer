@@ -27,7 +27,7 @@ public class ProcessedMessage extends DomainObject{
 
         @ManyToOne
         @JoinColumn(name="subject_id")
-	//private Subject subject;
+	private Subject subject;
 
         /**
 	 *  @return the name

@@ -1,8 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package br.com.mailanalyzer.domain;
 
 import javax.persistence.Column;
@@ -14,6 +9,9 @@ import javax.persistence.Table;
 /**
  *
  * @author Bruno Marin Mota
+ * @version 1.0
+ * @Date 19/04/11
+ * 
  */
 @Entity
 @Table(name = "omessage")

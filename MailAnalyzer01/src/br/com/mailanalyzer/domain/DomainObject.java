@@ -1,19 +1,21 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package br.com.mailanalyzer.domain;
 import java.io.Serializable;
-import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 
+/**
+ *
+ * @author Lucas Israel
+ * @contact mcluck.ti@gmail.com
+ * @version 1.0
+ * @Date 21-04-2011
+ * 
+ */
+
 @MappedSuperclass
-public abstract class DomainObject {
+public abstract class DomainObject implements Serializable{
 
     @Id @GeneratedValue(strategy=GenerationType.AUTO)
     private int id;

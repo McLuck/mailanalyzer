@@ -2,6 +2,7 @@ package br.com.mailanalyzer.domain;
 
 //import br.com.mailanalyzer.commands.CommandListener;
 
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Table;
 
@@ -25,7 +26,10 @@ public class Subject extends DomainObject {
     
     private String commandFlowName;
     //private Field[] fileds;
-    private ProcessedMessage processedMessage;
+
+
+    
+    private List<ProcessedMessage> processedMessage;
     
     /*
     public Command getCommand() {
