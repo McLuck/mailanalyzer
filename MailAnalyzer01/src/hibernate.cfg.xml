@@ -25,5 +25,9 @@
     <mapping class="br.com.mailanalyzer.domain.ActiveReceiver" />
     <mapping class="br.com.mailanalyzer.domain.Message" />
     <mapping class="br.com.mailanalyzer.domain.ProcessedMessage" />
+    <mapping class="br.com.mailanalyzer.domain.Field" />
+    <mapping class="br.com.mailanalyzer.domain.Log" />
+    <mapping class="br.com.mailanalyzer.domain.Subject" />
+    <mapping class="br.com.mailanalyzer.domain.TermVariation" />
   </session-factory>
 </hibernate-configuration>
