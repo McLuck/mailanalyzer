@@ -1,6 +1,5 @@
 package br.com.mailanalyzer.domain;
 
-//import br.com.mailanalyzer.commands.CommandListener;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;

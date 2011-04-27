@@ -7,9 +7,13 @@ import javax.persistence.Table;
 
 
 /**
- * 
- *  @author Guilherme Lucas
- * 
+ *
+ * @author Guilherme Lucas
+ * @contact ---
+ * @version 1.1
+ * @Date ---
+ * @reviser Lucas Israel
+ *
  */
 @Entity
 @Table(name="termvariation")

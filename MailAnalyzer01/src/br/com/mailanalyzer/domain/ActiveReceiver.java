@@ -10,9 +10,13 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 /**
- * @param class ActiveReceiver
+ *
  * @author Francisca Herlayne
- * @version 1.0 
+ * @contact email
+ * @version 1.0
+ * @Date ---
+ * @reviser ---
+ *
  */
   @Entity
   @Table(name = "activerecive")
