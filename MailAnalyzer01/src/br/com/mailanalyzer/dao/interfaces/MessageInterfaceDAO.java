@@ -19,7 +19,5 @@ public interface MessageInterfaceDAO extends BaseInterfaceDAO<Message> {
      * @param keyword Assunto ou mensagem parcial para busca
      * @return lista de Message
      */
-    List<Message> getLikeName(String keyword);
-    
-    
+    List<Message> getLikeKeyword(String keyword);
 }

@@ -22,6 +22,7 @@ public abstract class BaseDAO <T extends DomainObject> implements BaseInterfaceD
     private SessionFactory sessionFactory;
     private Class<T> domainObject;
     private HB hibernateUtil;
+    protected boolean isLOGGING = false;
     
     /**
 	 * Cria uma nova instância do tipo {@link BaseDAO}.

@@ -5,7 +5,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-
 /**
  *
  * @author Guilherme Lucas
@@ -16,66 +15,56 @@ import javax.persistence.Table;
  *
  */
 @Entity
-@Table(name="termvariation")
+@Table(name = "termvariation")
 public class TermVariation extends DomainObject implements Serializable {
-        private static final long serialVersionUID = 1L;
 
-        @Column(name = "name")
-	private String name;
+    private static final long serialVersionUID = 1L;
+    @Column(name = "name")
+    private String name;
+    @Column(name = "variations")
+    private String variations;
+    @Column(name = "replacer")
+    private String replacer;
 
-        @Column(name = "variations")
-	private String variations;
+    /**
+     * @return the name
+     */
+    public String getName() {
+        return name;
+    }
 
-        @Column(name = "replacer")
-	private String replacer;
-	 
-	/**
-	 *  @return the name
-	 * 
-	 */
-	public String getName() {
-		return null;
-	}
-	 
-	/**
-	 *  @param name the name to set
-	 * 
-	 */
-	public void setName(String name) {
-	 
-	}
-	 
-	/**
-	 *  @return the variations
-	 * 
-	 */
-	public String getVariations() {
-		return null;
-	}
-	 
-	/**
-	 *  @param variations the variations to set
-	 * 
-	 */
-	public void setVariations(String variations) {
-	 
-	}
-	 
-	/**
-	 *  @return the replacer
-	 * 
-	 */
-	public String getReplacer() {
-		return null;
-	}
-	 
-	/**
-	 *  @param replacer the replacer to set
-	 * 
-	 */
-	public void setReplacer(String replacer) {
-	 
-	}
-	 
+    /**
+     * @param name the name to set
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /**
+     * @return the variations
+     */
+    public String getVariations() {
+        return variations;
+    }
+
+    /**
+     * @param variations the variations to set
+     */
+    public void setVariations(String variations) {
+        this.variations = variations;
+    }
+
+    /**
+     * @return the replacer
+     */
+    public String getReplacer() {
+        return replacer;
+    }
+
+    /**
+     * @param replacer the replacer to set
+     */
+    public void setReplacer(String replacer) {
+        this.replacer = replacer;
+    }
 }
- 
