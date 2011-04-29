@@ -18,7 +18,6 @@ import javax.persistence.Table;
 @Entity
 @Table(name="termvariation")
 public class TermVariation extends DomainObject implements Serializable {
-        @Column(name = "id")
         private static final long serialVersionUID = 1L;
 
         @Column(name = "name")

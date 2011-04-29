@@ -17,14 +17,15 @@ import org.hibernate.Session;
 public class AbstractDAO {
 
     private Session session;
+    HB hibernateUtils = HB.getInstancia();
 
     private void createSession() {
         if (session == null) {
-            session = HB.getSESSION();
+            session = hibernateUtils.getNewSession();
         } else if (!session.isConnected()) {
-            session = HB.getSESSION();
+            session = hibernateUtils.getNewSession();
         } else if (!session.isOpen()) {
-            session = HB.getSESSION();
+            session = hibernateUtils.getNewSession();
         }
     }
 
