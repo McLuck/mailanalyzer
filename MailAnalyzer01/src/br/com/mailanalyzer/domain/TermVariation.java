@@ -9,9 +9,9 @@ import javax.persistence.Table;
 /**
  *
  * @author Guilherme Lucas
- * @contact ---
+ * @contact gfaria.mello@gmail.com
  * @version 1.1
- * @Date ---
+ * @Date 29/04/2011
  * @reviser Lucas Israel
  *
  */

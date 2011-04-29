@@ -12,9 +12,9 @@ import org.hibernate.annotations.Cascade;
 /**
  *
  * @author Guilherme Lucas
- * @contact ---
+ * @contact gfaria.mello@gmail.com
  * @version 1.1
- * @Date ---
+ * @Date 29/04/2011
  * @reviser Lucas Israel
  *
  */
@@ -23,8 +23,10 @@ public class Subject extends DomainObject {
 
     @Column(name = "name")
     private String name;
+
     @Column(name = "otext")
     private String text;
+
     private String commandFlowName;
 
     @OneToMany(mappedBy = "subject", cascade = {CascadeType.ALL})
