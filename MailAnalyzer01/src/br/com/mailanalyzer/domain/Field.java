@@ -1,5 +1,6 @@
 package br.com.mailanalyzer.domain;
 
+import java.io.Serializable;
 import javax.persistence.CascadeType;
 import javax.persistence.Table;
 import javax.persistence.Entity;
@@ -17,13 +18,13 @@ import javax.persistence.ManyToOne;
  */
 @Entity
 @Table(name = "ofield")
-public class Field extends DomainObject {
+public class Field extends DomainObject implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     private String name;
     private int type;
     private boolean required;
-
-
+    
     @ManyToOne(cascade = {CascadeType.ALL}, targetEntity = Subject.class)
     @JoinColumn(name = "subject_id", nullable = true)
     private Subject subject;

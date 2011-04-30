@@ -9,5 +9,6 @@ package br.com.mailanalyzer.domain;
  *
  */
 public interface Receiver {
+    public static final int ACTIVE_RECEIVER_TYPE_EMAIL = 1;
     public Message getMessage();
 }

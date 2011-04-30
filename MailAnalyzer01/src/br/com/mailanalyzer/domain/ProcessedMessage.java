@@ -1,6 +1,7 @@
 
 package br.com.mailanalyzer.domain;
 
+import java.io.Serializable;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,7 +20,10 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "processed_message")
-public class ProcessedMessage extends DomainObject {
+public class ProcessedMessage extends DomainObject implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
 
     @Column(name = "name")
     private String name;

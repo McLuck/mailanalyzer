@@ -1,5 +1,10 @@
 
 package br.com.mailanalyzer.domain;
+
+import java.io.Serializable;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
 /**
  *
  * @author Lucas Israel
@@ -8,7 +13,13 @@ package br.com.mailanalyzer.domain;
  * @Date 21-04-2011
  *
  */
-public class Status extends DomainObject{
+@Entity
+@Table(name="ostatus")
+public class Status extends DomainObject implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+
     private String name;
 
     /**

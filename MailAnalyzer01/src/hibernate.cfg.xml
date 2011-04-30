@@ -28,6 +28,7 @@
     <mapping class="br.com.mailanalyzer.domain.Field" />
     <mapping class="br.com.mailanalyzer.domain.Log" />
     <mapping class="br.com.mailanalyzer.domain.Subject" />
+    <mapping class="br.com.mailanalyzer.domain.Status" />
     <mapping class="br.com.mailanalyzer.domain.TermVariation" />
   </session-factory>
 </hibernate-configuration>

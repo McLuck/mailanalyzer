@@ -1,8 +1,10 @@
 package br.com.mailanalyzer.domain;
 
+import java.io.Serializable;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -18,9 +20,13 @@ import org.hibernate.annotations.Cascade;
  * @reviser Lucas Israel
  *
  */
+@Entity
 @Table(name = "subject")
-public class Subject extends DomainObject {
+public class Subject extends DomainObject implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+    
+    
     @Column(name = "name")
     private String name;
 

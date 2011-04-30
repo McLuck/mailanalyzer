@@ -2,9 +2,9 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package br.com.mailanalyzer.domain;
 
+import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -18,37 +18,31 @@ import javax.persistence.Table;
  * @reviser ---
  *
  */
-  @Entity
-  @Table(name = "activerecive")
-public class ActiveReceiver extends DomainObject {
+@Entity
+@Table(name = "activerecive")
+public class ActiveReceiver extends DomainObject implements Serializable {
 
-        @Column(name = "nome")
-  	private String nome;
+    private static final long serialVersionUID = 1L;
+    @Column(name = "nome")
+    private String nome;
+    @Column(name = "usuario")
+    private String usuario;
+    @Column(name = "senha")
+    private String senha;
+    @Column(name = "ohost")
+    private String host;
+    @Column(name = "isssl")
+    private boolean ssl;
+    @Column(name = "porta")
+    private int port;
+    @Column(name = "otype")
+    private int otype;
+    @Column(name = "lastid")
+    private int lastID;
 
-        @Column(name = "usuario")
-	private String usuario;
-
-        @Column(name = "senha")
-	private String senha;
-
-        @Column(name = "ohost")
-	private String host;
-
-        @Column(name = "isssl")
-	private boolean ssl;
-
-        @Column(name = "porta")
-	private int port;
-
-        @Column(name = "otype")
-        private int otype;
-
-        @Column(name = "lastid")
-        private int lastID;
-
-   /**
-    * @return the host
-    */
+    /**
+     * @return the host
+     */
     public String getHost() {
         return host;
     }
@@ -115,7 +109,4 @@ public class ActiveReceiver extends DomainObject {
     public void setUsuario(String usuario) {
         this.usuario = usuario;
     }
-
-
-
 }

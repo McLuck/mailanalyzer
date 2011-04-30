@@ -1,6 +1,7 @@
 package br.com.mailanalyzer.domain;
 
 import br.com.mailanalyzer.dao.AbstractDAO;
+import java.io.Serializable;
 import javax.persistence.Table;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,8 +19,9 @@ import javax.persistence.SequenceGenerator;
  */
 @Entity
 @Table(name = "olog")
-public class Log extends DomainObject {
+public class Log extends DomainObject implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     private int ocorrencia;
     private String detalhe, referencia;
 
@@ -37,7 +39,7 @@ public class Log extends DomainObject {
 
             DomainObject dmo = (DomainObject) Class.forName(className).newInstance();
             dmo.setId(idobj);
-            dmo = (DomainObject)dao.getCompleteObjById(dmo);
+            dmo = (DomainObject) dao.getCompleteObjById(dmo);
             return dmo;
         } catch (Exception ex) {
             dao.closeSession();
