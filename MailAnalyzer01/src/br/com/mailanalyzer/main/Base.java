@@ -55,8 +55,9 @@ public class Base {
     //NOME DOS FLUXOS
     public static final String ACTIVE_RECEIVER_FLOW = "activeReceiverFlow";
     public static final String INIT_SERVICE_RECEIVER_FLOW = "InitServiceReceiverFlow";
-
+    public static final String TRATAR_MENSAGEM_FLOW = "TratarMensagemFlow";
     public static final String MAIN_FLOW = "mainFlow";
+    
     
     
     //Servicos de ActiveReceivers ativos no sistema
