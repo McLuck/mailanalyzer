@@ -28,15 +28,18 @@ public class FiltroSubstituirGirias implements InterfaceComposeFlow {
 
         List<TermVariation> lista = action.showAll();
 
-        for (TermVariation tv : lista) {
+        for (TermVariation term : lista) {
 
-            String[] variations = tv.getVariations().split(";");
+            String[] variations = term.getVariations().split(";");
             for (String s : variations) {
-                text = text.replace(s, tv.getReplacer());
+                text = text.replace(s, term.getReplacer());
             }
 
         }
 
         return text;
+    }
+    public static void main(String[] args) {
+     
     }
 }
