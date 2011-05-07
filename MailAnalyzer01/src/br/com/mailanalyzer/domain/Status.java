@@ -23,6 +23,15 @@ public class Status extends DomainObject implements Serializable {
     private String name;
 
     /**
+     *
+     * @param msg
+     * @throws Exception
+     */
+    public void print(String msg)throws Exception {
+        //
+    }
+
+    /**
      * @return the name
      */
     public String getName() {
