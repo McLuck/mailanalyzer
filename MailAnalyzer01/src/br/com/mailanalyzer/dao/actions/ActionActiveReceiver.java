@@ -1,4 +1,4 @@
-package br.com.mailanalyzer.testes;
+package br.com.mailanalyzer.dao.actions;
 
 import br.com.mailanalyzer.dao.ActiveReceiverDAO;
 import br.com.mailanalyzer.domain.ActiveReceiver;

@@ -1,5 +1,6 @@
 package br.com.mailanalyzer.testes;
 
+import br.com.mailanalyzer.dao.actions.ActionActiveReceiver;
 import br.com.mailanalyzer.domain.ActiveReceiver;
 import br.com.mailanalyzer.domain.DomainObject;
 import br.com.mailanalyzer.domain.Receiver;
