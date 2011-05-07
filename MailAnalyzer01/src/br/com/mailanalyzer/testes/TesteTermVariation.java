@@ -5,6 +5,7 @@
 
 package br.com.mailanalyzer.testes;
 
+import br.com.mailanalyzer.dao.HB;
 import br.com.mailanalyzer.dao.TermVariationDAO;
 import br.com.mailanalyzer.dao.actions.ActionTermVariation;
 import br.com.mailanalyzer.domain.TermVariation;
@@ -20,16 +21,28 @@ import br.com.mailanalyzer.domain.TermVariation;
 public class TesteTermVariation {
 
     public static void main (String Args []) throws InstantiationException, IllegalAccessException {
-    TesteTermVariation a = new TesteTermVariation();
     ActionTermVariation atv = new ActionTermVariation();
     TermVariation tester;
-   
+
+
+    /*
+
     tester = new TermVariation();
     tester.setName("Yo soy el Variation del Term");
     tester.setReplacer("ade");
     tester.setVariations("sad");
+    atv.setVariation(tester);
     atv.Salvar();
+    */
 
+    tester = new TermVariation();
+    tester.setId(10);
+    atv.setVariation(tester);
+    tester = atv.getVariation(tester);
+    System.out.print(tester.getName());
+    //tester.setName("teste alteracao. merda de teclado!!2");
+    //tester.setReplacer("ade");
+    //tester.setVariations("sad");
 
     }
 

@@ -5,7 +5,6 @@ import br.com.mailanalyzer.domain.TermVariation;
 import br.com.mailanalyzer.utils.Converte;
 import java.util.List;
 
-
 /**
  *
  * @author Guilherme Lucas
@@ -24,13 +23,13 @@ public class ActionTermVariation {
      */
     public TermVariation getVariation(TermVariation variat) {
         TermVariationDAO dao = new TermVariationDAO();
+        this.variation = variat;
         variation = dao.obter(variation.getId());
 
-        this.variation = variat;
-        System.out.println("----- Recuperando pela ID: " + variat.getId());
-        System.out.println("Nome: " + variat.getName());
-        System.out.println("Alterador: " + variat.getReplacer());
-        System.out.println("Variações: " + variat.getVariations());
+        System.out.println("----- Recuperando pela ID: " + variation.getId());
+        System.out.println("Nome: " + variation.getName());
+        System.out.println("Alterador: " + variation.getReplacer());
+        System.out.println("Variações: " + variation.getVariations());
         System.out.println("-----");
         return variation;
     }
@@ -43,16 +42,16 @@ public class ActionTermVariation {
     }
 
     public void Salvar() {
-    System.out.println("Cadastrando...");
-    if(variation.getId() == 0){
-        variation.setDataRegistro(new java.util.Date().getTime());
+        System.out.println("Cadastrando...");
+        TermVariationDAO dao = new TermVariationDAO();
+        variation.setDataAlteracao(new java.util.Date().getTime());
+        dao.atualizar(variation);
+
+        System.out.println(variation.getName() + " foi salvo com sucesso. ID do objeto: " + variation.getId() + " - Na data: " + Converte.ToStringDataVisual(variation.getDataRegistro()) + " - " + Converte.DateToStringTimer(variation.getDataRegistro()));
+        System.out.println("---");
     }
-    TermVariationDAO dao = new TermVariationDAO();
-    dao.salvar(variation);
-    System.out.println(variation.getName() + " foi salvo com sucesso. ID do objeto: " + variation.getId() + " - Na data: " + Converte.ToStringDataVisual(variation.getDataRegistro()) + " - " + Converte.DateToStringTimer(variation.getDataRegistro()));
-    System.out.println("---");
-    }
-     public void alterar() {
+
+    public void alterar() {
         System.out.println("Alterando...");
         TermVariationDAO dao = new TermVariationDAO();
         dao.atualizar(variation);
@@ -64,7 +63,7 @@ public class ActionTermVariation {
         System.out.println("Excluindo...");
         TermVariationDAO dao = new TermVariationDAO();
         dao.excluir(variation);
-        System.out.println(variation.getName()+" foi excluido com sucesso.");
+        System.out.println(variation.getName() + " foi excluido com sucesso.");
         System.out.println("---");
     }
 
@@ -72,30 +71,30 @@ public class ActionTermVariation {
         System.out.println("Buscando por " + str + "...");
         TermVariationDAO dao = new TermVariationDAO();
         List<TermVariation> lista = dao.getLikeName(str);
-        for(TermVariation a : lista){
-        System.out.println("ID: "+a.getId()+" - Nome: "+a.getName()+" - Alterador: "+a.getReplacer()+"Variações: "+a.getVariations());
+        for (TermVariation a : lista) {
+            System.out.println("ID: " + a.getId() + " - Nome: " + a.getName() + " - Alterador: " + a.getReplacer() + "Variações: " + a.getVariations());
         }
         System.out.println("---");
         return lista;
     }
 
-     public List<TermVariation> buscarReplacers(String str) {
+    public List<TermVariation> buscarReplacers(String str) {
         System.out.println("Buscando por " + str + "...");
         TermVariationDAO dao = new TermVariationDAO();
         List<TermVariation> lista = dao.getLikeReplacers(str);
-        for(TermVariation a : lista){
-        System.out.println("ID: "+a.getId()+" - Nome: "+a.getName()+" - Alterador: "+a.getReplacer()+"Variações: "+a.getVariations());
+        for (TermVariation a : lista) {
+            System.out.println("ID: " + a.getId() + " - Nome: " + a.getName() + " - Alterador: " + a.getReplacer() + "Variações: " + a.getVariations());
         }
         System.out.println("---");
         return lista;
-     }
+    }
 
     public List<TermVariation> buscarVariations(String str) {
         System.out.println("Buscando por " + str + "...");
         TermVariationDAO dao = new TermVariationDAO();
         List<TermVariation> lista = dao.getLikeVariations(str);
-        for(TermVariation a : lista){
-        System.out.println("ID: "+a.getId()+" - Nome: "+a.getName()+" - Alterador: "+a.getReplacer()+"Variações: "+a.getVariations());
+        for (TermVariation a : lista) {
+            System.out.println("ID: " + a.getId() + " - Nome: " + a.getName() + " - Alterador: " + a.getReplacer() + "Variações: " + a.getVariations());
         }
         System.out.println("---");
         return lista;
@@ -105,8 +104,8 @@ public class ActionTermVariation {
         System.out.println("Exibir tudo ...");
         TermVariationDAO dao = new TermVariationDAO();
         List<TermVariation> lista = dao.obterTodos();
-        for(TermVariation a : lista){
-        System.out.println("ID: "+a.getId()+" - Nome: "+a.getName()+" - Alterador: "+a.getReplacer()+"Variações: "+a.getVariations());
+        for (TermVariation a : lista) {
+            System.out.println("ID: " + a.getId() + " - Nome: " + a.getName() + " - Alterador: " + a.getReplacer() + "Variações: " + a.getVariations());
         }
         System.out.println("---");
         return lista;
