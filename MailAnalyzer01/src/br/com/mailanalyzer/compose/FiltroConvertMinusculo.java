@@ -1,14 +1,15 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package br.com.mailanalyzer.compose;
 
 import br.com.mailanalyzer.fluxo.InterfaceComposeFlow;
 
 /**
  *
- * @author lucasisrael
+ * @author Lobo
+ * @contact pedro.lobo29@gmail.com
+ * @version 1.0
+ * @Date 07/05/2011
+ * @reviser ---
  */
 public class FiltroConvertMinusculo implements InterfaceComposeFlow{
 
@@ -19,5 +20,11 @@ public class FiltroConvertMinusculo implements InterfaceComposeFlow{
     public boolean stopFlow() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
+
+    //Converte toda String para minusculo.
+    public String parse(String txt){
+    return txt.toLowerCase();
+    }
+
     
 }

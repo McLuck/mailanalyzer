@@ -43,10 +43,7 @@ public class FieldAction {
     }
 
     public void Salvar() {
-        System.out.println("Cadastrando...");
-        if (field.getId() == 0) {
-            field.setDataRegistro(new java.util.Date().getTime());
-        }
+        System.out.println("Cadastrando...");              
         FieldDAO dao = new FieldDAO();
         dao.salvar(field);
         System.out.println(field.getName() + " foi salvo com sucesso. ID do objeto: " + field.getId() + " - Na data: " + Converte.ToStringDataVisual(field.getDataRegistro()) + " - " + Converte.DateToStringTimer(field.getDataRegistro()));

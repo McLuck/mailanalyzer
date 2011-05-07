@@ -2,6 +2,7 @@ package br.com.mailanalyzer.domain;
 
 import java.io.Serializable;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Table;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -22,7 +23,9 @@ public class Field extends DomainObject implements Serializable {
 
     private static final long serialVersionUID = 1L;
     private String name;
+    @Column(name="otype")
     private int type;
+    @Column(name="orequired")
     private boolean required;
     
     @ManyToOne(cascade = {CascadeType.ALL}, targetEntity = Subject.class)
@@ -37,6 +40,9 @@ public class Field extends DomainObject implements Serializable {
      *  @return the name
      *
      */
+
+
+
     public String getName() {
         return name;
     }
