@@ -11,9 +11,11 @@ import javax.persistence.Table;
 /**
  *
  * @author Bruno Marin Mota
- * @version 1.0
- * @Date 19/04/11
- * 
+ * @contact brunomarinmota@gmail.com
+ * @version 1.1
+ * @Date 17/04/2011
+ * @reviser
+ *
  */
 @Entity
 @Table(name = "omessage")

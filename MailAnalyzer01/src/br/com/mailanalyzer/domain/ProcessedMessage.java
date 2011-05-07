@@ -11,10 +11,10 @@ import javax.persistence.Table;
 
 /**
  *
- * @author Bruno Marin Motta
- * @contact ---
+ * @author Bruno Marin Mota
+ * @contact brunomarinmota@gmail.com
  * @version 1.1
- * @Date ---
+ * @Date 17/04/2011
  * @reviser Lucas Israel
  *
  */
