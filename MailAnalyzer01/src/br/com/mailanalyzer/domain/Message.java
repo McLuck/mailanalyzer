@@ -24,13 +24,13 @@ public class Message extends DomainObject implements Serializable {
     private static final long serialVersionUID = 1L;
     @Column(name = "assunto")
     private String assunto;
-    @Column(name = "mesagem")
+    @Column(name = "mensagem")
     private String mensagem;
     @Column(name = "codExterno")
     private String codExterno;
     
     @ManyToOne(cascade = {CascadeType.ALL}, targetEntity = Status.class)
-    @JoinColumn(name = "subject_id", nullable = true)
+    @JoinColumn(name = "status_id", nullable = true)
     private Status status;
 
     /**

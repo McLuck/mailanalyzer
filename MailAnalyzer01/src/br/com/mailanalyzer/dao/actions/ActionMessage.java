@@ -39,6 +39,9 @@ public class ActionMessage {
 
     public void salvar() {
         System.out.println("Cadastrando...");
+        if(message.getId() == 0){
+            message.setDataRegistro(new java.util.Date().getTime());
+        }
         MessageDAO dao = new MessageDAO();
         dao.salvar(message);
         System.out.println(message.getAssunto() + " foi salvo com sucesso. ID do objeto: " + message.getId() + " - Na data: " + Converte.ToStringDataVisual(message.getDataRegistro()) + " - " + Converte.DateToStringTimer(message.getDataRegistro()));
