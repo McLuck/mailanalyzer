@@ -5,8 +5,6 @@
 
 package br.com.mailanalyzer.testes;
 
-import br.com.mailanalyzer.dao.HB;
-import br.com.mailanalyzer.dao.TermVariationDAO;
 import br.com.mailanalyzer.dao.actions.ActionTermVariation;
 import br.com.mailanalyzer.domain.TermVariation;
 
@@ -39,11 +37,9 @@ public class TesteTermVariation {
     tester.setId(10);
     atv.setVariation(tester);
     tester = atv.getVariation(tester);
-    System.out.print(tester.getName());
-    //tester.setName("teste alteracao. merda de teclado!!2");
-    //tester.setReplacer("ade");
-    //tester.setVariations("sad");
-
+    tester.setName("teste alteracao. merda de teclado!!2");
+    tester.setReplacer("ade");
+    tester.setVariations("sad");
     }
 
 }
