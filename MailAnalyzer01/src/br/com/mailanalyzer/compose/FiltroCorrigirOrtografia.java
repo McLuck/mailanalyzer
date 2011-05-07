@@ -4,6 +4,7 @@
  */
 package br.com.mailanalyzer.compose;
 
+import br.com.mailanalyzer.fluxo.InterfaceComposeFlow;
 import org.xeustechnologies.googleapi.spelling.Configuration;
 import org.xeustechnologies.googleapi.spelling.Language;
 import org.xeustechnologies.googleapi.spelling.SpellChecker;
@@ -19,7 +20,7 @@ import org.xeustechnologies.googleapi.spelling.SpellResponse;
  * @Date 07-05-2011
  * 
  */
-public class FiltroCorrigirOrtografia {
+public class FiltroCorrigirOrtografia implements InterfaceComposeFlow {
     
   public void CorrigirOrtografia (String args) {
 
@@ -42,6 +43,14 @@ public class FiltroCorrigirOrtografia {
          }
              
   }
+
+    public void execute() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public boolean stopFlow() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 
  /* public static void main(String []arg){
       String input = "esti sabadu ta uma merda";

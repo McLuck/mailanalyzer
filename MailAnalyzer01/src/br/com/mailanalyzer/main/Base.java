@@ -62,4 +62,5 @@ public class Base {
     
     //Servicos de ActiveReceivers ativos no sistema
     public static ActiveReceiverService[] ACTIVE_SERVICES;
+
 }
