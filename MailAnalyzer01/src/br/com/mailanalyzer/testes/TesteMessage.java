@@ -16,76 +16,80 @@ public class TesteMessage {
     public static void main(String[] args) throws InstantiationException, IllegalAccessException {
         //Message m = (Message)br.com.mcluck.asynchronously.Utils.Factory.getInstance(Message.class);
         ActionMessage m = new ActionMessage();
-
         Message myMessage;
+/*
+        //m.delAll();
+
 
         // RODADA 2 TesteMessage completo (exceto exclusao)
-        
+
         //Cadastrando mensagem 2:
         myMessage = new Message();
         myMessage.setAssunto("Teste 1");
         myMessage.setCodExterno("1");
         myMessage.setMensagem("Que belo programa para o SABADÃO!!");
-        
-        
+
+
         //Set ActiveMessage in Action
         m.setMessage(myMessage);
         //Salva
         m.salvar();
-        
+
         //Cadastrando email 2:
         myMessage = new Message();
         myMessage.setAssunto("Teste 2");
         myMessage.setCodExterno("2");
         myMessage.setMensagem("Maravilha...");
-              
+
         //Set ActiveMessage in Action
         m.setMessage(myMessage);
         //Salva
         m.salvar();
-        
+
         // ---------- TESTANDO BUSCA, LISTAS e ALTERACOES --------
-        
-        
+
+
         //teste Buscando por assunto (LIKE) e lista (Nao deve retornar nada)
         m.buscar("Teste"); //Falta o parametro % para a busca
-        
+
         //teste alteracao de registro (FORCANDO ERRO)
         try {
-        myMessage = new Message();
-        myMessage.setId(1);
-        m.get(myMessage);
-        myMessage.setMensagem("Teste Erro");
-        m.salvar();
+            myMessage = new Message();
+            myMessage.setId(1);
+            m.get(myMessage);
+            myMessage.setMensagem("Teste Erro");
+            m.salvar();
         } catch (Exception ex) {
-        ex.printStackTrace();
+            ex.printStackTrace();
         }
-        
+
         //teste exibe lista e exibir todos os registros
         m.showAll();
-         
+
 
         //Rodada 3: TesteActiveReceiver de busca por assunto (like)
         m.buscar("%Teste%");
+*/
 
-        
         //Rodada 4: Recuperar um registro pela ID
         myMessage = new Message();
-        myMessage.setId(1); //ID valida.
-        m.get(myMessage);
-        
+        myMessage.setId(14); //ID valida.
+        myMessage = m.get(myMessage);
+        myMessage.setMensagem("Teste Lucas ISrael...");
+        m.setMessage(myMessage);
+        m.salvar();
         
         //Rodada 5: Alteracao de um registro. (Primeiro recupera o objeto depois altera
         //Aqui vou alterar a mensagem na conta com ID 1
-        myMessage = new Message();
-        myMessage.setId(1); //ID valida.
-        myMessage = m.get(myMessage);
-        myMessage.setMensagem("Teste de alteração da Mesagem");
-        m.salvar();
-        
+        //myMessage = new Message();
+        //myMessage.setId(14); //ID valida.
+        //myMessage = m.get(myMessage);
+        //myMessage.setMensagem("Teste de alteração da Mesagem");
+        //m.salvar();
+
         //Listar tudo pra ter certeza que alterou
-        m.showAll();
-        
+        //m.showAll();
+
     }
 }
 

@@ -1,5 +1,6 @@
 package br.com.mailanalyzer.testes;
 
+import br.com.mailanalyzer.dao.HB;
 import br.com.mailanalyzer.dao.actions.ActionActiveReceiver;
 import br.com.mailanalyzer.domain.ActiveReceiver;
 import br.com.mailanalyzer.domain.DomainObject;
@@ -23,6 +24,7 @@ public class TesteActiveReceiver {
         Encriptador enc;
 
         ActiveReceiver myReceive;
+        HB.getInstancia().closeSession();
 
         /* RODADA 2 TesteActiveReceiver completo (exceto exclusao)
         
@@ -166,6 +168,7 @@ public class TesteActiveReceiver {
         //Listar tudo pra ter certeza que alterou
         a.showAll();
         */
+        a.showAll();
     }
 }
 /*

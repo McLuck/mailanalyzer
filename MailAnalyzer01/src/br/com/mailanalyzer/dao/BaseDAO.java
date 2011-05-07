@@ -39,6 +39,12 @@ public abstract class BaseDAO<T extends DomainObject> implements BaseInterfaceDA
      * {@inheritDoc}
      */
     public void atualizar(T obj) {
+        if(obj.getId()==0){
+            obj.setDataRegistro(new java.util.Date().getTime());
+            obj.setDataAlteracao(0);
+        }else{
+            obj.setDataAlteracao(new java.util.Date().getTime());
+        }
         this.getSession().update(obj);
         this.getSession().flush();
     }
@@ -81,8 +87,11 @@ public abstract class BaseDAO<T extends DomainObject> implements BaseInterfaceDA
      * {@inheritDoc}
      */
     public Integer salvar(T obj) {
-        if (obj.getId() == 0) {
+        if(obj.getId()==0){
             obj.setDataRegistro(new java.util.Date().getTime());
+            obj.setDataAlteracao(0);
+        }else{
+            obj.setDataAlteracao(new java.util.Date().getTime());
         }
         Integer id = (Integer) this.getSession().save(obj);
         this.getSession().flush();

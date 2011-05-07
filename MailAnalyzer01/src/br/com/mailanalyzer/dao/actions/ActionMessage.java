@@ -80,7 +80,7 @@ public class ActionMessage {
         System.out.println("---");
     }
     
-    public void showAll() {
+    public List<Message> showAll() {
         System.out.println("Exibir tudo ...");
         MessageDAO dao = new MessageDAO();
         List<Message> lista = dao.obterTodos();
@@ -88,5 +88,15 @@ public class ActionMessage {
             System.out.println("ID: "+a.getId()+" - ASSUNTO: "+a.getAssunto()+" - MENSAGEM: "+a.getMensagem() );
         }
         System.out.println("---");
+        return lista;
+    }
+    
+    public void delAll(){
+        List<Message> lista = showAll();
+        MessageDAO dao = new MessageDAO();
+        for(Message m : lista){
+            dao.excluir(m);
+        }
+        System.out.println(new java.util.Date()+" - Todos os registros foram deletados.");
     }
 }
