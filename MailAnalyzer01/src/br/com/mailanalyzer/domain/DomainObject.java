@@ -24,6 +24,8 @@ public abstract class DomainObject implements Serializable {
 
     private long dataRegistro;
 
+    private long dataAlteracao;
+
     /**
      * @return the id
      */
@@ -50,6 +52,20 @@ public abstract class DomainObject implements Serializable {
      */
     public void setDataRegistro(long dataRegistro) {
         this.dataRegistro = dataRegistro;
+    }
+
+    /**
+     * @return the dataAlteracao
+     */
+    public long getDataAlteracao() {
+        return dataAlteracao;
+    }
+
+    /**
+     * @param dataAlteracao the dataAlteracao to set
+     */
+    public void setDataAlteracao(long dataAlteracao) {
+        this.dataAlteracao = dataAlteracao;
     }
 
 }
