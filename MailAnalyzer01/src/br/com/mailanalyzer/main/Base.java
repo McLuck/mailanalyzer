@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 /**
  *
  * @author Lucas Israel
+ * reviser Pedro Lobo
  */
 public class Base {
     public static void LoadConfigs(){
