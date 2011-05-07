@@ -10,6 +10,7 @@ import br.com.mailanalyzer.main.Base;
 
 /**
  *
+ * 
  * @author Lobos
  */
 public class TratarMensagemFlow extends Fluxo {
