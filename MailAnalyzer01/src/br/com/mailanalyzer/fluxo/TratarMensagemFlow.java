@@ -23,5 +23,4 @@ public class TratarMensagemFlow extends Fluxo{
     public CommandFluxo getCommandFluxo() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
-    
 }

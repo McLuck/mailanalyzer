@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.com.mailanalyzer.fluxo;
+package br.com.mailanalyzer.compose;
 
 import org.xeustechnologies.googleapi.spelling.Configuration;
 import org.xeustechnologies.googleapi.spelling.Language;
