@@ -39,7 +39,7 @@ public class FiltroSubstituirGirias implements InterfaceComposeFlow {
 
         return text;
     }
-
+/*
     public static void main(String[] args) {
 
         FiltroSubstituirGirias a = new FiltroSubstituirGirias();
@@ -47,4 +47,5 @@ public class FiltroSubstituirGirias implements InterfaceComposeFlow {
         s = a.Substituir(s);
         System.out.println(s);
     }
+*/
 }
