@@ -39,13 +39,22 @@ public class FiltroSubstituirGirias implements InterfaceComposeFlow {
 
         return text;
     }
-/*
+
     public static void main(String[] args) {
 
         FiltroSubstituirGirias a = new FiltroSubstituirGirias();
-        String s = "Teste substituir gírias. Mto loko";
+        String s = "Teste substituir gírias de um texto: O Mail Analyzer é Mto loko!!";
         s = a.Substituir(s);
         System.out.println(s);
+
+        /*
+         * Teste de funcionamento:
+        ID: 11 - Nome: Teste1 - Alterador: Legal - Gírias: Mto loko
+        ---
+        Teste substituir gírias de um texto: O Mail Analyzer é Legal!!
+        */
     }
-*/
+
 }
+
+
