@@ -18,16 +18,16 @@ public class TesteTermVariation {
     TermVariation tester;
 
 
-    /*
+    
 
     tester = new TermVariation();
-    tester.setName("Yo soy el Variation del Term");
-    tester.setReplacer("ade");
-    tester.setVariations("sad");
+    tester.setName("Teste1");
+    tester.setReplacer("Legal");
+    tester.setVariations("Mto loko");
     atv.setVariation(tester);
     atv.Salvar();
-    */
 
+   /*
     tester = new TermVariation();
     tester.setId(10);
     atv.setVariation(tester);
@@ -36,5 +36,6 @@ public class TesteTermVariation {
     tester.setReplacer("ade");
     tester.setVariations("sad");
     }
-
+ */
+    }
 }

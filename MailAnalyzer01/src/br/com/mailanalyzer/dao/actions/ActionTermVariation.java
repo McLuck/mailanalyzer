@@ -29,7 +29,7 @@ public class ActionTermVariation {
         System.out.println("----- Recuperando pela ID: " + variation.getId());
         System.out.println("Nome: " + variation.getName());
         System.out.println("Alterador: " + variation.getReplacer());
-        System.out.println("Variações: " + variation.getVariations());
+        System.out.println("Gírias: " + variation.getVariations());
         System.out.println("-----");
         return variation;
     }
@@ -45,7 +45,7 @@ public class ActionTermVariation {
         System.out.println("Cadastrando...");
         TermVariationDAO dao = new TermVariationDAO();
         variation.setDataAlteracao(new java.util.Date().getTime());
-        dao.atualizar(variation);
+        dao.salvar(variation);
 
         System.out.println(variation.getName() + " foi salvo com sucesso. ID do objeto: " + variation.getId() + " - Na data: " + Converte.ToStringDataVisual(variation.getDataRegistro()) + " - " + Converte.DateToStringTimer(variation.getDataRegistro()));
         System.out.println("---");
@@ -72,7 +72,7 @@ public class ActionTermVariation {
         TermVariationDAO dao = new TermVariationDAO();
         List<TermVariation> lista = dao.getLikeName(str);
         for (TermVariation a : lista) {
-            System.out.println("ID: " + a.getId() + " - Nome: " + a.getName() + " - Alterador: " + a.getReplacer() + "Variações: " + a.getVariations());
+            System.out.println("ID: " + a.getId() + " - Nome: " + a.getName() + " - Alterador: " + a.getReplacer() + " - Gírias: " + a.getVariations());
         }
         System.out.println("---");
         return lista;
@@ -83,7 +83,7 @@ public class ActionTermVariation {
         TermVariationDAO dao = new TermVariationDAO();
         List<TermVariation> lista = dao.getLikeReplacers(str);
         for (TermVariation a : lista) {
-            System.out.println("ID: " + a.getId() + " - Nome: " + a.getName() + " - Alterador: " + a.getReplacer() + "Variações: " + a.getVariations());
+            System.out.println("ID: " + a.getId() + " - Nome: " + a.getName() + " - Alterador: " + a.getReplacer() + " - Gírias: " + a.getVariations());
         }
         System.out.println("---");
         return lista;
@@ -94,7 +94,7 @@ public class ActionTermVariation {
         TermVariationDAO dao = new TermVariationDAO();
         List<TermVariation> lista = dao.getLikeVariations(str);
         for (TermVariation a : lista) {
-            System.out.println("ID: " + a.getId() + " - Nome: " + a.getName() + " - Alterador: " + a.getReplacer() + "Variações: " + a.getVariations());
+            System.out.println("ID: " + a.getId() + " - Nome: " + a.getName() + " - Alterador: " + a.getReplacer() + " - Gírias: " + a.getVariations());
         }
         System.out.println("---");
         return lista;
@@ -105,7 +105,7 @@ public class ActionTermVariation {
         TermVariationDAO dao = new TermVariationDAO();
         List<TermVariation> lista = dao.obterTodos();
         for (TermVariation a : lista) {
-            System.out.println("ID: " + a.getId() + " - Nome: " + a.getName() + " - Alterador: " + a.getReplacer() + "Variações: " + a.getVariations());
+            System.out.println("ID: " + a.getId() + " - Nome: " + a.getName() + " - Alterador: " + a.getReplacer() + " - Gírias: " + a.getVariations());
         }
         System.out.println("---");
         return lista;
