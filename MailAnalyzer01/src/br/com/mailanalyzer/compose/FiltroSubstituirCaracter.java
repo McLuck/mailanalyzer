@@ -22,17 +22,17 @@ public class FiltroSubstituirCaracter implements InterfaceComposeFlow {
 
     public String Filtrar(String text) {
 
-        return text.replaceAll("[ãâàáä]", "a").replaceAll("[êèéë]", "e").replaceAll("[îìíï]", "i").replaceAll("[õôòóö]", "o").replaceAll("[ûúùü]", "u").replaceAll("[ÃÂÀÁÄ]", "A").replaceAll("[ÊÈÉË]", "E").replaceAll("[ÎÌÍÏ]", "I").replaceAll("[ÕÔÒÓÖ]", "O").replaceAll("[ÛÙÚÜ]", "U").replace('ç', 'c').replace('Ç', 'C').replace('ñ', 'n').replace('Ñ', 'N').replace("\\", "").replaceAll("[´`#$%¨*]", "").replaceAll("[()={}\\[\\]~^]", "").replaceAll("[-_+'ªº/¬]", "");
+        return text.replaceAll("[ãâàáä]", "a").replaceAll("[êèéë]", "e").replaceAll("[îìíï]", "i").replaceAll("[õôòóö]", "o").replaceAll("[ûúùü]", "u").replaceAll("[ÃÂÀÁÄ]", "A").replaceAll("[ÊÈÉË]", "E").replaceAll("[ÎÌÍÏ]", "I").replaceAll("[ÕÔÒÓÖ]", "O").replaceAll("[ÛÙÚÜ]", "U").replace('ç', 'c').replace('Ç', 'C').replace('ñ', 'n').replace('Ñ', 'N').replace("\\", "").replaceAll("[´`#$%¨*&]", "").replaceAll("[()={}\\[\\]~^]", "").replaceAll("[-_+'ªº/¬]", "");
 
     }
-    /*Teste para verificar funcionamento da classe.
+    //Teste para verificar funcionamento da classe.
     public static void main(String[] args) {
 
-    FiltroSubstituirCaracter a = new FiltroSubstituirCaracter();
-    String s = "Tésté rémóvér âçëntúÁçãó ê cáráctér êspëcïäïs. #%$#AE$W!%$^$%*& ()={}[]~^ -_+'ªº/¬";
-    s = a.Filtrar(s);
-    System.out.println (s);
-    
-     }
-  */
+    FiltroSubstituirCaracter teste = new FiltroSubstituirCaracter();
+    String texto = "Tésté rémóvér âçëntúÁçãó ê álgüns cáráctérês êspëcïäïs. #%$#AE$W!%$^$%*& ()={}[]~^ -_+'ªº/¬";
+    texto = teste.Filtrar(texto);
+    System.out.println (texto);
+    // Resultado: Teste remover acentuAcao e alguns caracteres especiais. AEW!
+    }
+  
 }
