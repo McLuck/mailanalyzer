@@ -66,10 +66,16 @@ public class ActiveReceiverImplementation implements Receiver, InterfaceComposeF
 
 
                 //Iniciar busca por protocolo pop
+                
+                
+                
                 break;
             }
             case Base.RECEIVER_TYPE_SMSC_GATEWAY: {
                 //Inicia busca no gatway de SMSs pre definido.
+                
+                
+                
                 break;
             }
         }

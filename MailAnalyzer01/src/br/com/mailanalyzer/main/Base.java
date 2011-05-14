@@ -60,8 +60,15 @@ public class Base {
     public static final String MAIN_FLOW = "mainFlow";
     
     
+    public static final String FIELD_FILTRO_HTML = "filtroHtml_campos";
+    public static final String FIELD_FILTRO_MINUSCULO = "filtroConverteMinusculo";
+    public static final String FIELD_FILTRO_GIRIA = "Field_filtro_giria";
+    public static final String FIELD_FILTRO_CARACTER = "Field_filtro_caracter";
+    public static final String FIELD_FILTRO_ORTOGRAFIA = "Field_filtro_ortografia";
+    public static final String FIELD_SAVE_MESSAGE = "Field_Save_Messagem_";
+    
+    
     
     //Servicos de ActiveReceivers ativos no sistema
     public static ActiveReceiverService[] ACTIVE_SERVICES;
-
 }

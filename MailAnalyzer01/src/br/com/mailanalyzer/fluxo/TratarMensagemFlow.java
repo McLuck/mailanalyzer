@@ -21,6 +21,12 @@ public class TratarMensagemFlow extends Fluxo {
     }
 
     public TratarMensagemFlow() {
-        super(Base.TRATAR_MENSAGEM_FLOW, new InterfaceComposeFlow[] {new FiltroHtml(), new FiltroConvertMinusculo(), new FiltroSubstituirGirias(), new FiltroSubstituirCaracter(), new FiltroCorrigirOrtografia()});
+        super(Base.TRATAR_MENSAGEM_FLOW, new InterfaceComposeFlow[] {
+            new FiltroHtml(), 
+            new FiltroConvertMinusculo(), 
+            new FiltroSubstituirGirias(), 
+            new FiltroSubstituirCaracter(), 
+            new FiltroCorrigirOrtografia()
+        });
     }
 }

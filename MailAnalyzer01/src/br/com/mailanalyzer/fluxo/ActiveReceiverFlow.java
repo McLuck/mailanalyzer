@@ -14,8 +14,12 @@ import br.com.mailanalyzer.domain.ActiveReceiver;
 import br.com.mailanalyzer.main.Base;
 
 /**
+ * 
+ * @author Lucas Israel
+ * @contact mcluck.ti@gmail.com
+ * @version 1.0
+ * @Date 21-04-2011
  *
- * @author McLuck
  */
 public class ActiveReceiverFlow extends Fluxo{
 

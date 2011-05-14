@@ -2,6 +2,9 @@
 package br.com.mailanalyzer.compose;
 
 import br.com.mailanalyzer.fluxo.InterfaceComposeFlow;
+import br.com.mailanalyzer.fluxo.MutableComponent;
+import br.com.mailanalyzer.fluxo.PropertyRetriever;
+import br.com.mailanalyzer.main.Base;
 
 /**
  *
@@ -11,20 +14,32 @@ import br.com.mailanalyzer.fluxo.InterfaceComposeFlow;
  * @Date 07/05/2011
  * @reviser ---
  */
-public class FiltroConvertMinusculo implements InterfaceComposeFlow{
+public class FiltroConvertMinusculo implements InterfaceComposeFlow , PropertyRetriever, MutableComponent{
 
     public void execute() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        msg = parse(msg);
     }
 
     public boolean stopFlow() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return false;
     }
 
     //Converte toda String para minusculo.
-    public String parse(String txt){
+    private String parse(String txt){
     return txt.toLowerCase();
     }
 
-    
+    public Object getPropertyName() {
+        return Base.FIELD_FILTRO_MINUSCULO;
+    }
+
+    public Object getPropertyValue() {
+        return msg;
+    }
+
+    public void updateComponent(Object obj) {
+        this.msg = (String)obj;
+    }
+
+    String msg;
 }

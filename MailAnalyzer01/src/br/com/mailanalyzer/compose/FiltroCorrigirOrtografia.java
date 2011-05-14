@@ -5,6 +5,10 @@
 package br.com.mailanalyzer.compose;
 
 import br.com.mailanalyzer.fluxo.InterfaceComposeFlow;
+import br.com.mailanalyzer.fluxo.MutableComponent;
+import br.com.mailanalyzer.fluxo.PropertyRetriever;
+import br.com.mailanalyzer.main.Base;
+import br.com.mailanalyzer.main.Config;
 import org.xeustechnologies.googleapi.spelling.Configuration;
 import org.xeustechnologies.googleapi.spelling.Language;
 import org.xeustechnologies.googleapi.spelling.SpellChecker;
@@ -21,41 +25,67 @@ import org.xeustechnologies.googleapi.spelling.SpellResponse;
  * @Date 07-05-2011
  * 
  */
-public class FiltroCorrigirOrtografia implements InterfaceComposeFlow {
-    
-  public void CorrigirOrtografia (String args) {
+public class FiltroCorrigirOrtografia implements InterfaceComposeFlow, PropertyRetriever, MutableComponent {
 
-      Configuration config = new Configuration();
+    private String CorrigirOrtografia(String args) {
+        Configuration config = new Configuration();
+        if(Config.IS_PROXY){
+            config.setProxy(Config.PROXY_ADDRESS, Config.PROXY_PORT, Config.PROXY_SCHEME);
+        }
 
-        config.setProxy( "my_proxy_host", 8080, "http" );
-         SpellChecker checker = new SpellChecker( );
-         checker.setOverHttps( true ); // Use https (default true from v1.1)
-         checker.setLanguage( Language.PORTUGUESE ); // Use English (default)
-         SpellRequest request = new SpellRequest();
-         request.setText( args );
-         request.setIgnoreDuplicates( true ); // Ignore duplicates
+        SpellChecker checker = new SpellChecker(config);
+        checker.setOverHttps(true); // Use https (default true from v1.1)
+        checker.setLanguage(Language.PORTUGUESE); // Use English (default)
+        SpellRequest request = new SpellRequest();
+        request.setText(args);
+        request.setIgnoreDuplicates(true); // Ignore duplicates
 
-         SpellResponse spellResponse = checker.check( request );
-
-         for( SpellCorrection sc : spellResponse.getCorrections() ){
-             System.out.println("---");
-             for(String s : sc.getWords())
-                 System.out.println(s);
-         }
-             
-  }
+        SpellResponse spellResponse = checker.check(request);
+       
+        for (SpellCorrection sc : spellResponse.getCorrections()) {
+            args = correct(args, sc.getOffset(), sc.getWords()[0]);
+        }
+        
+        
+        return args;
+    }
 
     public void execute() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        this.msg = CorrigirOrtografia(msg);
     }
 
     public boolean stopFlow() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return false;
+    }
+    
+    private String correct(String msg, int p, String subs){
+        if(subs.equals("")){
+            return msg;
+        }
+        int pf = 0;
+        for(int i=p;i<msg.length();i++){
+            if(msg.charAt(i)==' '){
+                pf=i;
+                break;
+            }
+        }
+        String palavra = msg.substring(p, pf);
+        msg = msg.replace(palavra, subs);
+        
+        return msg;
     }
 
- /* public static void main(String []arg){
-      String input = "esti sabadu ta uma merda";
-      FiltroCorrigirOrtografia filtro = new FiltroCorrigirOrtografia();
-      filtro.CorrigirOrtografia(input);
-    }*/
+    public Object getPropertyName() {
+        return Base.FIELD_FILTRO_ORTOGRAFIA;
+    }
+
+    public Object getPropertyValue() {
+        return msg;
+    }
+
+    public void updateComponent(Object obj) {
+        this.msg = (String)obj;
+    }
+    
+    private String msg;
 }

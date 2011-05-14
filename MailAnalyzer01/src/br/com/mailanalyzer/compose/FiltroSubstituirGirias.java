@@ -3,6 +3,9 @@ package br.com.mailanalyzer.compose;
 import br.com.mailanalyzer.dao.actions.ActionTermVariation;
 import br.com.mailanalyzer.domain.TermVariation;
 import br.com.mailanalyzer.fluxo.InterfaceComposeFlow;
+import br.com.mailanalyzer.fluxo.MutableComponent;
+import br.com.mailanalyzer.fluxo.PropertyRetriever;
+import br.com.mailanalyzer.main.Base;
 import java.util.List;
 
 /**
@@ -13,14 +16,14 @@ import java.util.List;
  * @Date 07-05-2011
  *
  */
-public class FiltroSubstituirGirias implements InterfaceComposeFlow {
+public class FiltroSubstituirGirias implements InterfaceComposeFlow, PropertyRetriever, MutableComponent {
 
     public void execute() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        msg = Substituir(msg);
     }
 
     public boolean stopFlow() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return false;
     }
 
     public String Substituir(String text) {
@@ -40,21 +43,19 @@ public class FiltroSubstituirGirias implements InterfaceComposeFlow {
         return text;
     }
 
-    public static void main(String[] args) {
-
-        FiltroSubstituirGirias a = new FiltroSubstituirGirias();
-        String s = "Teste substituir gírias de um texto: O Mail Analyzer é Mto loko!!";
-        s = a.Substituir(s);
-        System.out.println(s);
-
-        /*
-         * Teste de funcionamento:
-        ID: 11 - Nome: Teste1 - Alterador: Legal - Gírias: Mto loko
-        ---
-        Teste substituir gírias de um texto: O Mail Analyzer é Legal!!
-        */
+    public Object getPropertyName() {
+        return Base.FIELD_FILTRO_GIRIA;
     }
 
+    public Object getPropertyValue() {
+        return msg;
+    }
+
+    public void updateComponent(Object obj) {
+        this.msg = (String)obj;
+    }
+    
+    private String msg;
 }
 
 
