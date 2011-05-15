@@ -1,8 +1,10 @@
 package br.com.mailanalyzer.compose;
 
+import br.com.mailanalyzer.domain.Message;
 import br.com.mailanalyzer.fluxo.InterfaceComposeFlow;
 import br.com.mailanalyzer.fluxo.MutableComponent;
 import br.com.mailanalyzer.fluxo.PropertyRetriever;
+import br.com.mailanalyzer.log.Log;
 import br.com.mailanalyzer.main.Base;
 
 /**
@@ -14,13 +16,20 @@ import br.com.mailanalyzer.main.Base;
  *
  */
 public class FiltroSubstituirCaracter implements InterfaceComposeFlow, PropertyRetriever, MutableComponent {
-
+    private boolean stop = false;
     public void execute() {
-        msg = Filtrar(msg);
+        Log.d(this.getClass().getSimpleName(), "Executando...");
+        try{
+            msg = Filtrar(msg);
+        }catch(Exception ex){
+            Log.d(this.getClass().getSimpleName(), ex);
+        }
+        
+        Log.d(this.getClass().getSimpleName(), "Finalizado.");
     }
 
     public boolean stopFlow() {
-        return false;
+        return stop;
     }
 
     public String Filtrar(String text) {
@@ -37,7 +46,13 @@ public class FiltroSubstituirCaracter implements InterfaceComposeFlow, PropertyR
     }
 
     public void updateComponent(Object obj) {
-        this.msg = (String)obj;
+        if(obj instanceof String){
+            this.msg = (String) obj;
+        }else if(obj instanceof Message){
+            this.msg = ((Message)obj).getMensagem();
+        }else{
+            this.msg = null;
+        }
     }
     
     private String msg;

@@ -18,6 +18,7 @@ public class InitServiceReceiverCommand extends CommandFluxo{
         //Inicia todos os servicos ActiveReceivers
         for(ActiveReceiver ac : Base.GET_ACTIVE_RECEIVERS()){
             ActiveReceiverService service = new ActiveReceiverService(ac);
+            System.err.println("Iniciando servico de recebedor ativo: "+ac.getNome()); 
             
             //Guarda o servico para poder parar depois.
             Base.ACTIVE_SERVICES[i]=service;

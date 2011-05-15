@@ -10,6 +10,9 @@ public abstract class CommandFluxo implements Command{
     public CommandFluxo(){}
     private Hashtable parameters;
     private String nomeFluxo;
+    protected Object firstObject;
+    
+    
 
     /**
      * @return the parameters
@@ -45,5 +48,19 @@ public abstract class CommandFluxo implements Command{
      */
     public void setNomeFluxo(String nomeFluxo) {
         this.nomeFluxo = nomeFluxo;
+    }
+
+    /**
+     * @return the firstObject
+     */
+    public Object getFirstObject() {
+        return firstObject;
+    }
+
+    /**
+     * @param firstObject the firstObject to set
+     */
+    public void setFirstObject(Object firstObject) {
+        this.firstObject = firstObject;
     }
 }

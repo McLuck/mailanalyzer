@@ -28,6 +28,10 @@ public class Message extends DomainObject implements Serializable {
     private String mensagem;
     @Column(name = "codExterno")
     private String codExterno;
+    @Column(name = "origem")
+    private String origem;
+    @Column(name = "tipo_recebimento")
+    private int tipoRecebimento;
     
     @ManyToOne(cascade = {CascadeType.ALL}, targetEntity = Status.class)
     @JoinColumn(name = "status_id", nullable = true)
@@ -99,5 +103,33 @@ public class Message extends DomainObject implements Serializable {
     public void setStatus(Status status) {
         this.status = status;
 
+    }
+
+    /**
+     * @return the origem
+     */
+    public String getOrigem() {
+        return origem;
+    }
+
+    /**
+     * @param origem the origem to set
+     */
+    public void setOrigem(String origem) {
+        this.origem = origem;
+    }
+
+    /**
+     * @return the tipoRecebimento
+     */
+    public int getTipoRecebimento() {
+        return tipoRecebimento;
+    }
+
+    /**
+     * @param tipoRecebimento the tipoRecebimento to set
+     */
+    public void setTipoRecebimento(int tipoRecebimento) {
+        this.tipoRecebimento = tipoRecebimento;
     }
 }

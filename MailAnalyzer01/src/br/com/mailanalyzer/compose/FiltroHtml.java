@@ -1,8 +1,10 @@
 package br.com.mailanalyzer.compose;
 
+import br.com.mailanalyzer.domain.Message;
 import br.com.mailanalyzer.fluxo.InterfaceComposeFlow;
 import br.com.mailanalyzer.fluxo.MutableComponent;
 import br.com.mailanalyzer.fluxo.PropertyRetriever;
+import br.com.mailanalyzer.log.Log;
 import br.com.mailanalyzer.main.Base;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,16 +26,25 @@ import org.htmlparser.beans.FilterBean;
  */
 public class FiltroHtml implements InterfaceComposeFlow, PropertyRetriever, MutableComponent {
 
+    private boolean stop = false;
+
     public void execute() {
         try {
+            Log.d(this.getClass().getSimpleName(), "Executando...");
+            if (msg == null) {
+                stop = true;
+                return;
+            }
             msg = getValidText(msg);
-        } catch (ParserException ex) {
-            Logger.getLogger(FiltroHtml.class.getName()).log(Level.SEVERE, null, ex);
+
+        } catch (Exception e) {
+            Log.d(this.getClass().getSimpleName(), e);
         }
+        Log.d(this.getClass().getSimpleName(), "Finalizado.");
     }
 
     public boolean stopFlow() {
-        return false;
+        return stop;
     }
 
     public FiltroHtml() {
@@ -58,7 +69,13 @@ public class FiltroHtml implements InterfaceComposeFlow, PropertyRetriever, Muta
     }
 
     public void updateComponent(Object obj) {
-        this.msg = (String) obj;
+        if (obj instanceof String) {
+            this.msg = (String) obj;
+        } else if (obj instanceof Message) {
+            this.msg = ((Message) obj).getMensagem();
+        } else {
+            this.msg = null;
+        }
     }
     private String msg;
 }

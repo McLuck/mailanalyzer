@@ -6,6 +6,9 @@ import java.io.InputStreamReader;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.mail.Address;
 
 import javax.mail.Folder;
 import javax.mail.Message;
@@ -50,6 +53,7 @@ public class EmailReader {
     private String fallback = "true";
     private String socketclass = "javax.net.ssl.SSLSocketFactory";
     private String protocolo = "pop3";
+    public static boolean IS_SESSION_OPENED = false;
 
     public br.com.mailanalyzer.domain.Message[] receive(String popServer, String popUser, String popPassword) {
 
@@ -57,6 +61,16 @@ public class EmailReader {
         Store store = null;
         Folder folder = null;
 
+        while (IS_SESSION_OPENED) {
+            //Sessao aberta, aguarda
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(EmailReader.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        IS_SESSION_OPENED = true;
+        Session session = null;
         try {
             // -- Get hold of the default session --
             Properties prop = new Properties();
@@ -74,8 +88,14 @@ public class EmailReader {
 
 
 
-            Session session = Session.getDefaultInstance(prop, null);
-            session.setDebug(true);
+            session = Session.getInstance(prop, null);
+            boolean adebug = false;
+            try {
+                adebug = Boolean.parseBoolean(debug);
+            } catch (Exception e) {
+                adebug = false;
+            }
+            session.setDebug(adebug);
 
             // -- Get hold of a POP3 message store, and connect to it --
             //store = session.getStore("pop3");
@@ -101,42 +121,73 @@ public class EmailReader {
             // -- Get the message wrappers and process them --
             Message[] msgs = folder.getMessages();
 
-            System.out.println("ava au.com.covermore.EmailReader"
-                    + " msgs " + msgs.length);
-             mensgs = new br.com.mailanalyzer.domain.Message[msgs.length];
+            //System.out.println("ava au.com.covermore.EmailReader"
+            //      + " msgs " + msgs.length);
+            mensgs = new br.com.mailanalyzer.domain.Message[msgs.length];
             for (int msgNum = 0; msgNum < msgs.length; msgNum++) {
-                printMessage(msgs[msgNum]);
+                //printMessage(msgs[msgNum]);
                 br.com.mailanalyzer.domain.Message m = new br.com.mailanalyzer.domain.Message();
                 m.setAssunto(msgs[msgNum].getSubject());
+
+
+                //seta a origem
+                String from = null;//((InternetAddress) msgs[msgNum].getFrom()[0]).getPersonal();
+                if (from == null) {
+                    from = "";
+                    boolean first = true;
+                    for (Address a : msgs[msgNum].getFrom()) {
+                        if (!first) {
+                            from = from.concat(",");
+                        } else {
+                            first = false;
+                        }
+                        from = from.concat(((InternetAddress) a).getAddress());
+                    }
+
+                    for (Address a : msgs[msgNum].getAllRecipients()) {
+                        if (!first) {
+                            from = from.concat(",");
+                        } else {
+                            first = false;
+                        }
+                        from = from.concat(((InternetAddress) a).getAddress());
+                    }
+                    //from = ((InternetAddress) msgs[msgNum].getFrom()[0]).getAddress();
+                }
+
+                m.setOrigem(from);
+
+
                 //m.setMensagem(msgs[msgNum].get);
                 Part messagePart = msgs[msgNum];
-            Object content = messagePart.getContent();
+                Object content = messagePart.getContent();
 
-            // -- or its first body part if it is a multipart message --
-            if (content instanceof Multipart) {
-                messagePart = ((Multipart) content).getBodyPart(0);
-                //System.out.println("[ Multipart Message ]");
-            }
-
-            // -- Get the content type --
-            String contentType = messagePart.getContentType();
-
-            // -- If the content is plain text, we can print it --
-            //System.out.println("CONTENT:" + contentType);
-
-            if (contentType.startsWith("text/plain") || contentType.startsWith("text/html")) {
-                InputStream is = messagePart.getInputStream();
-
-                BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-                String thisLine = reader.readLine();
-
-                while (thisLine != null) {
-                    System.out.println(thisLine);
-                    thisLine = reader.readLine();
+                // -- or its first body part if it is a multipart message --
+                if (content instanceof Multipart) {
+                    messagePart = ((Multipart) content).getBodyPart(0);
+                    //System.out.println("[ Multipart Message ]");
                 }
-                m.setMensagem(thisLine);
-            }
+
+                // -- Get the content type --
+                String contentType = messagePart.getContentType();
+
+                // -- If the content is plain text, we can print it --
+                //System.out.println("CONTENT:" + contentType);
+
+                if (contentType.startsWith("text/plain") || contentType.startsWith("text/html")) {
+                    InputStream is = messagePart.getInputStream();
+
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+                    String thisLine = reader.readLine();
+                    StringBuffer sb = new StringBuffer();
+                    while (thisLine != null) {
+                        sb.append(thisLine);
+                        thisLine = reader.readLine();
+                    }
+                    m.setMensagem(sb.toString());
+                }
                 m.setCodExterno(String.valueOf(msgs[msgNum].getMessageNumber()));
+                mensgs[msgNum] = m;
                 //processMessage(msgs[msgNum]);
             }
 
@@ -151,9 +202,13 @@ public class EmailReader {
                 if (store != null) {
                     store.close();
                 }
+                if (session != null) {
+                    session = null;
+                }
             } catch (Exception ex2) {
                 ex2.printStackTrace();
             }
+            IS_SESSION_OPENED = false;
         }
         return mensgs;
 

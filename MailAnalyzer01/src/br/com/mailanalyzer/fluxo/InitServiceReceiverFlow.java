@@ -25,7 +25,7 @@ public class InitServiceReceiverFlow extends Fluxo implements InterfaceComposeFl
     }
 
     public void execute() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        
     }
 
     public boolean stopFlow() {

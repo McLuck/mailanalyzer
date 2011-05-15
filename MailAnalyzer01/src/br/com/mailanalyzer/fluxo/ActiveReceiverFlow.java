@@ -21,7 +21,7 @@ import br.com.mailanalyzer.main.Base;
  * @Date 21-04-2011
  *
  */
-public class ActiveReceiverFlow extends Fluxo{
+public class ActiveReceiverFlow extends Fluxo {
 
     public ActiveReceiverFlow(ActiveReceiver activeReceiver){
         super(Base.ACTIVE_RECEIVER_FLOW, new InterfaceComposeFlow[]{

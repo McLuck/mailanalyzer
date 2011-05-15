@@ -1,9 +1,10 @@
-
 package br.com.mailanalyzer.compose;
 
+import br.com.mailanalyzer.domain.Message;
 import br.com.mailanalyzer.fluxo.InterfaceComposeFlow;
 import br.com.mailanalyzer.fluxo.MutableComponent;
 import br.com.mailanalyzer.fluxo.PropertyRetriever;
+import br.com.mailanalyzer.log.Log;
 import br.com.mailanalyzer.main.Base;
 
 /**
@@ -14,19 +15,31 @@ import br.com.mailanalyzer.main.Base;
  * @Date 07/05/2011
  * @reviser ---
  */
-public class FiltroConvertMinusculo implements InterfaceComposeFlow , PropertyRetriever, MutableComponent{
+public class FiltroConvertMinusculo implements InterfaceComposeFlow, PropertyRetriever, MutableComponent {
 
     public void execute() {
-        msg = parse(msg);
+        try {
+            Log.d(this.getClass().getSimpleName(), "Executando...");
+            if (msg == null) {
+                stop = true;
+                return;
+            }
+            msg = parse(msg);
+        } catch (Exception ex) {
+            Log.d(this.getClass().getSimpleName(), ex);
+        }
+
+        Log.d(this.getClass().getSimpleName(), "Finalizado.");
     }
+    private boolean stop = false;
 
     public boolean stopFlow() {
-        return false;
+        return stop;
     }
 
     //Converte toda String para minusculo.
-    private String parse(String txt){
-    return txt.toLowerCase();
+    private String parse(String txt) {
+        return txt.toLowerCase();
     }
 
     public Object getPropertyName() {
@@ -38,8 +51,13 @@ public class FiltroConvertMinusculo implements InterfaceComposeFlow , PropertyRe
     }
 
     public void updateComponent(Object obj) {
-        this.msg = (String)obj;
+        if (obj instanceof String) {
+            this.msg = (String) obj;
+        } else if (obj instanceof Message) {
+            this.msg = ((Message) obj).getMensagem();
+        } else {
+            this.msg = null;
+        }
     }
-
-    String msg;
+    private String msg;
 }

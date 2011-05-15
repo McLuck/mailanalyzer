@@ -5,7 +5,10 @@ import br.com.mailanalyzer.dao.actions.ActionActiveReceiver;
 import br.com.mailanalyzer.domain.ActiveReceiver;
 import br.com.mailanalyzer.domain.DomainObject;
 import br.com.mailanalyzer.domain.Receiver;
+import br.com.mailanalyzer.main.Base;
+import br.com.mailanalyzer.utils.Utils;
 import br.com.mailanalyzer.utils.cripto.Encriptador;
+import java.util.List;
 
 /**
  * Esta classe ira testar varios cenarios de CRUD do ActiveReceiver
@@ -21,10 +24,16 @@ public class TesteActiveReceiver {
         //ActionActiveReceiver a = (ActionActiveReceiver)br.com.mcluck.asynchronously.Utils.Factory.getInstance(ActionActiveReceiver.class);
         ActionActiveReceiver a = new ActionActiveReceiver();
 
-        Encriptador enc;
-
-        ActiveReceiver myReceive;
+        ActiveReceiver act = new ActiveReceiver();
+        List<ActiveReceiver> lista = a.showAll();
+        
+        for(ActiveReceiver ac : lista){
+           ac.setNome("Email Teste do Mail Analyzer");
+           a.setReceive(ac);
+           a.alterar();
+        }
         HB.getInstancia().closeSession();
+        
 
         /* RODADA 2 TesteActiveReceiver completo (exceto exclusao)
         

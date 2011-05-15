@@ -1,5 +1,7 @@
 package br.com.mailanalyzer.utils;
 
+import br.com.mailanalyzer.domain.Message;
+import br.com.mailanalyzer.main.Config;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -15,6 +17,22 @@ import org.apache.commons.lang.StringUtils;
  */
 public class Utils {
 
+    public static void printMessage(Message m) {
+        if (Config.DEBUG_MODE) {
+            System.out.println();
+            System.out.println("--------- PRINT-MESSAGE");
+            System.out.println();
+
+            System.out.println("ID: " + m.getId());
+            System.out.println("Assunto: " + m.getAssunto());
+            System.out.println("Mensagem: " + m.getMensagem());
+
+
+            System.out.println();
+            System.out.println("________________________");
+            System.out.println();
+        }
+    }
     private static Utils instancia = new Utils();
 
     /**

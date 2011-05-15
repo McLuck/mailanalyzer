@@ -32,9 +32,9 @@ public class FieldAction {
         FieldDAO dao = new FieldDAO();
         field = dao.obter(field.getId());
 
-        System.out.println("----- Recuperando pela ID: " + field.getId());
-        System.out.println("Nome: " + field.getName());
-        System.out.println("-----");
+        //System.out.println("----- Recuperando pela ID: " + field.getId());
+        //System.out.println("Nome: " + field.getName());
+        //System.out.println("-----");
 
     }
 
@@ -43,18 +43,18 @@ public class FieldAction {
     }
 
     public void Salvar() {
-        System.out.println("Cadastrando...");              
+        //System.out.println("Cadastrando...");              
         FieldDAO dao = new FieldDAO();
         dao.salvar(field);
-        System.out.println(field.getName() + " foi salvo com sucesso. ID do objeto: " + field.getId() + " - Na data: " + Converte.ToStringDataVisual(field.getDataRegistro()) + " - " + Converte.DateToStringTimer(field.getDataRegistro()));
-        System.out.println("---");
+        //System.out.println(field.getName() + " foi salvo com sucesso. ID do objeto: " + field.getId() + " - Na data: " + Converte.ToStringDataVisual(field.getDataRegistro()) + " - " + Converte.DateToStringTimer(field.getDataRegistro()));
+        //System.out.println("---");
     }
 
     public void excluir() {
         FieldDAO dao = new FieldDAO();
         dao.excluir(field);
-        System.out.println(field.getName() + " foi excluido com sucesso.");
-        System.out.println("---");
+        //System.out.println(field.getName() + " foi excluido com sucesso.");
+        //System.out.println("---");
     }
 
     public List<Field> getByName(String search) {
@@ -68,7 +68,7 @@ public class FieldAction {
         FieldDAO dao = new FieldDAO();
         List<Field> lista = dao.obterTodos();
         for (Field a : lista) {
-            System.out.println("ID: " + a.getId() + " - Nome: " + a.getName());
+            //System.out.println("ID: " + a.getId() + " - Nome: " + a.getName());
 
         }
         return lista;
@@ -77,9 +77,7 @@ public class FieldAction {
     public List<Field> getBySubject(Integer subjectID) {
         FieldDAO dao = new FieldDAO();
         List<Field> lista = dao.getBySubject(Integer.MIN_VALUE);
-        for (Field a : lista) {
-            System.out.println("ID: " + a.getId() + " - Nome: " + a.getName());
-        }
+        
         return lista;
     }
 }

@@ -7,6 +7,8 @@ package br.com.mailanalyzer.commands;
 
 import br.com.mailanalyzer.compose.ActiveReceiverService;
 import br.com.mailanalyzer.main.Base;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -16,6 +18,15 @@ public class MainCommand extends CommandFluxo{
 
     @Override
     public void run() {
+        
+        while(Base.RUNNING){
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(MainCommand.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
         //Para os servicos de Recebimento
         stopServices();
 

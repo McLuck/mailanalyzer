@@ -1,9 +1,11 @@
 package br.com.mailanalyzer.main;
 
 import br.com.mailanalyzer.compose.ActiveReceiverService;
+import br.com.mailanalyzer.dao.actions.ActionActiveReceiver;
 import br.com.mailanalyzer.domain.ActiveReceiver;
 import br.com.mailanalyzer.fluxo.Fluxo;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -30,10 +32,16 @@ public class Base {
             Logger.getLogger(Base.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    
+    
+    private static List<ActiveReceiver> LISTA_ACTIVEs = null;
     public static List<ActiveReceiver> GET_ACTIVE_RECEIVERS(){
-        //retornar lista completa de active receivers
-        return null;
+        if(LISTA_ACTIVEs==null){
+            ActionActiveReceiver dao = new ActionActiveReceiver();
+            LISTA_ACTIVEs = dao.showAll();
+        }
+        
+        return LISTA_ACTIVEs;
     }
 
 
@@ -46,7 +54,11 @@ public class Base {
     private static final String PROPERTIES_FILE = "/mailanalyzer.properties";
     public static Fluxo MAIN_FLUXO;
     public static boolean ACTIVE_RECEIVER;
-    public static long RANGE_CONSULT_MESSAGE = 60 * 1000;
+    
+    /**
+     * Consulta mensagem a cada 10 segundos
+     */
+    public static long RANGE_CONSULT_MESSAGE = 10 * 1000;
 
     //NOME DOS CAMPOS DE COMPOSEFLOW
     public static final String FIELD_MESSAGE = "messageField";
@@ -71,4 +83,7 @@ public class Base {
     
     //Servicos de ActiveReceivers ativos no sistema
     public static ActiveReceiverService[] ACTIVE_SERVICES;
+    
+    
+    public static boolean RUNNING = true;
 }

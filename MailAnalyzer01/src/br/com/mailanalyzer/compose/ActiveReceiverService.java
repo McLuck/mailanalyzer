@@ -20,6 +20,10 @@ public class ActiveReceiverService implements  Runnable{
     public ActiveReceiverService(ActiveReceiver activeReceiver){
         this.activeReceiver = activeReceiver;
     }
+    
+    public ActiveReceiver getReceiver(){
+        return activeReceiver;
+    }
 
     private boolean flag = true;
     private long lastTimeConsult =0;
@@ -31,7 +35,7 @@ public class ActiveReceiverService implements  Runnable{
         setTimerNow();
 
         while(flag){
-
+            //System.out.println(" Rodando o servico... ");
             if(canSearch()){
                 ActiveReceiverFlow flowRec = new ActiveReceiverFlow(activeReceiver);
                 flowRec.init();
