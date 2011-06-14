@@ -1,5 +1,6 @@
 package br.com.mailanalyzer.main;
 
+import br.com.mailanalyzer.domain.ActiveReceiver;
 import br.com.mailanalyzer.fluxo.MainFluxo;
 
 
@@ -25,7 +26,18 @@ public class Teste implements Runnable{
         //Config.PROXY_ADDRESS = "10.12.128.13";
         //Config.PROXY_PORT = 8080;
         //Config.PROXY_SCHEME = "http";
-        
+
+        ActiveReceiver receive = new ActiveReceiver();
+        receive.setNome("Email teste");
+        receive.setLastID(0);
+        receive.setOtype(Base.RECEIVER_TYPE_EMAIL);
+        receive.setPort(465);
+        receive.setSsl(true);
+        receive.setUsuario("manalyzertest@gmail.com");
+        receive.setHost("pop.gmail.com");
+        receive.setSenha("1qw23er45t");
+
+        Config.Register.ADD_RECEIVER(receive);
         
         //Inicia servico Base. O Fluxo Principal
         Teste t = new Teste();

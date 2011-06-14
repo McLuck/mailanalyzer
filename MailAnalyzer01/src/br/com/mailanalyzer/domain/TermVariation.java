@@ -67,4 +67,16 @@ public class TermVariation extends DomainObject implements Serializable {
     public void setReplacer(String replacer) {
         this.replacer = replacer;
     }
+
+    /**
+     * Add new variation
+     * @param variation a variation term to add
+     */
+    public void addVariation(String variation){
+        if(this.variations==null){
+            this.variations = variation;
+        }else{
+            this.variations += ";"+variation;
+        }
+    }
 }

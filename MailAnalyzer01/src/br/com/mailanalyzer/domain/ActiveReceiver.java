@@ -22,6 +22,31 @@ import javax.persistence.Table;
 @Table(name = "activerecive")
 public class ActiveReceiver extends DomainObject implements Serializable {
 
+    @Override
+    public int hashCode(){
+        return (nome.hashCode()*host.hashCode()*usuario.hashCode()/(256*host.hashCode()));
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final ActiveReceiver other = (ActiveReceiver) obj;
+        if ((this.nome == null) ? (other.nome != null) : !this.nome.equals(other.nome)) {
+            return false;
+        }
+        if ((this.usuario == null) ? (other.usuario != null) : !this.usuario.equals(other.usuario)) {
+            return false;
+        }
+        if ((this.host == null) ? (other.host != null) : !this.host.equals(other.host)) {
+            return false;
+        }
+        return true;
+    }
     private static final long serialVersionUID = 1L;
     @Column(name = "nome")
     private String nome;
