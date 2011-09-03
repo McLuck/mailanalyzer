@@ -7,6 +7,8 @@ import br.com.mailanalyzer.log.L;
 import br.com.mailanalyzer.main.Base;
 import br.com.mailanalyzer.main.Config;
 import br.com.mcluck.asynchronously.Utils.Factory;
+import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -26,24 +28,37 @@ public class ActiveReceiverCommand extends CommandFluxo {
         L.d(this.getClass().getSimpleName(), "--------- Executando comando de mensagem recebida...");
         ActiveReceiver receiver = (ActiveReceiver) getParameters().get(Base.FIELD_ACTIVE_RECEIVER);
         Object o = getParameters().get(Base.FIELD_MESSAGE);
-        if(o==null){
+        if (o == null) {
             L.d(this.getClass().getSimpleName(), "--------- Mensagem é nula. Encerrando processo de mensagem recebida.");
             return;
         }
-        
-        Message[] msgs = (Message[])o;
-        
+
+        Message[] msgs = (Message[]) o;
+
         //Cria um fluxo diferente para cada mensagem
         for (Message m : msgs) {
             L.d(this.getClass().getSimpleName(), "Iniciando novo fluxo para tratamento de nova mensagem.");
-            TratarMensagemFlow tratamento = new TratarMensagemFlow(m);
-            tratamento.init();   
+
+            //Aqui inicia o tratamento da mensagem. Desnecessario para msgs que devem ser ignoradas.
+            //Portanto, vamos adicionar, neste ponto, a excecao de fluxo.
+            if (m.getAssunto().toLowerCase().contains(Base.TAG_PARA_IGNORAR_MENSAGEM)) {
+                AssuntoIgnoradoCommand asign = new AssuntoIgnoradoCommand(); //Dispara comando para assunto ignorado.
+                Hashtable mapa = new Hashtable();
+                mapa.put(Base.MESSAGE_TEMP_ASSUNTO_IGNORADO, m);
+                asign.setParameters(mapa);
+                asign.run();
+                
+                return; //Interrompe a execucao.
+            } else {
+                TratarMensagemFlow tratamento = new TratarMensagemFlow(m);
+                tratamento.init();
+            }
         }
         L.d(this.getClass().getSimpleName(), "Execução terminada.");
     }
-    
+
     @Override
-    public boolean startNewThread(){
+    public boolean startNewThread() {
         return Config.THREAD_FOR_MESSAGES_HANDLING;
     }
 }

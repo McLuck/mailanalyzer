@@ -70,7 +70,7 @@ public class Base {
     public static final String INIT_SERVICE_RECEIVER_FLOW = "InitServiceReceiverFlow";
     public static final String TRATAR_MENSAGEM_FLOW = "TratarMensagemFlow";
     public static final String MAIN_FLOW = "mainFlow";
-    
+       
     
     public static final String FIELD_FILTRO_HTML = "filtroHtml_campos";
     public static final String FIELD_FILTRO_MINUSCULO = "filtroConverteMinusculo";
@@ -78,6 +78,9 @@ public class Base {
     public static final String FIELD_FILTRO_CARACTER = "Field_filtro_caracter";
     public static final String FIELD_FILTRO_ORTOGRAFIA = "Field_filtro_ortografia";
     public static final String FIELD_SAVE_MESSAGE = "Field_Save_Messagem_";
+    public static final String MESSAGE_TEMP_ASSUNTO_IGNORADO = "MensagemTemporariaParaAssuntoIgnorado";
+
+    public static final String TAG_PARA_IGNORAR_MENSAGEM = "[nobot]";
     
     
     

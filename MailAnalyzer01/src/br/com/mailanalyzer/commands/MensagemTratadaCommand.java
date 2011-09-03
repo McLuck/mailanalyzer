@@ -53,7 +53,7 @@ public class MensagemTratadaCommand extends CommandFluxo {
         String corpo = "<p>Olá, você enviou um email para a <em><strong>API Mail Analyzer.</strong></em></p>"
                 + "<p>Muito obrigado por usar nosso sistema.</p>"
                 + "<p>A partir de agora, seus emails serão respondidos pelo Mail Analyzer automaticamente.</p>"
-                + "<p>Caso queira que este email seja tratado pelo seu dono legítimo e não pela API, por favor inclua a tag #NOBOT# no assunto do email.</p>"
+                + "<p>Caso queira que este email seja tratado pelo seu dono legítimo e não pela API, por favor inclua a tag ".concat(Base.TAG_PARA_IGNORAR_MENSAGEM).concat(" no assunto do email.</p>")
                 + "<p>&nbsp;</p>"
                 + "<p>Como um programa de computador, tratei sua mensagem e interpretei da seguinte forma:</p>"
                 + "<div style='border:solid 2px; width:300px; height:100px; overflow:auto' id='suamensagem'>"
