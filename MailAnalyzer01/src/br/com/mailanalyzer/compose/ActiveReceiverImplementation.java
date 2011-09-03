@@ -9,7 +9,7 @@ import br.com.mailanalyzer.domain.Message;
 import br.com.mailanalyzer.domain.Receiver;
 import br.com.mailanalyzer.fluxo.InterfaceComposeFlow;
 import br.com.mailanalyzer.fluxo.PropertyRetriever;
-import br.com.mailanalyzer.log.Log;
+import br.com.mailanalyzer.log.L;
 import br.com.mailanalyzer.main.Base;
 import br.com.mailanalyzer.utils.EmailReader;
 import br.com.mailanalyzer.utils.Utils;
@@ -48,7 +48,7 @@ public class ActiveReceiverImplementation implements Receiver, InterfaceComposeF
     public void execute() {
         switch (activeReceiver.getOtype()) {
             case Base.RECEIVER_TYPE_EMAIL: {
-                Log.d("ActiveReceiverImplementation", "Buscando no email: " + activeReceiver.getUsuario());
+                L.d("ActiveReceiverImplementation", "Buscando no email: " + activeReceiver.getUsuario());
                 EmailReader reader = new EmailReader();
 
                 reader.setHost("pop.gmail.com");
@@ -66,7 +66,7 @@ public class ActiveReceiverImplementation implements Receiver, InterfaceComposeF
                 senha = enc.decriptar(senha);
                 message = reader.receive(activeReceiver.getHost(), activeReceiver.getUsuario(), senha);
 
-                Log.d("ActiveReceiverImplementation", "Finalizando recebimento de mensagens por email. Mensagens encontradas: " + message.length);
+                L.d("ActiveReceiverImplementation", "Finalizando recebimento de mensagens por email. Mensagens encontradas: " + message.length);
 
                 //Seta o tipo de recebimento nas mensagens que chegam.
                 if (message != null) {

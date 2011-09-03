@@ -8,7 +8,7 @@ import br.com.mailanalyzer.domain.Message;
 import br.com.mailanalyzer.fluxo.InterfaceComposeFlow;
 import br.com.mailanalyzer.fluxo.MutableComponent;
 import br.com.mailanalyzer.fluxo.PropertyRetriever;
-import br.com.mailanalyzer.log.Log;
+import br.com.mailanalyzer.log.L;
 import br.com.mailanalyzer.main.Base;
 import br.com.mailanalyzer.main.Config;
 import org.xeustechnologies.googleapi.spelling.Configuration;
@@ -67,7 +67,7 @@ public class FiltroCorrigirOrtografia implements InterfaceComposeFlow, PropertyR
             }
             return msg2;
         } catch (Exception e) {
-            Log.d(this.getClass().getSimpleName(), e);
+            L.d(this.getClass().getSimpleName(), e);
         }
 
         return args;
@@ -101,13 +101,13 @@ public class FiltroCorrigirOrtografia implements InterfaceComposeFlow, PropertyR
     }
 
     public void execute() {
-        Log.d(this.getClass().getSimpleName(), "Executando...");
+        L.d(this.getClass().getSimpleName(), "Executando...");
         if (msg == null) {
             stop = true;
             return;
         }
         this.msg = CorrigirOrtografia(msg);
-        Log.d(this.getClass().getSimpleName(), "Finalizado");
+        L.d(this.getClass().getSimpleName(), "Finalizado");
     }
 
     public boolean stopFlow() {

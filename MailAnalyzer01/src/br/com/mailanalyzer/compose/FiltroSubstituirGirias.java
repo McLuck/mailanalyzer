@@ -6,7 +6,7 @@ import br.com.mailanalyzer.domain.TermVariation;
 import br.com.mailanalyzer.fluxo.InterfaceComposeFlow;
 import br.com.mailanalyzer.fluxo.MutableComponent;
 import br.com.mailanalyzer.fluxo.PropertyRetriever;
-import br.com.mailanalyzer.log.Log;
+import br.com.mailanalyzer.log.L;
 import br.com.mailanalyzer.main.Base;
 import java.util.List;
 
@@ -23,7 +23,7 @@ public class FiltroSubstituirGirias implements InterfaceComposeFlow, PropertyRet
     private boolean stop = false;
 
     public void execute() {
-        Log.d(this.getClass().getSimpleName(), "Executando...");
+        L.d(this.getClass().getSimpleName(), "Executando...");
         try {
             if (msg == null) {
                 stop = true;
@@ -31,10 +31,10 @@ public class FiltroSubstituirGirias implements InterfaceComposeFlow, PropertyRet
             }
             msg = Substituir(msg);
         } catch (Exception e) {
-            Log.d(this.getClass().getSimpleName(), e);
+            L.d(this.getClass().getSimpleName(), e);
         }
 
-        Log.d(this.getClass().getSimpleName(), "Finaluzado");
+        L.d(this.getClass().getSimpleName(), "Finaluzado");
     }
 
     public boolean stopFlow() {

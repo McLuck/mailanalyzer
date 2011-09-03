@@ -5,7 +5,7 @@ import br.com.mailanalyzer.dao.actions.ActionActiveReceiver;
 import br.com.mailanalyzer.dao.actions.ActionTermVariation;
 import br.com.mailanalyzer.domain.ActiveReceiver;
 import br.com.mailanalyzer.domain.TermVariation;
-import br.com.mailanalyzer.log.Log;
+import br.com.mailanalyzer.log.L;
 import java.util.List;
 
 /**
@@ -412,11 +412,11 @@ public class Config {
          * @param receiv Um objeto de ActiveReceiver com os dados
          */
         public static void ADD_RECEIVER(ActiveReceiver receiv) {
-            Log.d("Register.ADD_RECEIVER", " Adicionar registros...");
+            L.d("Register.ADD_RECEIVER", " Adicionar registros...");
 
             ActionActiveReceiver action = new ActionActiveReceiver();
             List<ActiveReceiver> lista = action.showAll();
-            Log.d("Register.ADD_RECEIVER", " Lista de Receivers com tamanho: " + lista.size());
+            L.d("Register.ADD_RECEIVER", " Lista de Receivers com tamanho: " + lista.size());
             boolean encontrado = false;
             for (ActiveReceiver ar : lista) {
                 if (ar.equals(receiv)) {
@@ -428,7 +428,7 @@ public class Config {
                 action.salvar();
             }
 
-            Log.d("Register.ADD_RECEIVER", " Registro do receive " + receiv.getNome() + " foi adicionado.");
+            L.d("Register.ADD_RECEIVER", " Registro do receive " + receiv.getNome() + " foi adicionado.");
         }
 
         /**

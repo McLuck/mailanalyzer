@@ -7,7 +7,7 @@
     <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
     <property name="hibernate.connection.provider_class">org.hibernate.connection.C3P0ConnectionProvider</property>
     <!--property name="hibernate.connection.url">jdbc:mysql://mysql.mcluck.com.br/mcluckbr8</property-->
-    <property name="hibernate.connection.url">jdbc:mysql://localhost/mcluckbr8</property>
+    <property name="hibernate.connection.url">jdbc:mysql://mysql.mcluck.com.br/mcluckbr8</property>
     <property name="hibernate.c3p0.max_size">10</property>
     <property name="hibernate.c3p0.min_size">5</property>
     <property name="hibernate.c3p0.timeout">300</property>
@@ -17,8 +17,8 @@
     <!--property name="hibernate.connection.username">mcluckbr8</property>
     <property name="hibernate.connection.password">41mclu17</property-->
 
-    <property name="hibernate.connection.username">root</property>
-    <property name="hibernate.connection.password">123456</property>
+    <property name="hibernate.connection.username">mcluckbr8</property>
+    <property name="hibernate.connection.password">41mclu17</property>
     <property name="hibernate.c3p0.acquire_increment">3</property>
     <property name="hibernate.transaction.auto_close_session">false</property>
     <property name="hibernate.connection.pool_size">5</property>

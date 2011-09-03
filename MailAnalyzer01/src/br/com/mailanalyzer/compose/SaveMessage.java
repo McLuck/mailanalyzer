@@ -11,7 +11,7 @@ import br.com.mailanalyzer.domain.Message;
 import br.com.mailanalyzer.fluxo.InterfaceComposeFlow;
 import br.com.mailanalyzer.fluxo.MutableComponent;
 import br.com.mailanalyzer.fluxo.PropertyRetriever;
-import br.com.mailanalyzer.log.Log;
+import br.com.mailanalyzer.log.L;
 import br.com.mailanalyzer.main.Base;
 import br.com.mailanalyzer.utils.Utils;
 
@@ -26,9 +26,9 @@ import br.com.mailanalyzer.utils.Utils;
 public class SaveMessage implements InterfaceComposeFlow, MutableComponent, PropertyRetriever{
     private Message[] message;
     public void execute() {
-        Log.d("SaveMessage", "Iniciando execução do componente");
+        L.d("SaveMessage", "Iniciando execução do componente");
         if(message==null){
-            Log.d("SaveMessage", "Objeto message de SaveMessage é nulo. Fluxo será encerrado.");
+            L.d("SaveMessage", "Objeto message de SaveMessage é nulo. Fluxo será encerrado.");
             stop = true;
             return;
         }
@@ -42,11 +42,11 @@ public class SaveMessage implements InterfaceComposeFlow, MutableComponent, Prop
             dao.setMessage(message[i]);
             dao.salvar();
         }
-        Log.d("SaveMessage", "Salvou msg originais no banco de dados.");
+        L.d("SaveMessage", "Salvou msg originais no banco de dados.");
     }
     private boolean stop = false;
     public void updateComponent(Object obj) {
-        Log.d("SaveMessage", "UPDATE COMPONENT: "+obj);
+        L.d("SaveMessage", "UPDATE COMPONENT: "+obj);
         if(obj==null){
             stop = true;
             return;
@@ -62,7 +62,7 @@ public class SaveMessage implements InterfaceComposeFlow, MutableComponent, Prop
                 }
             }
         }else{
-            Log.d("SaveMessage", "UpdateComponent nao pode atualizar message (Message[]) com o parametro "+obj);
+            L.d("SaveMessage", "UpdateComponent nao pode atualizar message (Message[]) com o parametro "+obj);
         }
     }
 

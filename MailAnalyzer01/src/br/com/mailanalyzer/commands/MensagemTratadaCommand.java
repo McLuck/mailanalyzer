@@ -4,7 +4,7 @@ import br.com.mailanalyzer.dao.actions.ActionActiveReceiver;
 import br.com.mailanalyzer.dao.actions.ActionMessage;
 import br.com.mailanalyzer.domain.ActiveReceiver;
 import br.com.mailanalyzer.domain.Message;
-import br.com.mailanalyzer.log.Log;
+import br.com.mailanalyzer.log.L;
 import br.com.mailanalyzer.main.Base;
 import br.com.mailanalyzer.main.Config;
 import br.com.mailanalyzer.utils.SendMail;
@@ -23,7 +23,7 @@ public class MensagemTratadaCommand extends CommandFluxo {
 
     @Override
     public void run() {
-        Log.d(this.getClass().getSimpleName(), "Executando...");
+        L.d(this.getClass().getSimpleName(), "Executando...");
         
         ActionMessage dao = new ActionMessage();
         Message m = (Message) this.firstObject;
@@ -34,7 +34,7 @@ public class MensagemTratadaCommand extends CommandFluxo {
         dao.setMessage(m);
         dao.alterar();
         Utils.printMessage(m);
-        Log.d(this.getClass().getSimpleName(), "Mensagem recebida, tratada e salva. Preparar análise de mensagem.");
+        L.d(this.getClass().getSimpleName(), "Mensagem recebida, tratada e salva. Preparar análise de mensagem.");
 
         
         if(Config.IS_TEST_ENVIRONMENT){
@@ -45,11 +45,11 @@ public class MensagemTratadaCommand extends CommandFluxo {
             debugEnvironment(m, a);
         }
         
-        Log.d(this.getClass().getSimpleName(), "Finalizado.");
+        L.d(this.getClass().getSimpleName(), "Finalizado.");
     }
 
     private void debugEnvironment(Message m, ActiveReceiver a) {
-        Log.d(this.getClass().getSimpleName(), "Enviando mensagem de retorno. AMBIENTE DE TESTE ATIVO.");
+        L.d(this.getClass().getSimpleName(), "Enviando mensagem de retorno. AMBIENTE DE TESTE ATIVO.");
         String corpo = "<p>Olá, você enviou um email para a <em><strong>API Mail Analyzer.</strong></em></p>"
                 + "<p>Muito obrigado por usar nosso sistema.</p>"
                 + "<p>A partir de agora, seus emails serão respondidos pelo Mail Analyzer automaticamente.</p>"
@@ -74,7 +74,7 @@ public class MensagemTratadaCommand extends CommandFluxo {
         corpo = corpo.replace("#SUAMSG#", sb.toString());
         corpo = corpo.replace("#NOBOT#", Config.TAG_TO_IGNORE_MESSAGE);
         
-        //Log.d(this.getClass().getSimpleName(),"Corpo da mensagem: " +corpo);
+        //L.d(this.getClass().getSimpleName(),"Corpo da mensagem: " +corpo);
         SendMail sm = new SendMail();
         sm.setFrom(a.getUsuario());
         sm.setMailSMTPServer(Config.SERVER_SMTP_ADDRESS);
@@ -104,6 +104,6 @@ public class MensagemTratadaCommand extends CommandFluxo {
         sm.setSubject("RE-MAnalyzer:"+m.getAssunto());
         sm.setMessage(corpo);
         sm.sendMail();
-        Log.d(this.getClass().getSimpleName(), "Enviou mensagem de retorno. AMBIENTE DE TESTE ATIVO.");
+        L.d(this.getClass().getSimpleName(), "Enviou mensagem de retorno. AMBIENTE DE TESTE ATIVO.");
     }
 }

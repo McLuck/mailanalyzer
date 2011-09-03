@@ -11,7 +11,7 @@ import br.com.mailanalyzer.utils.Converte;
  *
  * @author lucasisrael
  */
-public class Log {
+public class L {
 
     private static String getTime() {
         StringBuffer sb = new StringBuffer();
@@ -42,6 +42,15 @@ public class Log {
             } else {
                 System.out.println("LOG nao identificado.");
             }
+        }
+    }
+
+    public static void e(String tag, Object o){
+        if(Config.DEBUG_MODE){
+            System.out.print(getTime() + " - ");
+            System.out.print(tag);
+            System.out.print(" - ");
+            System.err.println(o);
         }
     }
 }

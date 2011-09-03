@@ -4,7 +4,7 @@
  */
 package br.com.mailanalyzer.utils;
 
-import br.com.mailanalyzer.log.Log;
+import br.com.mailanalyzer.log.L;
 import br.com.mailanalyzer.main.Config;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -115,7 +115,7 @@ public class SendMail {
                         }
                     }
                 } catch (Exception e) {
-                    Log.d(this.getClass().getSimpleName(), e);
+                    L.d(this.getClass().getSimpleName(), e);
                 }
 
                 //Setando a origem do email
@@ -146,7 +146,7 @@ public class SendMail {
                 tr.close();
             } catch (Exception e) {
                 // TODO Auto-generated catch block
-                Log.d(this.getClass().getSimpleName(), e);
+                L.d(this.getClass().getSimpleName(), e);
                 //e.printStackTrace();
             }
 
@@ -168,7 +168,7 @@ public class SendMail {
                 email.send();
 
             } catch (EmailException e) {
-                Log.d(this.getClass().getSimpleName(), e);
+                L.d(this.getClass().getSimpleName(), e);
             }
         }
         session = null;

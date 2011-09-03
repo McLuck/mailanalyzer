@@ -2,7 +2,7 @@ package br.com.mailanalyzer.fluxo;
 
 import br.com.mailanalyzer.commands.CommandFluxo;
 import br.com.mailanalyzer.commands.CommandListener;
-import br.com.mailanalyzer.log.Log;
+import br.com.mailanalyzer.log.L;
 import java.util.Hashtable;
 
 public abstract class Fluxo {
@@ -59,7 +59,7 @@ public abstract class Fluxo {
     public void next() {
         //Verifica se deve continuar
         if (componentsFlow[index].stopFlow()) {
-            Log.d(this.getClass().getSimpleName(),"Fluxo ordenou parada imediata.");
+            L.d(this.getClass().getSimpleName(),"Fluxo ordenou parada imediata.");
             System.gc();
             return;
         }
@@ -85,40 +85,40 @@ public abstract class Fluxo {
             } else {
                 String name = (String) propertyRetriever.getPropertyName();
                 Object value = propertyRetriever.getPropertyValue();
-                Log.d(this.getClass().getSimpleName(),"FOR: " + name + " - value is: " + value);
+                L.d(this.getClass().getSimpleName(),"FOR: " + name + " - value is: " + value);
                 parameters.put(name, value);
             }
         }
-        Log.d(this.getClass().getSimpleName(),"Indo para a proxima componente do fluxo...");
+        L.d(this.getClass().getSimpleName(),"Indo para a proxima componente do fluxo...");
         index++;
         if (index < componentsFlow.length) {
             if (componentsFlow[index] instanceof MutableComponent) {
-                Log.d(this.getClass().getSimpleName(),"Componente "+componentsFlow[index].getClass().getName()+" e' um MutableComponent.");
+                L.d(this.getClass().getSimpleName(),"Componente "+componentsFlow[index].getClass().getName()+" e' um MutableComponent.");
                 if (index > 0 && (componentsFlow[index - 1] instanceof PropertyRetriever)) {
                     Object retiever = ((PropertyRetriever) componentsFlow[index - 1]).getPropertyValue();
-                    Log.d(this.getClass().getSimpleName(),"Componente anterior e' um PropertyRetriever. Pegando informacao dele para atualizar componente atual. Valor: "+retiever);
+                    L.d(this.getClass().getSimpleName(),"Componente anterior e' um PropertyRetriever. Pegando informacao dele para atualizar componente atual. Valor: "+retiever);
                     ((MutableComponent) componentsFlow[index]).updateComponent(retiever);
                 } else {
-                    Log.d(this.getClass().getSimpleName(),"Componente anterior nao e' um PropertyRetriever. Enviando null para componente atual.");
+                    L.d(this.getClass().getSimpleName(),"Componente anterior nao e' um PropertyRetriever. Enviando null para componente atual.");
                     ((MutableComponent) componentsFlow[index]).updateComponent(null);
                 }
                 if (componentsFlow[index].stopFlow()) {
-                    Log.d("Fluxo.next()","Componente "+componentsFlow[index].getClass().getName()+" solicitou parada imediata do fluxo.");
+                    L.d("Fluxo.next()","Componente "+componentsFlow[index].getClass().getName()+" solicitou parada imediata do fluxo.");
                     System.gc();
                     return;
                 }
             }
             if (componentsFlow[index] instanceof Fluxo) {
-                Log.d(this.getClass().getSimpleName(),"Componente "+componentsFlow[index].getClass().getName()+" eh um fluxo. Novo fluxo sera iniciado.");
+                L.d(this.getClass().getSimpleName(),"Componente "+componentsFlow[index].getClass().getName()+" eh um fluxo. Novo fluxo sera iniciado.");
                 Fluxo f = (Fluxo) componentsFlow[index];
                 f.init();
             } else {
-                Log.d(this.getClass().getSimpleName(),"Componente "+componentsFlow[index].getClass().getName()+" sera executado agora.");
+                L.d(this.getClass().getSimpleName(),"Componente "+componentsFlow[index].getClass().getName()+" sera executado agora.");
                 ((InterfaceComposeFlow) componentsFlow[index]).execute();
                 next();
             }
         } else {
-            Log.d(this.getClass().getSimpleName(),"Fim do fluxo. Iniciar comando do fluxo "+this.getClass().getName());
+            L.d(this.getClass().getSimpleName(),"Fim do fluxo. Iniciar comando do fluxo "+this.getClass().getName());
             executeCommand();
         }
     }

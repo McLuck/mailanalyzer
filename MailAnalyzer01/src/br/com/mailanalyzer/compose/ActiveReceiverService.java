@@ -8,6 +8,7 @@ package br.com.mailanalyzer.compose;
 import br.com.mailanalyzer.domain.ActiveReceiver;
 import br.com.mailanalyzer.fluxo.ActiveReceiverFlow;
 import br.com.mailanalyzer.fluxo.PropertyRetriever;
+import br.com.mailanalyzer.log.L;
 import br.com.mailanalyzer.main.Base;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -16,7 +17,7 @@ import java.util.logging.Logger;
  * @author Lucas Israel
  */
 public class ActiveReceiverService implements  Runnable{
-
+    public static final String TAG = "ActiveReceiverService";
     public ActiveReceiverService(ActiveReceiver activeReceiver){
         this.activeReceiver = activeReceiver;
     }
@@ -39,6 +40,7 @@ public class ActiveReceiverService implements  Runnable{
             if(canSearch()){
                 ActiveReceiverFlow flowRec = new ActiveReceiverFlow(activeReceiver);
                 flowRec.init();
+                L.d(TAG, "Iniciando Fluxo de consulta.");
                 setTimerNow();
             }
 

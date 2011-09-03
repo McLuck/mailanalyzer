@@ -4,7 +4,7 @@ import br.com.mailanalyzer.domain.Message;
 import br.com.mailanalyzer.fluxo.InterfaceComposeFlow;
 import br.com.mailanalyzer.fluxo.MutableComponent;
 import br.com.mailanalyzer.fluxo.PropertyRetriever;
-import br.com.mailanalyzer.log.Log;
+import br.com.mailanalyzer.log.L;
 import br.com.mailanalyzer.main.Base;
 
 /**
@@ -19,17 +19,17 @@ public class FiltroConvertMinusculo implements InterfaceComposeFlow, PropertyRet
 
     public void execute() {
         try {
-            Log.d(this.getClass().getSimpleName(), "Executando...");
+            L.d(this.getClass().getSimpleName(), "Executando...");
             if (msg == null) {
                 stop = true;
                 return;
             }
             msg = parse(msg);
         } catch (Exception ex) {
-            Log.d(this.getClass().getSimpleName(), ex);
+            L.d(this.getClass().getSimpleName(), ex);
         }
 
-        Log.d(this.getClass().getSimpleName(), "Finalizado.");
+        L.d(this.getClass().getSimpleName(), "Finalizado.");
     }
     private boolean stop = false;
 
