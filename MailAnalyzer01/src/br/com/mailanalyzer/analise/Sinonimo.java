@@ -1,7 +1,10 @@
 package br.com.mailanalyzer.analise;
 
+import br.com.mailanalyzer.dao.SinonimosDAO;
+import br.com.mailanalyzer.domain.Sinonimos;
 import br.com.mailanalyzer.log.L;
 import java.io.*;
+import java.util.List;
 
 /**
  *
@@ -12,75 +15,60 @@ import java.io.*;
  *
  */
 public class Sinonimo {
+    
+    //Normalmente, são preposilções
+    public static final String[] IRRELEVANTES={
+        "de","e","a","o","u","i","da","do"
+    };
+    private Sinonimo(){}
 
     public static final String TAG = "Sinonimo";
     private static boolean carregado = false;
     public static final String TAG_SERVICOS = "Sinonimo(Serviços Internos)";
     public String[][] TABELA_SINONIMOS = null;
     private static Sinonimo instancia = null;
-
+    private static SinonimosDAO sdao;
     public static Sinonimo getInstancia() {
         if (instancia == null) {
             L.d(TAG_SERVICOS, "Instanciando novo objeto.");
             instancia = new Sinonimo();
-            new Thread(new Runnable() {
-
-                public void run() {
-                    //Carregamento asincrono.
-                    instancia.carregarSinonimos();
-                }
-            }).start();
+            sdao = new SinonimosDAO();
         }
         return instancia;
     }
 
-    public synchronized static String[] GET_SINONIMOS(String palavra) {
+    public synchronized String[] GET_SINONIMOS(String palavra) {
         //Se nao for usar sinonimos, nem carrega
         if (!Raiz.PROCURAR_EM_SINONIMOS) {
             return new String[]{};
         }
 
-        //Se os sinonimos ainda nao foram preenchidos, envia para o LOG a mensagem e aguarda.
-        if (instancia == null) {
-            //Inicializa a instancia;
-            getInstancia();
+        List<Sinonimos> lista = sdao.getByPalavra(palavra);
+        if(lista!=null && !lista.isEmpty()){
+            Sinonimos sins = lista.get(0);
+            return sins.getSinonimoss().split("#");
         }
-        boolean frt = true;
-        while (!carregado) {
-            if (frt) {
-                frt = false;
-                L.d(TAG, "Sinonimos sendo carregado. Aguardando array ser populado.");
-            }
-            try {
-                Thread.sleep(100);
-            } catch (Exception e) {
-            }
-        }
-
-        for (int i = 0; i < getInstancia().TABELA_SINONIMOS.length; i++) {
-            if (getInstancia().TABELA_SINONIMOS[i] == null) {
-                continue;
-            }
-            for (int k = 0; k < getInstancia().TABELA_SINONIMOS[i].length; k++) {
-                if (getInstancia().TABELA_SINONIMOS[i][k] == null) {
-                    continue;
-                }
-
-                if (getInstancia().TABELA_SINONIMOS[i][k].trim().equals(palavra.trim())) {
-                    return getInstancia().TABELA_SINONIMOS[i];
-                }
-            }
-        }
+        
         return new String[]{};
     }
+    public static void main(String...args){
+        String p = "tirano";
+        String [] v = Sinonimo.getInstancia().GET_SINONIMOS(p);
+        /*for(String s : v){
+            System.out.println(s);
+        }*/
+    }
+/*
+    
 
-    private synchronized void carregarSinonimos() {
+    private static synchronized void carregarSinonimos() {
         if (carregado) {
             return;
         }
 
         L.d(TAG_SERVICOS, "Iniciando carregamento de sinonimos na memoria.");
-        File f = new File("/home/mcluck/NetBeansProjects/mlp/TestCube/src/dic_sin_ptbr.txt");
+        ///home/mcluck/NetBeansProjects/manalyzer/MailAnalyzer01/src
+        File f = new File("/home/mcluck/NetBeansProjects/manalyzer/MailAnalyzer01/src/dic_sin_ptbr.txt");
 
         StringBuffer sb = new StringBuffer();
         try {
@@ -94,9 +82,9 @@ public class Sinonimo {
                 sb.append("###");
             }
 
-
-            TABELA_SINONIMOS = tratarSinonimos(sb.toString());
-            carregado = true;
+            tratarSinonimos(sb.toString());
+            //TABELA_SINONIMOS = tratarSinonimos(sb.toString());
+            //carregado = true;
             L.d(TAG_SERVICOS, "Sinonimos foram carregados corretamente na memoria.");
         } catch (Exception e) {
             e.printStackTrace();
@@ -104,19 +92,43 @@ public class Sinonimo {
         }
     }
 
-    public String[][] tratarSinonimos(String texto) {
+    public static String[][] tratarSinonimos(String texto) {
+        
         L.d(TAG_SERVICOS, "Palavras foram lidas, Iniciando tratamento de dados.");
         String[] v = texto.split("###");
         String[][] v2 = new String[v.length][];
         int p = 0;
+        SinonimosDAO sdao = new SinonimosDAO();
         for (int i = 0; i < v.length; i++) {
+            boolean vai = false;
             if (v[i].trim().startsWith("(Sinônimo)") && v[i].contains("|")) {
-
-                v2[p] = UtilsString.NORMALIZAR(v[i].replace("(Sinônimo)", "").replace("|", "*")).split("\\*");
+                String a = UtilsString.NORMALIZAR(v[i].replace("(Sinônimo)", ""));
+                a = a.trim();
+                if(a.startsWith("fustigar")){
+                    vai = true;
+                    continue;
+                }
+                if(!vai)continue;
+                
+                a = a.replace("|", "#");
+                a = a.trim();
+                System.out.println(a);
+                //System.out.println((UtilsString.NORMALIZAR(v[i].replace("(Sinônimo)", "").replace("|", "###"))).trim());
+                //v2[p] = UtilsString.NORMALIZAR(v[i].replace("(Sinônimo)", "").replace("|", "*")).split("\\*");
+                Sinonimos sin = new Sinonimos();
+                sin.setSinonimoss(a);
+                sdao.salvar(sin);
+                //sdao.commit();
                 p++;
+                if(p>50){
+                    sdao.commit();
+                    p = 0;
+                }
             }
         }
+        sdao.commit();
+        sdao.close();
         L.d(TAG_SERVICOS, "Dados tratados. Sinonimos estruturado em array de String.");
         return v2;
-    }
+    }*/
 }

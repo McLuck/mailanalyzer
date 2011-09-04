@@ -51,8 +51,8 @@ public class Raiz {
         for (String s : vet) {
             Elemento e = new Elemento();
             e.setId(getIdElemento());
-            e.setPalavra(s);
-            e.setSinonimos(Sinonimo.GET_SINONIMOS(s));
+            e.setPalavra(s, true);
+            //e.setSinonimos(Sinonimo.getInstancia().GET_SINONIMOS(s));
             base.getItens().add((Item) e);
         }
     }
@@ -64,7 +64,7 @@ public class Raiz {
         for (String s : v) {
             Elemento e = new Elemento();
             e.setRelevancia(Peso.MUITO_RELEVANTE * 2);
-            e.setPalavra(s);
+            e.setPalavra(s, true);
             c.getItens().add(e);
         }
         mandatorios.getItens().add(c);
@@ -221,8 +221,8 @@ public class Raiz {
         for (String s : v) {
             Elemento e = new Elemento();
             e.setId(getIdElemento());
-            e.setPalavra(s);
-            e.setSinonimos(new String[]{});
+            e.setPalavra(s, false);
+            //e.setSinonimos(new String[]{});
             e.setRelevancia(peso);
             c.getItens().add((Item) e);
         }
@@ -272,7 +272,7 @@ public class Raiz {
                 //aprenderNovaComposicao(v1[i], v2[i], peso);
                 Elemento e = new Elemento();
                 e.setId(getIdElemento());
-                e.setPalavra(v2[i]);
+                e.setPalavra(v2[i], true);
                 e.setRelevancia(peso);
                 c.getItens().add((Item) e);
             }
@@ -303,7 +303,7 @@ public class Raiz {
             for (String s : v) {
                 Elemento e = new Elemento();
                 e.setRelevancia(Peso.NORMAL);
-                e.setPalavra(s);
+                e.setPalavra(s, true);
                 e.setId(getIdElemento());
                 elementosNovos.add((Item) e);
             }
@@ -333,7 +333,7 @@ public class Raiz {
             for (String s : v) {
                 Elemento e = new Elemento();
                 e.setRelevancia(peso);
-                e.setPalavra(s);
+                e.setPalavra(s, true);
                 e.setId(getIdElemento());
                 c.getItens().add(e);
             }
@@ -354,7 +354,7 @@ public class Raiz {
         for (String s : v) {
             if (s != null && !s.isEmpty()) {
                 Elemento e = new Elemento();
-                e.setPalavra(s);
+                e.setPalavra(s, true);
                 e.setRelevancia(peso);
                 agregacoes.getItens().add(e);
             }

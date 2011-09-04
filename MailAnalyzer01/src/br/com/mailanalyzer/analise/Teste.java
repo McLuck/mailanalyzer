@@ -1,5 +1,7 @@
 package br.com.mailanalyzer.analise;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Lucas Israel
@@ -20,12 +22,13 @@ public class Teste {
         r.agregarPalavras("portal", Peso.RELEVANTE);
         r.aprenderNovaComposicao(null, "dados de acesso", Peso.NORMAL, true);
         r.aprenderNovaComposicao(null, "historico escolar", Peso.INCORRETO, true);
-
+        r.aprenderContextoMandatorio("portal");
 
         //Matricula
         r2.aprender(input2);
         r2.agregarPalavras("rematricula documentos necessarios", Peso.RELEVANTE);
-
+        r2.aprenderContextoMandatorio("matricula");
+        r2.aprenderContextoMandatorio("rematricula");
 
         //Grade horaria
         r3.aprender(input3);
@@ -73,8 +76,12 @@ public class Teste {
     }
 
     public static void main(String... args) {
+
         aprenderTudo();
         
+        System.out.println("Assuntos tratados e carregados. Aguardando mensagens.");
+
+
 
         String tester = "Solicito meus dados de acesso ao portal do aluno";
         print(tester, getConhecimentos(), getPesos(tester));
@@ -185,6 +192,20 @@ public class Teste {
         tester = "É possível tirar segunda via do histórico escolar?";
         print(tester, getConhecimentos(), getPesos(tester));
 
+
+
+        System.out.println();System.out.println();
+        String loop = "!sair";
+        while(!loop.toLowerCase().equals("sair")){
+            System.out.println("Aguardando mensagem do usuário...");
+            loop = JOptionPane.showInputDialog("Digite a mensagem para ser procurada.\nDigite 'sair' para terminar o programa.");
+            if(loop==null)break;
+            if(!loop.toLowerCase().equals("sair")){
+                print(loop, getConhecimentos(), getPesos(loop));
+                System.out.println("Digite sair, para parar o programa.");
+            }
+        }
+        System.out.println("Programa terminado.");
     }
 
     public static void print(String input, int result) {

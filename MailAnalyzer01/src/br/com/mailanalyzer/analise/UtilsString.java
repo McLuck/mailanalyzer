@@ -15,6 +15,7 @@ public class UtilsString {
         texto = texto.trim();
         texto = texto.replace("?", "");
         texto = texto.replace("!", "");
+        texto = texto.replace(".", "");
         texto = texto.replace("&", "");
         texto = texto.replace("{", "");
         texto = texto.replace("}", "");

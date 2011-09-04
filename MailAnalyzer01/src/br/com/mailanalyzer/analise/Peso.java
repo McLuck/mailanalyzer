@@ -10,6 +10,14 @@ package br.com.mailanalyzer.analise;
  */
 public class Peso {
 
+
+    public static synchronized int GET_PESO(String palavra, int indicado){
+        for(String s : Sinonimo.IRRELEVANTES){
+            if(palavra.trim().equals(s.trim()))return 0;
+        }
+        return indicado;
+    }
+
     /**
      * Para indicar elementos com relevancia extremas
      */

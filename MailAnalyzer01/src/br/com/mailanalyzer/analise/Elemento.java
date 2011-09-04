@@ -42,12 +42,37 @@ public class Elemento implements Item{
         return palavra;
     }
 
+    /*/**
+     * @param palavra the palavra to set
+     * /
+    public void setPalavra(String palavra) {
+        this.palavra = palavra;
+        if(buscarSinonimos()){
+            this.sinonimos = Sinonimo.getInstancia().GET_SINONIMOS("#"+palavra+"#");
+        }else{
+            sinonimos = new String[]{};
+        }
+    }*/
+
     /**
      * @param palavra the palavra to set
      */
-    public void setPalavra(String palavra) {
+    public void setPalavra(String palavra, boolean srcSinonimos) {
         this.palavra = palavra;
-        this.sinonimos = Sinonimo.GET_SINONIMOS(palavra);
+        if(!srcSinonimos){
+            sinonimos = new String[]{};
+            return;
+        }
+        if(buscarSinonimos()){
+            this.sinonimos = Sinonimo.getInstancia().GET_SINONIMOS("#"+palavra+"#");
+        }else{
+            sinonimos = new String[]{};
+        }
+    }
+
+    private boolean buscarSinonimos(){
+        if(palavra.length()<2)return false;
+        return true;
     }
 
     /**
@@ -68,6 +93,10 @@ public class Elemento implements Item{
      * @return the relevancia
      */
     public int getRelevancia(Composicao c) {
+        //redefine o Peso antes de iniciar comparações.
+        //Despresa pesos de palavras irrelevantes.
+        this.relevancia = Peso.GET_PESO(palavra, relevancia);
+
         L.d(TAG, "Procurando em elemento. ID:" + id);
         int temp = 0;
         for (Item i : c.getItens()) {
