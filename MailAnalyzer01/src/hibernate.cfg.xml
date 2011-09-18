@@ -15,7 +15,7 @@
     <property name="hibernate.c3p0.idle_test_period">3000</property>
 
     <property name="hibernate.connection.username">root</property>
-    <property name="hibernate.connection.password">root</property>
+    <property name="hibernate.connection.password">123456</property>
     <property name="hibernate.c3p0.acquire_increment">3</property>
     <property name="hibernate.transaction.auto_close_session">false</property>
     <property name="hibernate.connection.pool_size">5</property>
@@ -33,5 +33,9 @@
     <mapping class="br.com.mailanalyzer.domain.Subject" />
     <mapping class="br.com.mailanalyzer.domain.Status" />
     <mapping class="br.com.mailanalyzer.domain.TermVariation" />
+    <mapping class="br.com.mailanalyzer.analise.Raiz" />
+    <mapping class="br.com.mailanalyzer.analise.Elemento" />
+    <mapping class="br.com.mailanalyzer.analise.Composicao" />
+    <mapping class="br.com.mailanalyzer.analise.Item" />
   </session-factory>
 </hibernate-configuration>

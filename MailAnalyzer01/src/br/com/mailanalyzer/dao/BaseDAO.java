@@ -40,22 +40,40 @@ public abstract class BaseDAO<T extends DomainObject> implements BaseInterfaceDA
      */
     public void atualizar(T obj) {
         getSession().getTransaction().begin();
-        if(obj.getId()==0){
+        if (obj.getId() == 0) {
             obj.setDataRegistro(new java.util.Date().getTime());
             obj.setDataAlteracao(0);
-        }else{
+        } else {
             obj.setDataAlteracao(new java.util.Date().getTime());
         }
         this.getSession().update(obj);
         this.getSession().flush();
     }
-    public void commit(){
-        getSession().getTransaction().commit();
+
+    public void commit() {
+        try {
+            getSession().getTransaction().commit();
+        } catch (Exception e) {
+            System.err.println("Commit foi chamado, mas não existe uma sessão aberta.");
+        }
     }
-    public void close(){
-        getSession().getTransaction().commit();
-        getSession().flush();
-        getSession().close();
+
+    public void close() {
+        try {
+            getSession().getTransaction().commit();
+        } catch (Exception e) {
+            System.err.println("Commit foi chamado, mas não existe uma conexão aberta.");
+        }
+        try {
+            getSession().flush();
+        } catch (Exception e) {
+            System.err.println("Falha ao fazer descarga na sessão do Hibernate.");
+        }
+        try {
+            getSession().close();
+        } catch (Exception ex) {
+            System.err.println("DAO - Falha ao fechar conexão.");
+        }
     }
 
     /**
@@ -97,10 +115,10 @@ public abstract class BaseDAO<T extends DomainObject> implements BaseInterfaceDA
      */
     public Integer salvar(T obj) {
         getSession().getTransaction().begin();
-        if(obj.getId()==0){
+        if (obj.getId() == 0) {
             obj.setDataRegistro(new java.util.Date().getTime());
             obj.setDataAlteracao(0);
-        }else{
+        } else {
             obj.setDataAlteracao(new java.util.Date().getTime());
         }
         Integer id = (Integer) this.getSession().save(obj);

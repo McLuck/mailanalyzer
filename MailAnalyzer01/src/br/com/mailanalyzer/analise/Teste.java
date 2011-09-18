@@ -1,6 +1,6 @@
 package br.com.mailanalyzer.analise;
 
-import javax.swing.JOptionPane;
+import br.com.mailanalyzer.dao.RaizDAO;
 
 /**
  *
@@ -67,17 +67,29 @@ public class Teste {
     public static int[] getPesos(String comparador){
         //Monta resultados
         int[] results = {
-            r.getPeso(comparador),
-            r2.getPeso(comparador),
-            r3.getPeso(comparador),
-            r4.getPeso(comparador)
+            r.getRelevancia(comparador),
+            r2.getRelevancia(comparador),
+            r3.getRelevancia(comparador),
+            r4.getRelevancia(comparador)
         };
         return results;
+    }
+
+    public static void salvarTudo(){
+        RaizDAO rdao = new RaizDAO();
+        rdao.salvar(r);
+        rdao.salvar(r2);
+        rdao.salvar(r3);
+        rdao.salvar(r4);
+        rdao.commit();
+        rdao.close();
     }
 
     public static void main(String... args) {
 
         aprenderTudo();
+        salvarTudo();
+        /*
         
         System.out.println("Assuntos tratados e carregados. Aguardando mensagens.");
 
@@ -206,6 +218,7 @@ public class Teste {
             }
         }
         System.out.println("Programa terminado.");
+        */
     }
 
     public static void print(String input, int result) {

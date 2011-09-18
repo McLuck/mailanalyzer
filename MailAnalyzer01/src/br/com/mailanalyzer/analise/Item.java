@@ -1,5 +1,9 @@
 package br.com.mailanalyzer.analise;
 
+import br.com.mailanalyzer.domain.DomainObject;
+import javax.persistence.MappedSuperclass;
+
+
 /**
  *
  * @author Lucas Israel
@@ -8,6 +12,8 @@ package br.com.mailanalyzer.analise;
  * @Date 27-08-2011
  *
  */
-public interface Item {
 
+@MappedSuperclass
+public class Item extends DomainObject {
+    
 }

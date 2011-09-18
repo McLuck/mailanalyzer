@@ -1,9 +1,20 @@
 package br.com.mailanalyzer.analise;
 
+import br.com.mailanalyzer.domain.DomainObject;
+import br.com.mailanalyzer.domain.Subject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import org.hibernate.annotations.Cascade;
 
 /**
  *
@@ -12,27 +23,53 @@ import java.util.Map;
  * @version 1.0
  * @Date 27-08-2011
  *
+ * REFATORADO: dia 17 de setembro.
+ * MOTIVO: acrescentar o assunto sendo tratado, adicionar composicoes comuns
+ *
  */
-public class Raiz {
 
-    public static final String TAG = "Raiz";
-    public static boolean PROCURAR_EM_SINONIMOS = true;
-    private String textoOriginal;
-    private Composicao base;
-    private Composicao agregacoes;
-    private Composicao mandatorios;
-    private List<Composicao> composicoes;
-    private int idElemento = 0;
-    private int idComposicao = 0;
+@Entity
+@Table(name="raiz")
+public class Raiz extends DomainObject{
 
-    public int getIdElemento() {
-        idElemento++;
-        return idElemento;
+    public String getName(){
+        StringBuffer sb = new StringBuffer();
+        sb.append(TAG);
+        sb.append(getId());
+        sb.append(this.getClass().getSimpleName());
+        return sb.toString();
     }
 
-    public int getIdComposicao() {
-        idComposicao++;
-        return idComposicao;
+    @ManyToOne(cascade = {CascadeType.ALL}, targetEntity = Subject.class)
+    @JoinColumn(name = "subject_id", nullable = true)
+    private Subject assunto;
+    public static final String TAG = "Raiz";
+    public static boolean PROCURAR_EM_SINONIMOS = true;
+    @Column(name="texto_original")
+    private String textoOriginal;
+
+    @ManyToOne(cascade = {CascadeType.ALL}, targetEntity = Composicao.class)
+    @JoinColumn(name = "base_id", nullable = true)
+    private Composicao base;
+
+    @ManyToOne(cascade = {CascadeType.ALL}, targetEntity = Composicao.class)
+    @JoinColumn(name = "agregacao_id", nullable = true)
+    private Composicao agregacoes;
+
+    @ManyToOne(cascade = {CascadeType.ALL}, targetEntity = Composicao.class)
+    @JoinColumn(name = "mandatorio_id", nullable = true)
+    private Composicao mandatorios;
+
+    @OneToMany(mappedBy = "raiz", cascade = {CascadeType.ALL})
+    @Cascade(value = org.hibernate.annotations.CascadeType.DELETE_ORPHAN)
+    private List<Composicao> composicoes;
+
+    /**
+     * Add composicao comum nesta raiz de assunto
+     * @param composicaoComum Um objeto nao nulo de composicao
+     */
+    public void append(Composicao composicaoComum){
+        composicoes.add(composicaoComum);
     }
 
     public void aprender(String assunto) {
@@ -50,7 +87,7 @@ public class Raiz {
         String[] vet = assunto.split(" ");
         for (String s : vet) {
             Elemento e = new Elemento();
-            e.setId(getIdElemento());
+            //e.setId(getIdElemento());
             e.setPalavra(s, true);
             //e.setSinonimos(Sinonimo.getInstancia().GET_SINONIMOS(s));
             base.getItens().add((Item) e);
@@ -70,7 +107,7 @@ public class Raiz {
         mandatorios.getItens().add(c);
     }
 
-    public int getPeso(String comparador) {
+    public int getRelevancia(String comparador) {
         int pesoCorrente = 0;
         Composicao procurado = StringToComposicao(comparador, Peso.MUITO_RELEVANTE);
 
@@ -220,7 +257,7 @@ public class Raiz {
 
         for (String s : v) {
             Elemento e = new Elemento();
-            e.setId(getIdElemento());
+            //e.setId(getIdElemento());
             e.setPalavra(s, false);
             //e.setSinonimos(new String[]{});
             e.setRelevancia(peso);
@@ -264,14 +301,14 @@ public class Raiz {
             String v1[] = trecho.split("###");
             String v2[] = novaComposicao.split("###");
             Composicao c = new Composicao();
-            c.setId(getIdComposicao());
+            //c.setId(getIdComposicao());
             c.setElementoInicio(-1);
             c.setElementoFim(-1);
             c.setRelevancia(peso);
             for (int i = 0; i < v1.length; i++) {
                 //aprenderNovaComposicao(v1[i], v2[i], peso);
                 Elemento e = new Elemento();
-                e.setId(getIdElemento());
+                //e.setId(getIdElemento());
                 e.setPalavra(v2[i], true);
                 e.setRelevancia(peso);
                 c.getItens().add((Item) e);
@@ -304,7 +341,7 @@ public class Raiz {
                 Elemento e = new Elemento();
                 e.setRelevancia(Peso.NORMAL);
                 e.setPalavra(s, true);
-                e.setId(getIdElemento());
+                //e.setId(getIdElemento());
                 elementosNovos.add((Item) e);
             }
 
@@ -312,7 +349,7 @@ public class Raiz {
             //Varre todo o texto buscando o trecho pra adicionar a nova composicao
             while (pos != null) {
                 Composicao c = new Composicao();
-                c.setId(getIdComposicao());
+                //c.setId(getIdComposicao());
                 c.setRelevancia(peso);
                 c.setElementoInicio(pos[0]);
                 c.setElementoFim(pos[1]);
@@ -334,13 +371,14 @@ public class Raiz {
                 Elemento e = new Elemento();
                 e.setRelevancia(peso);
                 e.setPalavra(s, true);
-                e.setId(getIdElemento());
+                //e.setId(getIdElemento());
                 c.getItens().add(e);
             }
-            composicoes.add(c);
+            //composicoes.add(c);
+            ManagementAnalyzer.addComposicaoComum(c);
         }
-
     }
+    
 
     /**
      * Adiciona novas palavras para este assunto.<br>
@@ -359,5 +397,19 @@ public class Raiz {
                 agregacoes.getItens().add(e);
             }
         }
+    }
+
+    /**
+     * @return the assunto
+     */
+    public Subject getAssunto() {
+        return assunto;
+    }
+
+    /**
+     * @param assunto the assunto to set
+     */
+    public void setAssunto(Subject assunto) {
+        this.assunto = assunto;
     }
 }

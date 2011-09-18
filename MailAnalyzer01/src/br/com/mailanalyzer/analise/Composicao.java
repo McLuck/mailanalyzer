@@ -1,8 +1,18 @@
 package br.com.mailanalyzer.analise;
 
+import br.com.mailanalyzer.domain.DomainObject;
 import br.com.mailanalyzer.log.L;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import org.hibernate.annotations.Cascade;
+
 
 /**
  *
@@ -11,16 +21,65 @@ import java.util.List;
  * @version 1.0
  * @Date 27-08-2011
  *
+ * REFATORADO: dia 17 de setembro
+ * MOTIVO: Incluindo String "original"
  */
-public class Composicao implements Item{
+@Entity(name="composicao")
+public class Composicao extends Item{
 
     public static final String TAG = "Composição";
-    private int id, elementoInicio, elementoFim;
+    @Column(name="elemento_inicio")
+    private int elementoInicio;
+    @Column(name="elemento_fim")
+    private int elementoFim;
+
+    @ManyToOne(cascade = {CascadeType.ALL}, targetEntity = Raiz.class)
+    @JoinColumn(name = "raiz_id", nullable = true)
+    private Raiz raiz;
+
+    @OneToMany(cascade={CascadeType.ALL, CascadeType.MERGE}, mappedBy="itemPai", fetch=FetchType.EAGER)
     private List<Item> itens;
+
+    @ManyToOne(cascade = {CascadeType.ALL}, targetEntity=Composicao.class)
+    @JoinColumn(name = "itemPai", nullable = true)
+    private Composicao itemPai;
+
+    @Column(name="peso_composicao")
     private int relevancia;
+    @Column(name="texto_original")
+    private String original;
+
+
     public Composicao(){
         itens = new ArrayList<Item>();
         relevancia = Peso.NORMAL;
+    }
+
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Composicao other = (Composicao) obj;
+        if (this.itens != other.itens && (this.itens == null || !this.itens.equals(other.itens))) {
+            return false;
+        }
+        if ((this.original == null) ? (other.original != null) : !this.original.equals(other.original)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 71 * hash + (this.itens != null ? this.itens.hashCode() : 0);
+        hash = 71 * hash + (this.original != null ? this.original.hashCode() : 0);
+        return hash;
     }
 
     public int getRelevanciaTotal(){
@@ -40,7 +99,7 @@ public class Composicao implements Item{
     }
 
     public int getPesoTotal(Composicao conhecimento, Composicao procurado){
-        L.d(TAG,"Procurando em composição. ID:"+id);
+        L.d(TAG,"Procurando em composição. ID:"+original);
         int soma = relevancia;
         for(Item i : conhecimento.getItens()){
             if(i instanceof Composicao){
@@ -52,19 +111,7 @@ public class Composicao implements Item{
         return (soma==relevancia)?0:soma;
     }
 
-    /**
-     * @return the id
-     */
-    public int getId() {
-        return id;
-    }
 
-    /**
-     * @param id the id to set
-     */
-    public void setId(int id) {
-        this.id = id;
-    }
 
     /**
      * @return the elementoInicio
@@ -110,5 +157,47 @@ public class Composicao implements Item{
      */
     public void setItens(List<Item> itens) {
         this.itens = itens;
+    }
+
+    /**
+     * @return the original
+     */
+    public String getOriginal() {
+        return original;
+    }
+
+    /**
+     * @param original the original to set
+     */
+    public void setOriginal(String original) {
+        this.original = original;
+    }
+
+    /**
+     * @return the raiz
+     */
+    public Raiz getRaiz() {
+        return raiz;
+    }
+
+    /**
+     * @param raiz the raiz to set
+     */
+    public void setRaiz(Raiz raiz) {
+        this.raiz = raiz;
+    }
+
+    /**
+     * @return the itemPai
+     */
+    public Composicao getItemPai() {
+        return itemPai;
+    }
+
+    /**
+     * @param itemPai the itemPai to set
+     */
+    public void setItemPai(Composicao itemPai) {
+        this.itemPai = itemPai;
     }
 }

@@ -1,6 +1,12 @@
 package br.com.mailanalyzer.analise;
 
+import br.com.mailanalyzer.domain.DomainObject;
 import br.com.mailanalyzer.log.L;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 /**
  *
@@ -10,29 +16,48 @@ import br.com.mailanalyzer.log.L;
  * @Date 27-08-2011
  *
  */
-public class Elemento implements Item{
-
+@Entity(name="elemento")
+public class Elemento extends Item {
     public static final String TAG = "Elemento";
-    private int id, relevancia = Peso.NORMAL;
+    @Column(name="relevancia")
+    private int relevancia = Peso.NORMAL;
+    @Column(name="palavra")
     private String palavra;
+
     private String[] sinonimos;
+
+    @ManyToOne(cascade = {CascadeType.ALL}, targetEntity = Composicao.class)
+    @JoinColumn(name = "itemPai", nullable = false)
+    private Composicao itemPai;
 
     public int getRelevanciaTotal(){
         return relevancia;
     }
 
-    /**
-     * @return the id
-     */
-    public int getId() {
-        return id;
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Elemento other = (Elemento) obj;
+        if (this.relevancia != other.relevancia) {
+            return false;
+        }
+        if ((this.palavra == null) ? (other.palavra != null) : !this.palavra.equals(other.palavra)) {
+            return false;
+        }
+        return true;
     }
 
-    /**
-     * @param id the id to set
-     */
-    public void setId(int id) {
-        this.id = id;
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 17 * hash + this.relevancia;
+        hash = 17 * hash + (this.palavra != null ? this.palavra.hashCode() : 0);
+        return hash;
     }
 
     /**
@@ -97,7 +122,7 @@ public class Elemento implements Item{
         //Despresa pesos de palavras irrelevantes.
         this.relevancia = Peso.GET_PESO(palavra, relevancia);
 
-        L.d(TAG, "Procurando em elemento. ID:" + id);
+        L.d(TAG, "Procurando em elemento. ID:" + palavra);
         int temp = 0;
         for (Item i : c.getItens()) {
             Elemento e = (Elemento) i;
@@ -123,5 +148,19 @@ public class Elemento implements Item{
      */
     public void setRelevancia(int relevancia) {
         this.relevancia = relevancia;
+    }
+
+    /**
+     * @return the itemPai
+     */
+    public Composicao getItemPai() {
+        return itemPai;
+    }
+
+    /**
+     * @param itemPai the itemPai to set
+     */
+    public void setItemPai(Item itemPai) {
+        this.itemPai = (Composicao) itemPai;
     }
 }
