@@ -24,29 +24,16 @@ import org.hibernate.annotations.Cascade;
  * REFATORADO: dia 17 de setembro
  * MOTIVO: Incluindo String "original"
  */
-@Entity(name="composicao")
-public class Composicao extends Item{
+
+public class Composicao implements Item{
 
     public static final String TAG = "Composição";
-    @Column(name="elemento_inicio")
     private int elementoInicio;
-    @Column(name="elemento_fim")
     private int elementoFim;
-
-    @ManyToOne(cascade = {CascadeType.ALL}, targetEntity = Raiz.class)
-    @JoinColumn(name = "raiz_id", nullable = true)
     private Raiz raiz;
-
-    @OneToMany(cascade={CascadeType.ALL, CascadeType.MERGE}, mappedBy="itemPai", fetch=FetchType.EAGER)
     private List<Item> itens;
-
-    @ManyToOne(cascade = {CascadeType.ALL}, targetEntity=Composicao.class)
-    @JoinColumn(name = "itemPai", nullable = true)
     private Composicao itemPai;
-
-    @Column(name="peso_composicao")
     private int relevancia;
-    @Column(name="texto_original")
     private String original;
 
 

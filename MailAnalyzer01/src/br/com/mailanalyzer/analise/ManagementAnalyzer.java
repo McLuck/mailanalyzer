@@ -7,6 +7,7 @@ package br.com.mailanalyzer.analise;
 
 import br.com.mailanalyzer.dao.ComposicaoDAO;
 import br.com.mailanalyzer.dao.RaizDAO;
+import br.com.mailanalyzer.domain.RaizDomain;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,12 +25,11 @@ public class ManagementAnalyzer {
     private static Set<Composicao> composicoesComuns;
 
     public static void LoadAssuntos(){
-        String assunto1 = "teste1";
-        mapa.put(assunto1, new Raiz());
         RaizDAO rdao = new RaizDAO();
-        List<Raiz> lista = rdao.obterTodos();
-        for(Raiz r : lista){
-            mapa.put(r.getName(), r);
+        List<RaizDomain> lista = rdao.obterTodos();
+        for(RaizDomain r : lista){
+            RaizAdapter adapter = new RaizAdapter(r);
+            mapa.put(adapter.getRaiz().getName(), adapter.getRaiz());
         }
     }
     public static Set<Composicao> getComposicoesComuns(){
@@ -41,16 +41,9 @@ public class ManagementAnalyzer {
      * @param composicaoComum Objeto de composicao nao nulo.
      */
     public static void addComposicaoComum(Composicao composicaoComum){
+        //Salvar composicao
         ComposicaoDAO cdao = new ComposicaoDAO();
-        Object o = cdao.salvar(composicaoComum);
-        cdao.commit();
-        if(o instanceof Composicao){
-            composicaoComum = (Composicao)o;
-        }else if(o instanceof Integer){
-            int id = (Integer)o;
-            composicaoComum.setId((Integer)o);
-        }
-
+        //cdao.salvar(composicaoComum);
         //Add na lista para assuntos a serem carregados posteriormente
         composicoesComuns.add(composicaoComum);
 

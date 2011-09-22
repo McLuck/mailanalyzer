@@ -77,10 +77,10 @@ public class Teste {
 
     public static void salvarTudo(){
         RaizDAO rdao = new RaizDAO();
-        rdao.salvar(r);
-        rdao.salvar(r2);
-        rdao.salvar(r3);
-        rdao.salvar(r4);
+        //rdao.salvar(r);
+        //rdao.salvar(r2);
+        //rdao.salvar(r3);
+        //rdao.salvar(r4);
         rdao.commit();
         rdao.close();
     }

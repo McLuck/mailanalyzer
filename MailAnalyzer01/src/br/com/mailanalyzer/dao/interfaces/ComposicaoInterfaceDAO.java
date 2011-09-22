@@ -5,8 +5,7 @@
 
 package br.com.mailanalyzer.dao.interfaces;
 
-import br.com.mailanalyzer.analise.Composicao;
-import br.com.mailanalyzer.analise.Raiz;
+import br.com.mailanalyzer.domain.ComposicaoDomain;
 import java.util.List;
 
 /**
@@ -17,7 +16,7 @@ import java.util.List;
  * @Date 17-09-2011
  *
  */
-public interface ComposicaoInterfaceDAO extends BaseInterfaceDAO<Composicao>{
-    public List<Composicao> getByTexto(String texto);
-    public List<Composicao> getByRaiz(int raizId);
+public interface ComposicaoInterfaceDAO extends BaseInterfaceDAO<ComposicaoDomain>{
+    public List<ComposicaoDomain> getByTexto(String texto);
+    public List<ComposicaoDomain> getByRaiz(int raizId);
 }

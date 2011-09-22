@@ -1,12 +1,6 @@
 package br.com.mailanalyzer.analise;
 
-import br.com.mailanalyzer.domain.DomainObject;
 import br.com.mailanalyzer.log.L;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 
 /**
  *
@@ -16,18 +10,12 @@ import javax.persistence.ManyToOne;
  * @Date 27-08-2011
  *
  */
-@Entity(name="elemento")
-public class Elemento extends Item {
+public class Elemento implements Item {
     public static final String TAG = "Elemento";
-    @Column(name="relevancia")
     private int relevancia = Peso.NORMAL;
-    @Column(name="palavra")
     private String palavra;
-
     private String[] sinonimos;
 
-    @ManyToOne(cascade = {CascadeType.ALL}, targetEntity = Composicao.class)
-    @JoinColumn(name = "itemPai", nullable = false)
     private Composicao itemPai;
 
     public int getRelevanciaTotal(){

@@ -6,6 +6,7 @@
 package br.com.mailanalyzer.dao.interfaces;
 
 import br.com.mailanalyzer.analise.Raiz;
+import br.com.mailanalyzer.domain.RaizDomain;
 import sun.tools.tree.SuperExpression;
 
 /**
@@ -16,6 +17,6 @@ import sun.tools.tree.SuperExpression;
  * @Date 17-09-2011
  *
  */
-public interface RaizInterfaceDAO extends BaseInterfaceDAO<Raiz>{
+public interface RaizInterfaceDAO extends BaseInterfaceDAO<RaizDomain>{
     
 }

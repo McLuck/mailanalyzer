@@ -1,7 +1,6 @@
 
 package br.com.mailanalyzer.analise;
 
-import br.com.mailanalyzer.dao.SubjectDAO;
 import br.com.mailanalyzer.domain.Subject;
 
 /**

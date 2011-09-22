@@ -6,15 +6,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import org.hibernate.annotations.Cascade;
 
 /**
  *
@@ -28,41 +19,42 @@ import org.hibernate.annotations.Cascade;
  *
  */
 
-@Entity
-@Table(name="raiz")
-public class Raiz extends DomainObject{
+public class Raiz{
 
     public String getName(){
         StringBuffer sb = new StringBuffer();
         sb.append(TAG);
-        sb.append(getId());
         sb.append(this.getClass().getSimpleName());
         return sb.toString();
     }
 
-    @ManyToOne(cascade = {CascadeType.ALL}, targetEntity = Subject.class)
-    @JoinColumn(name = "subject_id", nullable = true)
+    
     private Subject assunto;
     public static final String TAG = "Raiz";
     public static boolean PROCURAR_EM_SINONIMOS = true;
-    @Column(name="texto_original")
     private String textoOriginal;
-
-    @ManyToOne(cascade = {CascadeType.ALL}, targetEntity = Composicao.class)
-    @JoinColumn(name = "base_id", nullable = true)
     private Composicao base;
-
-    @ManyToOne(cascade = {CascadeType.ALL}, targetEntity = Composicao.class)
-    @JoinColumn(name = "agregacao_id", nullable = true)
     private Composicao agregacoes;
-
-    @ManyToOne(cascade = {CascadeType.ALL}, targetEntity = Composicao.class)
-    @JoinColumn(name = "mandatorio_id", nullable = true)
     private Composicao mandatorios;
-
-    @OneToMany(mappedBy = "raiz", cascade = {CascadeType.ALL})
-    @Cascade(value = org.hibernate.annotations.CascadeType.DELETE_ORPHAN)
     private List<Composicao> composicoes;
+
+    protected void setMandatorios(Composicao mand){
+        this.mandatorios = mand;
+    }
+
+    protected Composicao getMandatorios(){
+        return this.mandatorios;
+    }
+
+    protected void setTextoOriginal(String texto){
+        this.textoOriginal = texto;
+    }
+    protected void setBase(Composicao base){
+        this.base = base;
+    }
+    protected void setAgregacoes(Composicao agreg){
+        this.agregacoes = agreg;
+    }
 
     /**
      * Add composicao comum nesta raiz de assunto

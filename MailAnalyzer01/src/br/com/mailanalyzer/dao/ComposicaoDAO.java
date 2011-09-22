@@ -5,8 +5,8 @@
 
 package br.com.mailanalyzer.dao;
 
-import br.com.mailanalyzer.analise.Composicao;
 import br.com.mailanalyzer.dao.interfaces.ComposicaoInterfaceDAO;
+import br.com.mailanalyzer.domain.ComposicaoDomain;
 import br.com.mailanalyzer.domain.DomainObject;
 import br.com.mailanalyzer.utils.GenericsUtil;
 import java.util.List;
@@ -21,21 +21,21 @@ import org.hibernate.criterion.Restrictions;
  * @Date 17-09-2011
  *
  */
-public class ComposicaoDAO extends BaseDAO<Composicao> implements ComposicaoInterfaceDAO{
+public class ComposicaoDAO extends BaseDAO<ComposicaoDomain> implements ComposicaoInterfaceDAO{
     public ComposicaoDAO(){
-        super(Composicao.class);
+        super(ComposicaoDomain.class);
     }
     
-    public List<Composicao> getByTexto(String texto) {
-        Criteria criteria = createCriteria(Composicao.class);
+    public List<ComposicaoDomain> getByTexto(String texto) {
+        Criteria criteria = createCriteria(ComposicaoDomain.class);
         criteria.add(Restrictions.eq("original", texto));
-        return GenericsUtil.checkedList(criteria.list(), Composicao.class);
+        return GenericsUtil.checkedList(criteria.list(), ComposicaoDomain.class);
     }
 
-    public List<Composicao> getByRaiz(int raizId) {
-        Criteria criteria = createCriteria(Composicao.class);
+    public List<ComposicaoDomain> getByRaiz(int raizId) {
+        Criteria criteria = createCriteria(ComposicaoDomain.class);
         criteria.add(Restrictions.eq("raiz.id", raizId));
-        return GenericsUtil.checkedList(criteria.list(), Composicao.class);
+        return GenericsUtil.checkedList(criteria.list(), ComposicaoDomain.class);
     }
 
 }

@@ -5,8 +5,8 @@
 
 package br.com.mailanalyzer.dao.interfaces;
 
-import br.com.mailanalyzer.analise.Composicao;
-import br.com.mailanalyzer.analise.Elemento;
+import br.com.mailanalyzer.domain.ComposicaoDomain;
+import br.com.mailanalyzer.domain.ElementoDomain;
 import java.util.List;
 
 /**
@@ -17,7 +17,7 @@ import java.util.List;
  * @Date 17-09-2011
  *
  */
-public interface ElementoInterfaceDAO extends BaseInterfaceDAO<Elemento>{
-    public List<Elemento> getByComposicao(Composicao composicao);
-    public List<Elemento> getByPalavra(String palavra);
+public interface ElementoInterfaceDAO extends BaseInterfaceDAO<ElementoDomain>{
+    public List<ElementoDomain> getByComposicao(ComposicaoDomain composicao);
+    public List<ElementoDomain> getByPalavra(String palavra);
 }
