@@ -21,7 +21,6 @@ public class TesteTermVariation {
     
 
     tester = new TermVariation();
-    tester.setName("Teste1");
     tester.setReplacer("Legal");
     tester.setVariations("Mto loko");
     atv.setVariation(tester);

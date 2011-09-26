@@ -34,7 +34,7 @@ public class FiltroSubstituirGirias implements InterfaceComposeFlow, PropertyRet
             L.d(this.getClass().getSimpleName(), e);
         }
 
-        L.d(this.getClass().getSimpleName(), "Finaluzado");
+        L.d(this.getClass().getSimpleName(), "Finalizado");
     }
 
     public boolean stopFlow() {
@@ -42,19 +42,17 @@ public class FiltroSubstituirGirias implements InterfaceComposeFlow, PropertyRet
     }
 
     public String Substituir(String text) {
-        ActionTermVariation action = new ActionTermVariation();
-
-        List<TermVariation> lista = action.showAll();
-
-        for (TermVariation term : lista) {
-
-            String[] variations = term.getVariations().split(";");
-            for (String s : variations) {
-                text = text.replace(s, term.getReplacer());
-            }
-
+        if(Base.VARIACOES_DE_TERMOS == null){
+            Base.LoadTermVariations();
         }
-
+        for(TermVariation tv : Base.VARIACOES_DE_TERMOS){
+            String[] v = tv.getVariations().split(";");
+            for(String s : v){
+                if(text.contains(s)){
+                    text = text.replace(s, tv.getReplacer());
+                }
+            }
+        }
         return text;
     }
 

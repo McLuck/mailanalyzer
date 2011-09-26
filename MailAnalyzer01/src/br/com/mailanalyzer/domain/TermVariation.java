@@ -19,26 +19,10 @@ import javax.persistence.Table;
 public class TermVariation extends DomainObject implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @Column(name = "name")
-    private String name;
     @Column(name = "variations")
     private String variations;
     @Column(name = "replacer")
     private String replacer;
-
-    /**
-     * @return the name
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * @param name the name to set
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
 
     /**
      * @return the variations

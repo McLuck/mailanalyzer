@@ -67,19 +67,10 @@ public class ActionTermVariation {
         //System.out.println("---");
     }
 
-    public List<TermVariation> buscarName(String str) {
-        //System.out.println("Buscando por " + str + "...");
-        TermVariationDAO dao = new TermVariationDAO();
-        List<TermVariation> lista = dao.getLikeName(str);
-        
-        //System.out.println("---");
-        return lista;
-    }
-
     public List<TermVariation> buscarReplacers(String str) {
         //System.out.println("Buscando por " + str + "...");
         TermVariationDAO dao = new TermVariationDAO();
-        List<TermVariation> lista = dao.getLikeReplacers(str);
+        List<TermVariation> lista = dao.getByReplacer(str);
         
         //System.out.println("---");
         return lista;

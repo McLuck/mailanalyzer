@@ -58,6 +58,13 @@ public abstract class BaseDAO<T extends DomainObject> implements BaseInterfaceDA
         }
     }
 
+    public void clear(){
+        try{
+            getSession().clear();
+        }catch(Exception e){
+
+        }
+    }
     public void close() {
         try {
             getSession().getTransaction().commit();

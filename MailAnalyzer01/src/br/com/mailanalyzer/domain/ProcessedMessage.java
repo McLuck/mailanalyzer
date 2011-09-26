@@ -67,7 +67,6 @@ public class ProcessedMessage extends DomainObject implements Serializable {
         this.message = message;
 
     }
-
     /**
      *  @return the subjectIdentified
      *

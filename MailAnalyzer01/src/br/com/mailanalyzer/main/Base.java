@@ -1,9 +1,13 @@
 package br.com.mailanalyzer.main;
 
+import br.com.mailanalyzer.commands.SubjectNotFoundCommand;
 import br.com.mailanalyzer.compose.ActiveReceiverService;
+import br.com.mailanalyzer.dao.TermVariationDAO;
 import br.com.mailanalyzer.dao.actions.ActionActiveReceiver;
 import br.com.mailanalyzer.domain.ActiveReceiver;
+import br.com.mailanalyzer.domain.TermVariation;
 import br.com.mailanalyzer.fluxo.Fluxo;
+import br.com.mailanalyzer.log.L;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +21,7 @@ import java.util.logging.Logger;
  * reviser Pedro Lobo
  */
 public class Base {
+    public static final String TAG = Base.class.getName();
     public static void LoadConfigs(){
         Properties props = new Properties();
         try {
@@ -32,7 +37,14 @@ public class Base {
             Logger.getLogger(Base.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
+    public static void LoadTermVariations(){
+        L.d(TAG, "Iniciando Carregamento de variações de termos.");
+        TermVariationDAO tdao = new TermVariationDAO();
+        VARIACOES_DE_TERMOS = tdao.obterTodos();
+        tdao.close();
+        L.d(TAG, "Variações de termos carregadas com sucesso. Disponível em "+Base.class.getName()+".VARIACOES_DE_TERMOS como um List<TermVariation>");
+    }
     
     private static List<ActiveReceiver> LISTA_ACTIVEs = null;
     public static List<ActiveReceiver> GET_ACTIVE_RECEIVERS(){
@@ -79,9 +91,9 @@ public class Base {
     public static final String FIELD_FILTRO_ORTOGRAFIA = "Field_filtro_ortografia";
     public static final String FIELD_SAVE_MESSAGE = "Field_Save_Messagem_";
     public static final String MESSAGE_TEMP_ASSUNTO_IGNORADO = "MensagemTemporariaParaAssuntoIgnorado";
-
+    public static List<TermVariation> VARIACOES_DE_TERMOS;
     public static final String TAG_PARA_IGNORAR_MENSAGEM = "[nobot]";
-    
+    public static SubjectNotFoundCommand NOT_FOUND_COMMAND;
     
     
     //Servicos de ActiveReceivers ativos no sistema

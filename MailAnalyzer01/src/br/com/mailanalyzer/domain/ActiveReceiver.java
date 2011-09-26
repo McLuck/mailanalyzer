@@ -20,7 +20,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "activerecive")
-public class ActiveReceiver extends DomainObject implements Serializable {
+public class ActiveReceiver extends DomainObject implements Serializable, Receiver{
 
     @Override
     public int hashCode(){
@@ -133,6 +133,10 @@ public class ActiveReceiver extends DomainObject implements Serializable {
 
     public void setUsuario(String usuario) {
         this.usuario = usuario;
+    }
+
+    public Message[] getMessage() {
+        return null;
     }
    
 }

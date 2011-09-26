@@ -21,6 +21,8 @@ public class InitServiceReceiverFlow extends Fluxo implements InterfaceComposeFl
 
     @Override
     public CommandFluxo getCommandFluxo() {
+        //Inicia Lista de variacoes;
+        Base.LoadTermVariations();
         return new InitServiceReceiverCommand();
     }
 

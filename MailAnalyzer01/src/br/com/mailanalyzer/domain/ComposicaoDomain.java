@@ -26,73 +26,75 @@ import org.hibernate.annotations.Cascade;
 @Entity
 @Table(name="composicao")
 public class ComposicaoDomain extends DomainObject{
-
-    @OneToMany(mappedBy = "itemPai", cascade = {CascadeType.ALL})
-    @Cascade(value = org.hibernate.annotations.CascadeType.DELETE_ORPHAN)
-    private List<ElementoDomain> elemtentos;
-
-    @OneToMany(mappedBy = "itemPai", cascade = {CascadeType.ALL})
-    @Cascade(value = org.hibernate.annotations.CascadeType.DELETE_ORPHAN)
-    private List<ComposicaoDomain> composicoes;
-
-    @Column(name="peso")
     private int peso;
-
-    @ManyToOne(cascade = {CascadeType.ALL}, targetEntity = ComposicaoDomain.class)
-    @JoinColumn(name = "composicao_pai_id", nullable = true)
-    private ComposicaoDomain itemPai;
+    private String textoOriginal;
+    private int tipo;
+    private boolean sequencial;
 
     @ManyToOne(cascade = {CascadeType.ALL}, targetEntity = RaizDomain.class)
-    @JoinColumn(name = "raiz_id", nullable = true)
+    @JoinColumn(name = "raiz_id", nullable = true, columnDefinition="int default 0")
     private RaizDomain raiz;
 
-    @Column(name="original")
-    private String original;
-    @Column(name="elementoInicio")
-    private int elementoInicio;
-    @Column(name="elementoFim")
-    private int elementoFim;
+
+    @OneToMany(mappedBy = "pai", cascade = {CascadeType.ALL})
+    @JoinColumn(name = "composicao_id", nullable = false)
+    @Cascade(value = org.hibernate.annotations.CascadeType.DELETE_ORPHAN)
+    private List<ElementoDomain> elementos;
 
     /**
-     * @return the original
+     * @return the peso
      */
-    public String getOriginal() {
-        return original;
+    public int getPeso() {
+        return peso;
     }
 
     /**
-     * @param original the original to set
+     * @param peso the peso to set
      */
-    public void setOriginal(String original) {
-        this.original = original;
+    public void setPeso(int peso) {
+        this.peso = peso;
     }
 
     /**
-     * @return the elementoInicio
+     * @return the textoOriginal
      */
-    public int getElementoInicio() {
-        return elementoInicio;
+    public String getTextoOriginal() {
+        return textoOriginal;
     }
 
     /**
-     * @param elementoInicio the elementoInicio to set
+     * @param textoOriginal the textoOriginal to set
      */
-    public void setElementoInicio(int elementoInicio) {
-        this.elementoInicio = elementoInicio;
+    public void setTextoOriginal(String textoOriginal) {
+        this.textoOriginal = textoOriginal;
     }
 
     /**
-     * @return the elementoFim
+     * @return the tipo
      */
-    public int getElementoFim() {
-        return elementoFim;
+    public int getTipo() {
+        return tipo;
     }
 
     /**
-     * @param elementoFim the elementoFim to set
+     * @param tipo the tipo to set
      */
-    public void setElementoFim(int elementoFim) {
-        this.elementoFim = elementoFim;
+    public void setTipo(int tipo) {
+        this.tipo = tipo;
+    }
+
+    /**
+     * @return the elementos
+     */
+    public List<ElementoDomain> getElementos() {
+        return elementos;
+    }
+
+    /**
+     * @param elementos the elementos to set
+     */
+    public void setElementos(List<ElementoDomain> elementos) {
+        this.elementos = elementos;
     }
 
     /**
@@ -110,58 +112,16 @@ public class ComposicaoDomain extends DomainObject{
     }
 
     /**
-     * @return the itemPai
+     * @return the sequencial
      */
-    public ComposicaoDomain getItemPai() {
-        return itemPai;
+    public boolean isSequencial() {
+        return sequencial;
     }
 
     /**
-     * @param itemPai the itemPai to set
+     * @param sequencial the sequencial to set
      */
-    public void setItemPai(ComposicaoDomain itemPai) {
-        this.itemPai = itemPai;
-    }
-
-    /**
-     * @return the peso
-     */
-    public int getPeso() {
-        return peso;
-    }
-
-    /**
-     * @param peso the peso to set
-     */
-    public void setPeso(int peso) {
-        this.peso = peso;
-    }
-
-    /**
-     * @return the elemtentos
-     */
-    public List<ElementoDomain> getElemtentos() {
-        return elemtentos;
-    }
-
-    /**
-     * @param elemtentos the elemtentos to set
-     */
-    public void setElemtentos(List<ElementoDomain> elemtentos) {
-        this.elemtentos = elemtentos;
-    }
-
-    /**
-     * @return the composicoes
-     */
-    public List<ComposicaoDomain> getComposicoes() {
-        return composicoes;
-    }
-
-    /**
-     * @param composicoes the composicoes to set
-     */
-    public void setComposicoes(List<ComposicaoDomain> composicoes) {
-        this.composicoes = composicoes;
+    public void setSequencial(boolean sequencial) {
+        this.sequencial = sequencial;
     }
 }

@@ -27,27 +27,18 @@ public class TermVariationDAO extends BaseDAO<TermVariation> implements TermVari
     /**
      * {@inheritDoc}
      */
-    public List<TermVariation> getLikeName(String nome) {
-        Criteria criteria = this.createCriteria(TermVariation.class);
-        criteria.add(Restrictions.like("name", nome));
-        return GenericsUtil.checkedList(criteria.list(), TermVariation.class);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public List<TermVariation> getLikeVariations(String variations) {
         Criteria criteria = this.createCriteria(TermVariation.class);
-        criteria.add(Restrictions.like("variations", variations));
+        criteria.add(Restrictions.like("variations", "%"+variations+"%"));
         return GenericsUtil.checkedList(criteria.list(), TermVariation.class);
     }
 
     /**
      * {@inheritDoc}
      */
-    public List<TermVariation> getLikeReplacers(String replacers) {
+    public List<TermVariation> getByReplacer(String replacers) {
         Criteria criteria = this.createCriteria(TermVariation.class);
-        criteria.add(Restrictions.like("replacer", replacers));
+        criteria.add(Restrictions.eq("replacer", replacers));
         return GenericsUtil.checkedList(criteria.list(), TermVariation.class);
     }
     

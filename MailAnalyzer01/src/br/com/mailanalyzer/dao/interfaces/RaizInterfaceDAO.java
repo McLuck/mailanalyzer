@@ -5,7 +5,6 @@
 
 package br.com.mailanalyzer.dao.interfaces;
 
-import br.com.mailanalyzer.analise.Raiz;
 import br.com.mailanalyzer.domain.RaizDomain;
 import sun.tools.tree.SuperExpression;
 

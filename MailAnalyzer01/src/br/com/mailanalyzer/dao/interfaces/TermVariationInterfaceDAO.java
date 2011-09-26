@@ -12,13 +12,6 @@ import java.util.List;
  *
  */
 public interface TermVariationInterfaceDAO extends BaseInterfaceDAO<TermVariation> {
-    /**
-     * Recupera uma lista de TermVariation buscando por nome parcial.
-     * 
-     * @param nome Nome parcial para busca
-     * @return lista de TermVariation
-     */
-    List<TermVariation> getLikeName(String nome);
     
     /**
      * Recupera uma lista de TermVariation buscando por variacoes parciais.
@@ -34,5 +27,5 @@ public interface TermVariationInterfaceDAO extends BaseInterfaceDAO<TermVariatio
      * @param replacers Subistitutos parcial para busca em campo de termos replacers
      * @return lista de TermVariation
      */
-    List<TermVariation> getLikeReplacers(String replacers);
+    List<TermVariation> getByReplacer(String replacers);
 }

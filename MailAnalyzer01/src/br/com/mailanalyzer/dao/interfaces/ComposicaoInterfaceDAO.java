@@ -17,6 +17,6 @@ import java.util.List;
  *
  */
 public interface ComposicaoInterfaceDAO extends BaseInterfaceDAO<ComposicaoDomain>{
-    public List<ComposicaoDomain> getByTexto(String texto);
+    public List<ComposicaoDomain> getByTextoOriginal(String texto);
     public List<ComposicaoDomain> getByRaiz(int raizId);
 }

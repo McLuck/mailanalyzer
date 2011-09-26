@@ -26,15 +26,21 @@ public class ComposicaoDAO extends BaseDAO<ComposicaoDomain> implements Composic
         super(ComposicaoDomain.class);
     }
     
-    public List<ComposicaoDomain> getByTexto(String texto) {
+    public List<ComposicaoDomain> getByTextoOriginal(String texto) {
         Criteria criteria = createCriteria(ComposicaoDomain.class);
-        criteria.add(Restrictions.eq("original", texto));
+        criteria.add(Restrictions.eq("textoOriginal", texto));
         return GenericsUtil.checkedList(criteria.list(), ComposicaoDomain.class);
     }
 
     public List<ComposicaoDomain> getByRaiz(int raizId) {
         Criteria criteria = createCriteria(ComposicaoDomain.class);
         criteria.add(Restrictions.eq("raiz.id", raizId));
+        return GenericsUtil.checkedList(criteria.list(), ComposicaoDomain.class);
+    }
+
+    public List<ComposicaoDomain> getComposicoesComuns() {
+        Criteria criteria = createCriteria(ComposicaoDomain.class);
+        criteria.add(Restrictions.eq("raiz","0"));
         return GenericsUtil.checkedList(criteria.list(), ComposicaoDomain.class);
     }
 

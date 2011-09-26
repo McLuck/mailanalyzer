@@ -1,9 +1,16 @@
 package br.com.mailanalyzer.main;
 
+import br.com.mailanalyzer.analise2.GerenciamentoAnalisador;
+import br.com.mailanalyzer.analise2.Raiz;
+import br.com.mailanalyzer.analise2.adapter.RaizAdapter;
 import br.com.mailanalyzer.dao.HB;
+import br.com.mailanalyzer.dao.RaizDAO;
+import br.com.mailanalyzer.dao.TermVariationDAO;
 import br.com.mailanalyzer.dao.actions.ActionActiveReceiver;
 import br.com.mailanalyzer.dao.actions.ActionTermVariation;
 import br.com.mailanalyzer.domain.ActiveReceiver;
+import br.com.mailanalyzer.domain.ComposicaoDomain;
+import br.com.mailanalyzer.domain.RaizDomain;
 import br.com.mailanalyzer.domain.TermVariation;
 import br.com.mailanalyzer.log.L;
 import java.util.List;
@@ -433,38 +440,106 @@ public class Config {
 
         /**
          * Registra uma ou mais girias no banco de dados
-         * @param girias Giria a ser adicionada. Separar por ponto e virgula em casos com mais de uma. "<b>;</b>"
+         * @param termosIncorretos Giria a ser adicionada. Separar por ponto e virgula em casos com mais de uma. "<b>;</b>"
          */
-        public static void ADD_GIRIA(String girias) {
-            String[] v = null;
-            if (girias.contains(";")) {
-                v = girias.split(";");
-            }
+        public static void ADD_SUBSTITUICAO_TERMO(String termoCorreto, String termosIncorretos) {
 
-            TermVariation term = new TermVariation();
-            if (v != null) {
-                if (v.length > 1) {
-                    term.setName(v[0]);
-                    int i = 0;
-                    for (String s : v) {
-                        if (i == 0) {
-                            i++;
-                            continue;
-                        }
-                        term.addVariation(s);
-                        i++;
-                    }
-                } else {
-                    term.addVariation(v[0]);
+            TermVariationDAO tdao = new TermVariationDAO();
+            List<TermVariation> lista = tdao.getByReplacer(termoCorreto);
+            TermVariation t;
+            if(lista == null || lista.isEmpty()){
+                t = new TermVariation();
+                t.setReplacer(termoCorreto);
+                t.setVariations(termosIncorretos);
+            }else{
+                t = lista.get(0);
+            }
+            t.addVariation(termosIncorretos);
+            tdao.salvar(t);
+            tdao.commit();
+            tdao.close();
+        }
+
+        /**
+         * Para add nova composicao eliminatoria
+         * @param composicao
+         * @param sequencial
+         * @param raizID
+         */
+        public static void ADD_COMPOSICAO_ELIMINATORIA(String composicao, boolean sequencial, int raizID){
+            Raiz raiz = null;
+            for(Raiz r : GerenciamentoAnalisador.getMatrizes()){
+                if(r.getId()==raizID){
+                    raiz = r;
+                    break;
                 }
-            } else {
-                term.setName(girias);
-                term.setVariations(girias);
             }
+            if(raiz!=null){
+                raiz.aprenderNovaComposicaoEliminatoria(composicao, sequencial);
+                RaizAdapter rAdapt = new RaizAdapter(raiz);
+                RaizDomain rd = rAdapt.getDominio();
+                RaizDAO rdao =new RaizDAO();
+                rdao.atualizar(rd);
+                rdao.commit();
+                rdao.close();
 
-            ActionTermVariation action = new ActionTermVariation();
-            action.setVariation(term);
-            action.Salvar();
+                //Recarrega na memoria
+                GerenciamentoAnalisador.load();
+            }
+        }
+        /**
+         * Para add nova composicao Mandatoria
+         * @param composicao
+         * @param sequencial
+         * @param raizID
+         */
+        public static void ADD_COMPOSICAO_MANDATORIA(String composicao, boolean sequencial, int raizID){
+            Raiz raiz = null;
+            for(Raiz r : GerenciamentoAnalisador.getMatrizes()){
+                if(r.getId()==raizID){
+                    raiz = r;
+                    break;
+                }
+            }
+            if(raiz!=null){
+                raiz.aprenderContextoMandatorio(composicao, sequencial);
+                RaizAdapter rAdapt = new RaizAdapter(raiz);
+                RaizDomain rd = rAdapt.getDominio();
+                RaizDAO rdao =new RaizDAO();
+                rdao.atualizar(rd);
+                rdao.commit();
+                rdao.close();
+
+                //Recarrega na memoria
+                GerenciamentoAnalisador.load();
+            }
+        }
+        /**
+         * Para add nova agregacao de palavras para uma raiz
+         * @param composicao
+         * @param sequencial
+         * @param raizID
+         */
+        public static void ADD_COMPOSICAO_AGREGACAO(String composicao, boolean sequencial, int peso, int raizID){
+            Raiz raiz = null;
+            for(Raiz r : GerenciamentoAnalisador.getMatrizes()){
+                if(r.getId()==raizID){
+                    raiz = r;
+                    break;
+                }
+            }
+            if(raiz!=null){
+                raiz.aprenderNovaAgregacao(composicao, peso, sequencial);
+                RaizAdapter rAdapt = new RaizAdapter(raiz);
+                RaizDomain rd = rAdapt.getDominio();
+                RaizDAO rdao =new RaizDAO();
+                rdao.atualizar(rd);
+                rdao.commit();
+                rdao.close();
+
+                //Recarrega na memoria
+                GerenciamentoAnalisador.load();
+            }
         }
     }
 }

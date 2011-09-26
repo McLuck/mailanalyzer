@@ -1,9 +1,11 @@
 package br.com.mailanalyzer.commands;
 
-import br.com.mailanalyzer.dao.actions.ActionActiveReceiver;
+import br.com.mailanalyzer.analise2.GerenciamentoAnalisador;
+import br.com.mailanalyzer.analise2.GerenciamentoAnalisador.Analisador;
 import br.com.mailanalyzer.dao.actions.ActionMessage;
 import br.com.mailanalyzer.domain.ActiveReceiver;
 import br.com.mailanalyzer.domain.Message;
+import br.com.mailanalyzer.domain.Receiver;
 import br.com.mailanalyzer.log.L;
 import br.com.mailanalyzer.main.Base;
 import br.com.mailanalyzer.main.Config;
@@ -23,7 +25,7 @@ public class MensagemTratadaCommand extends CommandFluxo {
 
     @Override
     public void run() {
-        L.d(this.getClass().getSimpleName(), "Executando...");
+        L.d(this.getClass().getName(), "Executando...");
         
         ActionMessage dao = new ActionMessage();
         Message m = (Message) this.firstObject;
@@ -34,22 +36,31 @@ public class MensagemTratadaCommand extends CommandFluxo {
         dao.setMessage(m);
         dao.alterar();
         Utils.printMessage(m);
-        L.d(this.getClass().getSimpleName(), "Mensagem recebida, tratada e salva. Preparar análise de mensagem.");
+        L.d(this.getClass().getName(), "Mensagem recebida, tratada e salva. Preparar análise de mensagem.");
 
         
         if(Config.IS_TEST_ENVIRONMENT){
+            L.d(this.getClass().getSimpleName(), "Ambiente setado para teste. Analisador nao sera usado.");
             ActiveReceiver a = (ActiveReceiver)getParameters().get(Base.FIELD_ACTIVE_RECEIVER);
             if(a==null){
                 a = Base.ACTIVE_SERVICES[0].getReceiver();
             }
             debugEnvironment(m, a);
+        }else{
+            L.d(this.getClass().getName(), "Iniciando análise para a mensagem.");
+            Analisador analisador = new GerenciamentoAnalisador.Analisador();
+            ActiveReceiver a = (ActiveReceiver)getParameters().get(Base.FIELD_ACTIVE_RECEIVER);
+            if(a==null){
+                a = Base.ACTIVE_SERVICES[0].getReceiver();
+            }
+            analisador.setReceiver(a);
+            analisador.run(m);
         }
-        
-        L.d(this.getClass().getSimpleName(), "Finalizado.");
+        L.d(this.getClass().getName(), "Finalizado.");
     }
 
     private void debugEnvironment(Message m, ActiveReceiver a) {
-        L.d(this.getClass().getSimpleName(), "Enviando mensagem de retorno. AMBIENTE DE TESTE ATIVO.");
+        L.d(this.getClass().getName(), "Enviando mensagem de retorno. AMBIENTE DE TESTE ATIVO.");
         String corpo = "<p>Olá, você enviou um email para a <em><strong>API Mail Analyzer.</strong></em></p>"
                 + "<p>Muito obrigado por usar nosso sistema.</p>"
                 + "<p>A partir de agora, seus emails serão respondidos pelo Mail Analyzer automaticamente.</p>"
@@ -104,6 +115,6 @@ public class MensagemTratadaCommand extends CommandFluxo {
         sm.setSubject("RE-MAnalyzer:"+m.getAssunto());
         sm.setMessage(corpo);
         sm.sendMail();
-        L.d(this.getClass().getSimpleName(), "Enviou mensagem de retorno. AMBIENTE DE TESTE ATIVO.");
+        L.d(this.getClass().getName(), "Enviou mensagem de retorno. AMBIENTE DE TESTE ATIVO.");
     }
 }
