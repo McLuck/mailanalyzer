@@ -30,7 +30,6 @@ public class FiltroHtml implements InterfaceComposeFlow, PropertyRetriever, Muta
 
     public void execute() {
         try {
-            L.d(this.getClass().getSimpleName(), "Executando...");
             if (msg == null) {
                 stop = true;
                 return;
@@ -38,9 +37,9 @@ public class FiltroHtml implements InterfaceComposeFlow, PropertyRetriever, Muta
             msg = getValidText(msg);
 
         } catch (Exception e) {
-            L.d(this.getClass().getSimpleName(), e);
+            L.e("Filtro de HTML", this, "Falhou ao tentar remover HTML da mensagem", e);
         }
-        L.d(this.getClass().getSimpleName(), "Finalizado.");
+        
     }
 
     public boolean stopFlow() {

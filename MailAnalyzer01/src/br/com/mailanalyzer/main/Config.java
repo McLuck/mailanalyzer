@@ -25,6 +25,7 @@ import java.util.List;
  */
 public class Config {
 
+    public static final String TAG_CONFIG = "Configurações";
     /**
      * Informa a API se deve trabalhar usando um proxy.<br>
      * O padrao e <b>false</b>. Caso seja setado para usar PROXY, os dados do proxy deverao ser informados.
@@ -68,11 +69,6 @@ public class Config {
      */
     public static boolean IS_TEST_ENVIRONMENT = true;
     /**
-     * Este booleano seta a API para exibir o andamento dos processos no console.<br>
-     * <b>DEFAULT: <i>false</i></b>
-     */
-    public static boolean DEBUG_MODE = false;
-    /**
      * Esta String contem o endereco do servidor SMTP que sera enviado todos os emails da API.<br>
      * Por padrao, o servidor SMTP e' configurado para os servidores do google<br>
      * <b>DEFAULT: <i>smtp.gmail.com</i></b>
@@ -84,6 +80,27 @@ public class Config {
      * <b>DEFAULT: <i>465</i></b>
      */
     public static int PORT_SERVER_SMTP = 465;
+
+    public static class LOG {
+
+        /**
+         * Nivel de detalhe do log
+         */
+        public static int NIVEL = 3;
+        /**
+         * Imprime lancamentos no console.<br/>
+         * Padrao: <b>true</b>
+         */
+        public static boolean PRINT_IN_CONSOLE = true;
+        /**
+         * Caso imprima no console, a tag usada para identificar o lancamento do log.<br/>
+         * Padrao: <b>[DISSECT MAIL]</b>
+         */
+        public static String TAG_CONSOLE = "[DISSECT MAIL]";
+        public static final int NIVEL_BAIXO = 0;
+        public static final int NIVEL_MEDIO = 1;
+        public static final int NIVEL_MAXIMO = 3;
+    }
 
     /**
      * Classe de Config para configurar de forma rapida as propriedades do hibernate.
@@ -405,6 +422,30 @@ public class Config {
     }
 
     /**
+     * Se  nivel do log esta baixo
+     * @return
+     */
+    public static boolean isNivelLogBaixo() {
+        return Config.LOG.NIVEL == Config.LOG.NIVEL_BAIXO;
+    }
+
+    /**
+     * Se  nivel do log esta medio
+     * @return
+     */
+    public static boolean isNivelLogMedio() {
+        return Config.LOG.NIVEL == Config.LOG.NIVEL_MEDIO;
+    }
+
+    /**
+     * Se  nivel do log esta maximo
+     * @return
+     */
+    public static boolean isNivelLogMaximo() {
+        return Config.LOG.NIVEL == Config.LOG.NIVEL_MAXIMO;
+    }
+
+    /**
      * Classe de Config para registrar de forma rapida novos itens na API.
      * @author Lucas Israel
      * @contact mcluck.ti@gmail.com
@@ -414,16 +455,22 @@ public class Config {
      */
     public static class Register {
 
+        public static final String TAG_REGISTER = "-Registros";
+
         /**
          * Registra uma nova conta de recebimento ativo
          * @param receiv Um objeto de ActiveReceiver com os dados
          */
         public static void ADD_RECEIVER(ActiveReceiver receiv) {
-            L.d("Register.ADD_RECEIVER", " Adicionar registros...");
+
+            if (isNivelLogMaximo()) {
+                L.i(TAG_CONFIG.concat(TAG_REGISTER), Register.class, "Adicionando novo registro de recebedor de mensagem...");
+            }
+
 
             ActionActiveReceiver action = new ActionActiveReceiver();
             List<ActiveReceiver> lista = action.showAll();
-            L.d("Register.ADD_RECEIVER", " Lista de Receivers com tamanho: " + lista.size());
+
             boolean encontrado = false;
             for (ActiveReceiver ar : lista) {
                 if (ar.equals(receiv)) {
@@ -435,7 +482,7 @@ public class Config {
                 action.salvar();
             }
 
-            L.d("Register.ADD_RECEIVER", " Registro do receive " + receiv.getNome() + " foi adicionado.");
+            L.i(TAG_CONFIG.concat(TAG_REGISTER), Register.class, "Registro do receive " + receiv.getNome() + " foi adicionado.");
         }
 
         /**
@@ -447,11 +494,11 @@ public class Config {
             TermVariationDAO tdao = new TermVariationDAO();
             List<TermVariation> lista = tdao.getByReplacer(termoCorreto);
             TermVariation t;
-            if(lista == null || lista.isEmpty()){
+            if (lista == null || lista.isEmpty()) {
                 t = new TermVariation();
                 t.setReplacer(termoCorreto);
                 t.setVariations(termosIncorretos);
-            }else{
+            } else {
                 t = lista.get(0);
             }
             t.addVariation(termosIncorretos);
@@ -466,19 +513,19 @@ public class Config {
          * @param sequencial
          * @param raizID
          */
-        public static void ADD_COMPOSICAO_ELIMINATORIA(String composicao, boolean sequencial, int raizID){
+        public static void ADD_COMPOSICAO_ELIMINATORIA(String composicao, boolean sequencial, int raizID) {
             Raiz raiz = null;
-            for(Raiz r : GerenciamentoAnalisador.getMatrizes()){
-                if(r.getId()==raizID){
+            for (Raiz r : GerenciamentoAnalisador.getMatrizes()) {
+                if (r.getId() == raizID) {
                     raiz = r;
                     break;
                 }
             }
-            if(raiz!=null){
+            if (raiz != null) {
                 raiz.aprenderNovaComposicaoEliminatoria(composicao, sequencial);
                 RaizAdapter rAdapt = new RaizAdapter(raiz);
                 RaizDomain rd = rAdapt.getDominio();
-                RaizDAO rdao =new RaizDAO();
+                RaizDAO rdao = new RaizDAO();
                 rdao.atualizar(rd);
                 rdao.commit();
                 rdao.close();
@@ -487,25 +534,26 @@ public class Config {
                 GerenciamentoAnalisador.load();
             }
         }
+
         /**
          * Para add nova composicao Mandatoria
          * @param composicao
          * @param sequencial
          * @param raizID
          */
-        public static void ADD_COMPOSICAO_MANDATORIA(String composicao, boolean sequencial, int raizID){
+        public static void ADD_COMPOSICAO_MANDATORIA(String composicao, boolean sequencial, int raizID) {
             Raiz raiz = null;
-            for(Raiz r : GerenciamentoAnalisador.getMatrizes()){
-                if(r.getId()==raizID){
+            for (Raiz r : GerenciamentoAnalisador.getMatrizes()) {
+                if (r.getId() == raizID) {
                     raiz = r;
                     break;
                 }
             }
-            if(raiz!=null){
+            if (raiz != null) {
                 raiz.aprenderContextoMandatorio(composicao, sequencial);
                 RaizAdapter rAdapt = new RaizAdapter(raiz);
                 RaizDomain rd = rAdapt.getDominio();
-                RaizDAO rdao =new RaizDAO();
+                RaizDAO rdao = new RaizDAO();
                 rdao.atualizar(rd);
                 rdao.commit();
                 rdao.close();
@@ -514,25 +562,26 @@ public class Config {
                 GerenciamentoAnalisador.load();
             }
         }
+
         /**
          * Para add nova agregacao de palavras para uma raiz
          * @param composicao
          * @param sequencial
          * @param raizID
          */
-        public static void ADD_COMPOSICAO_AGREGACAO(String composicao, boolean sequencial, int peso, int raizID){
+        public static void ADD_COMPOSICAO_AGREGACAO(String composicao, boolean sequencial, int peso, int raizID) {
             Raiz raiz = null;
-            for(Raiz r : GerenciamentoAnalisador.getMatrizes()){
-                if(r.getId()==raizID){
+            for (Raiz r : GerenciamentoAnalisador.getMatrizes()) {
+                if (r.getId() == raizID) {
                     raiz = r;
                     break;
                 }
             }
-            if(raiz!=null){
+            if (raiz != null) {
                 raiz.aprenderNovaAgregacao(composicao, peso, sequencial);
                 RaizAdapter rAdapt = new RaizAdapter(raiz);
                 RaizDomain rd = rAdapt.getDominio();
-                RaizDAO rdao =new RaizDAO();
+                RaizDAO rdao = new RaizDAO();
                 rdao.atualizar(rd);
                 rdao.commit();
                 rdao.close();

@@ -1,8 +1,8 @@
 package br.com.mailanalyzer.fluxo;
 
 import br.com.mailanalyzer.commands.CommandFluxo;
-import br.com.mailanalyzer.commands.CommandListener;
 import br.com.mailanalyzer.log.L;
+import br.com.mailanalyzer.main.Config;
 import java.util.Hashtable;
 
 public abstract class Fluxo {
@@ -59,13 +59,14 @@ public abstract class Fluxo {
     public void next() {
         //Verifica se deve continuar
         if (componentsFlow[index].stopFlow()) {
-            L.d(this.getClass().getSimpleName(),"Fluxo ordenou parada imediata.");
-            System.gc();
+            if (Config.isNivelLogMedio() || Config.isNivelLogMaximo()) {
+                L.i(name, this, "Fluxo ordenou parada imediata");
+            }
             return;
         }
         if (componentsFlow[index] instanceof PropertyRetriever) {
             PropertyRetriever propertyRetriever = (PropertyRetriever) componentsFlow[index];
-            
+
             if (propertyRetriever.getPropertyValue() instanceof String[]) {
                 String[] values = (String[]) propertyRetriever.getPropertyValue();
                 String[] keys = (String[]) propertyRetriever.getPropertyValue();
@@ -83,42 +84,59 @@ public abstract class Fluxo {
                     parameters.put(key, value);
                 }
             } else {
-                String name = (String) propertyRetriever.getPropertyName();
+                String namee = (String) propertyRetriever.getPropertyName();
                 Object value = propertyRetriever.getPropertyValue();
-                L.d(this.getClass().getSimpleName(),"FOR: " + name + " - value is: " + value);
-                parameters.put(name, value);
+                parameters.put(namee, value);
             }
         }
-        L.d(this.getClass().getSimpleName(),"Indo para a proxima componente do fluxo...");
+        if (!Config.isNivelLogBaixo()) {
+            L.d(name, this, "Indo para o próximo componente do fluxo...");
+        }
+
         index++;
         if (index < componentsFlow.length) {
             if (componentsFlow[index] instanceof MutableComponent) {
-                L.d(this.getClass().getSimpleName(),"Componente "+componentsFlow[index].getClass().getName()+" e' um MutableComponent.");
+                if (!Config.isNivelLogBaixo()) {
+                    L.d(name, this, "Indo para o próximo componente do fluxo...");
+                }
+
                 if (index > 0 && (componentsFlow[index - 1] instanceof PropertyRetriever)) {
                     Object retiever = ((PropertyRetriever) componentsFlow[index - 1]).getPropertyValue();
-                    L.d(this.getClass().getSimpleName(),"Componente anterior e' um PropertyRetriever. Pegando informacao dele para atualizar componente atual. Valor: "+retiever);
+                    if (!Config.isNivelLogBaixo()) {
+                        L.d(name, this, "Componente anterior e' um PropertyRetriever. Pegando informacao dele para atualizar componente atual. Valor: " + retiever);
+                    }
                     ((MutableComponent) componentsFlow[index]).updateComponent(retiever);
                 } else {
-                    L.d(this.getClass().getSimpleName(),"Componente anterior nao e' um PropertyRetriever. Enviando null para componente atual.");
+                    if (!Config.isNivelLogBaixo()) {
+                        L.d(name, this, "Componente anterior nao e' um PropertyRetriever. Enviando null para componente atual.");
+                    }
                     ((MutableComponent) componentsFlow[index]).updateComponent(null);
                 }
                 if (componentsFlow[index].stopFlow()) {
-                    L.d("Fluxo.next()","Componente "+componentsFlow[index].getClass().getName()+" solicitou parada imediata do fluxo.");
+                    if (!Config.isNivelLogBaixo()) {
+                        L.d(name, this, "Componente " + componentsFlow[index].getClass().getName() + " solicitou parada imediata do fluxo.");
+                    }
                     System.gc();
                     return;
                 }
             }
             if (componentsFlow[index] instanceof Fluxo) {
-                L.d(this.getClass().getSimpleName(),"Componente "+componentsFlow[index].getClass().getName()+" eh um fluxo. Novo fluxo sera iniciado.");
+                if (!Config.isNivelLogBaixo()) {
+                        L.d(name, this, "Componente " + componentsFlow[index].getClass().getName() + " eh um fluxo. Novo fluxo sera iniciado.");
+                }
                 Fluxo f = (Fluxo) componentsFlow[index];
                 f.init();
             } else {
-                L.d(this.getClass().getSimpleName(),"Componente "+componentsFlow[index].getClass().getName()+" sera executado agora.");
+                if (!Config.isNivelLogBaixo()) {
+                        L.d(name, this, "Componente " + componentsFlow[index].getClass().getName() + " sera executado agora.");
+                }
                 ((InterfaceComposeFlow) componentsFlow[index]).execute();
                 next();
             }
         } else {
-            L.d(this.getClass().getSimpleName(),"Fim do fluxo. Iniciar comando do fluxo "+this.getClass().getName());
+            if (!Config.isNivelLogBaixo()) {
+                        L.d(name, this, "Fim do fluxo. Iniciar comando do fluxo " + this.getClass().getName());
+            }
             executeCommand();
         }
     }

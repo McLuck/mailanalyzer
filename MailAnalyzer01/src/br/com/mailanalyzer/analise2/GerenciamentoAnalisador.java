@@ -98,10 +98,10 @@ public class GerenciamentoAnalisador {
             } else {
                 SubjectFoundCommand sCommand = getSubjectFound();
                 if (sCommand == null) {
-                    L.e(TAG, "ERRO NA INSTANCIAÇÃO - Executando comando padrão de Assunto Não Encontrado. "
+                    L.e(TAG, this, "ERRO NA INSTANCIAÇÃO - Executando comando padrão de Assunto Não Encontrado. "
                             + "Assunto foi encontrado, mas houve erro"
                             + "ao instanciar o Command do assunto. Verificar Log do Command cadastrado: "
-                            + r.getAssunto().getCommandFlowName());
+                            + r.getAssunto().getCommandFlowName(), null);
 
                     SubjectNotFoundCommand sCommand2 = getNotFoundCommand();
                     sCommand2.setParameters(new Hashtable());
@@ -160,11 +160,11 @@ public class GerenciamentoAnalisador {
                 Class classDefinition = Class.forName(r.getAssunto().getCommandFlowName());
                 sCommand = (SubjectFoundCommand) classDefinition.newInstance();
             } catch (InstantiationException e) {
-                L.e(TAG, e);
+                L.e(TAG, this, "Erro ao instanciar a classe especificada no assunto.", e);
             } catch (IllegalAccessException e) {
-                L.e(TAG, e);
+                L.e(TAG, this, "Erro no acesso da classe especificada no assunto.", e);
             } catch (ClassNotFoundException e) {
-                L.e(TAG, e);
+                L.e(TAG, this, "A classe especificada no assunto não existe ou não está disponível no local informado.", e);
             }
             return sCommand;
         }

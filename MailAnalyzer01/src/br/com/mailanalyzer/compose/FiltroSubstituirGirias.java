@@ -23,7 +23,6 @@ public class FiltroSubstituirGirias implements InterfaceComposeFlow, PropertyRet
     private boolean stop = false;
 
     public void execute() {
-        L.d(this.getClass().getSimpleName(), "Executando...");
         try {
             if (msg == null) {
                 stop = true;
@@ -31,10 +30,9 @@ public class FiltroSubstituirGirias implements InterfaceComposeFlow, PropertyRet
             }
             msg = Substituir(msg);
         } catch (Exception e) {
-            L.d(this.getClass().getSimpleName(), e);
+            L.e("Filtro de gírias", this, "Falhou ao tentar substituir termos na mensagem", e);
         }
 
-        L.d(this.getClass().getSimpleName(), "Finalizado");
     }
 
     public boolean stopFlow() {

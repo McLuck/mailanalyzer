@@ -27,6 +27,8 @@ import javax.swing.JOptionPane;
  */
 public class ListaPendentes extends javax.swing.JFrame {
 
+    public static final String TAG = "Lista de assuntos nao encontrados (Tela)";
+
     /** Creates new form ListaPendentes */
     public ListaPendentes(List<AssuntosPendentes> lista) {
         initComponents();
@@ -127,7 +129,8 @@ public class ListaPendentes extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void reanalisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reanalisarActionPerformed
-        L.d(this.getClass().getName(), "Iniciando análise para a mensagem.");
+        L.a(TAG, this, "Iniciando re-análise para as mensagens não encontradas.");
+
         AssuntosPendentesDAO apdao = new AssuntosPendentesDAO();
         for (AssuntosPendentes ap : assuntos) {
             Analisador analisador = new GerenciamentoAnalisador.Analisador();

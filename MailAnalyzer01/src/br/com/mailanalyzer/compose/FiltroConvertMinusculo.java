@@ -19,17 +19,14 @@ public class FiltroConvertMinusculo implements InterfaceComposeFlow, PropertyRet
 
     public void execute() {
         try {
-            L.d(this.getClass().getSimpleName(), "Executando...");
             if (msg == null) {
                 stop = true;
                 return;
             }
             msg = parse(msg);
         } catch (Exception ex) {
-            L.d(this.getClass().getSimpleName(), ex);
+            L.e("Filtro converção para minusculos", this, "Falhou em converter caracteres para minusculos", ex);
         }
-
-        L.d(this.getClass().getSimpleName(), "Finalizado.");
     }
     private boolean stop = false;
 

@@ -31,7 +31,7 @@ public class Teste implements Runnable {
         Config.IS_TEST_ENVIRONMENT = false;
 
         //Seta modo debug. Isto ira habilitar o andamento dos processos no console.
-        Config.DEBUG_MODE = true;
+        Config.LOG.PRINT_IN_CONSOLE = true;
 
         //Seta proxy. Caso esteja utilizando PROXY, obrigatorio setar as configs de Proxy.
         Config.IS_PROXY = false;

@@ -18,14 +18,12 @@ import br.com.mailanalyzer.main.Base;
 public class FiltroSubstituirCaracter implements InterfaceComposeFlow, PropertyRetriever, MutableComponent {
     private boolean stop = false;
     public void execute() {
-        L.d(this.getClass().getSimpleName(), "Executando...");
         try{
             msg = Filtrar(msg);
         }catch(Exception ex){
-            L.d(this.getClass().getSimpleName(), ex);
+            L.e("Filtro de substituição de caracteres", this, "Falhou ao tentar substituir caracteres na mensagem", ex);
         }
         
-        L.d(this.getClass().getSimpleName(), "Finalizado.");
     }
 
     public boolean stopFlow() {

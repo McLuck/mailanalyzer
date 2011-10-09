@@ -25,6 +25,7 @@ import br.com.mailanalyzer.utils.cripto.Encriptador;
  * @author Lucas Israel
  */
 public class CommandAssuntoEncontrado extends SubjectFoundCommand{
+    public static final String TAG = "Comando de assunto encontrado";
     public CommandAssuntoEncontrado(){
         super(new ProcessedMessage());
     }
@@ -97,6 +98,6 @@ public class CommandAssuntoEncontrado extends SubjectFoundCommand{
         sm.setSubject("RE-"+msg.getAssunto());
         sm.setMessage(corpo);
         sm.sendMail();
-        L.d(this.getClass().getName(), "Enviou mensagem.");
+        L.d(TAG, this, "Enviou mensagem: "+corpo);
     }
 }

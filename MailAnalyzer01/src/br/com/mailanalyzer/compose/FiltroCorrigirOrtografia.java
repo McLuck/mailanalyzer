@@ -67,7 +67,7 @@ public class FiltroCorrigirOrtografia implements InterfaceComposeFlow, PropertyR
             }
             return msg2;
         } catch (Exception e) {
-            L.d(this.getClass().getSimpleName(), e);
+            L.e("Filtro de correção gramatical", this, "Falhou ao efetuar correção gramatical", e);
         }
 
         return args;
@@ -101,13 +101,11 @@ public class FiltroCorrigirOrtografia implements InterfaceComposeFlow, PropertyR
     }
 
     public void execute() {
-        L.d(this.getClass().getSimpleName(), "Executando...");
         if (msg == null) {
             stop = true;
             return;
         }
         this.msg = CorrigirOrtografia(msg);
-        L.d(this.getClass().getSimpleName(), "Finalizado");
     }
 
     public boolean stopFlow() {

@@ -6,11 +6,7 @@ import br.com.mailanalyzer.fluxo.TratarMensagemFlow;
 import br.com.mailanalyzer.log.L;
 import br.com.mailanalyzer.main.Base;
 import br.com.mailanalyzer.main.Config;
-import br.com.mcluck.asynchronously.Utils.Factory;
-import java.util.HashMap;
 import java.util.Hashtable;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * 
@@ -22,14 +18,20 @@ import java.util.logging.Logger;
  */
 public class ActiveReceiverCommand extends CommandFluxo {
 
+    public static final String TAG = "Comando do recebedor de mensagens";
+
     @Override
     public void run() {
         //Recupera as mensagens entradas
-        L.d(this.getClass().getSimpleName(), "--------- Executando comando de mensagem recebida...");
+        if (!Config.isNivelLogBaixo()) {
+            L.d(TAG, this, "Iniciando execução de mensagens recebidas");
+        }
         ActiveReceiver receiver = (ActiveReceiver) getParameters().get(Base.FIELD_ACTIVE_RECEIVER);
         Object o = getParameters().get(Base.FIELD_MESSAGE);
         if (o == null) {
-            L.d(this.getClass().getSimpleName(), "--------- Mensagem é nula. Encerrando processo de mensagem recebida.");
+            if (!Config.isNivelLogBaixo()) {
+                L.d(TAG, this, "Mensagem é nula. Encerrando processo de mensagem recebida.");
+            }
             return;
         }
 
@@ -37,7 +39,9 @@ public class ActiveReceiverCommand extends CommandFluxo {
 
         //Cria um fluxo diferente para cada mensagem
         for (Message m : msgs) {
-            L.d(this.getClass().getSimpleName(), "Iniciando novo fluxo para tratamento de nova mensagem.");
+            if (!Config.isNivelLogBaixo()) {
+                L.d(TAG, this, "Iniciando novo fluxo para tratamento de nova mensagem.");
+            }
 
             //Aqui inicia o tratamento da mensagem. Desnecessario para msgs que devem ser ignoradas.
             //Portanto, vamos adicionar, neste ponto, a excecao de fluxo.
@@ -47,14 +51,16 @@ public class ActiveReceiverCommand extends CommandFluxo {
                 mapa.put(Base.MESSAGE_TEMP_ASSUNTO_IGNORADO, m);
                 asign.setParameters(mapa);
                 asign.run();
-                
+
                 return; //Interrompe a execucao.
             } else {
                 TratarMensagemFlow tratamento = new TratarMensagemFlow(m);
                 tratamento.init();
             }
         }
-        L.d(this.getClass().getSimpleName(), "Execução terminada.");
+        if (!Config.isNivelLogBaixo()) {
+            L.d(TAG, this, "Execução terminada");
+        }
     }
 
     @Override

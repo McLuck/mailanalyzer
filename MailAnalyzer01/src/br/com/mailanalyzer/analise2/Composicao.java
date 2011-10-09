@@ -5,6 +5,7 @@
 package br.com.mailanalyzer.analise2;
 
 import br.com.mailanalyzer.log.L;
+import br.com.mailanalyzer.main.Config;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,7 +49,9 @@ public class Composicao implements Comparable<Composicao> {
     }
 
     public int getRelevancia(Composicao conhecimento, Composicao procurado) {
-        L.d(TAG, "Procurando em composição. ID:" + id);
+        if(Config.isNivelLogMaximo()){
+            L.d(TAG, this, "Procurando em composição. ID: "+id+" - texto original da composição: "+textoOriginal);
+        }
         int soma = peso;
         if (!sequencial) {
             for (Elemento i : conhecimento.getElementos()) {

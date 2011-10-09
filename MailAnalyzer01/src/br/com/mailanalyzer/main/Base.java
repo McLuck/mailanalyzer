@@ -21,7 +21,7 @@ import java.util.logging.Logger;
  * reviser Pedro Lobo
  */
 public class Base {
-    public static final String TAG = Base.class.getName();
+    public static final String TAG = "Base de variaveis e constantes";
     public static void LoadConfigs(){
         Properties props = new Properties();
         try {
@@ -39,11 +39,11 @@ public class Base {
     }
 
     public static void LoadTermVariations(){
-        L.d(TAG, "Iniciando Carregamento de variações de termos.");
+        L.a(TAG, Base.class, "Iniciando carregamento de variações de termos");
         TermVariationDAO tdao = new TermVariationDAO();
         VARIACOES_DE_TERMOS = tdao.obterTodos();
         tdao.close();
-        L.d(TAG, "Variações de termos carregadas com sucesso. Disponível em "+Base.class.getName()+".VARIACOES_DE_TERMOS como um List<TermVariation>");
+        L.a(TAG, Base.class, "Variações de termos carregadas com sucesso. Disponível em "+Base.class.getName()+".VARIACOES_DE_TERMOS como um List<TermVariation>");
     }
     
     private static List<ActiveReceiver> LISTA_ACTIVEs = null;

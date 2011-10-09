@@ -2,6 +2,7 @@
 package br.com.mailanalyzer.analise2;
 
 import br.com.mailanalyzer.log.L;
+import br.com.mailanalyzer.main.Config;
 
 /**
  *
@@ -55,7 +56,10 @@ public class Elemento {
         //Despresa pesos de palavras irrelevantes.
         this.peso = Peso.GET_PESO(palavra, peso);
 
-        L.d(TAG, "Procurando em elemento. ID:" + palavra);
+        if(Config.isNivelLogMaximo()){
+            L.d(TAG, this, "Procurando em composição. ID: "+id+" - palavra: "+palavra);
+        }
+        
         int temp = 0;
         for (Elemento e : c.getElementos()) {
             //procura na palavra

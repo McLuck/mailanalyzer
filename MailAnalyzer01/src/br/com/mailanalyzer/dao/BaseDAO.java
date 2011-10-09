@@ -54,7 +54,6 @@ public abstract class BaseDAO<T extends DomainObject> implements BaseInterfaceDA
         try {
             getSession().getTransaction().commit();
         } catch (Exception e) {
-            System.err.println("Commit foi chamado, mas não existe uma sessão aberta.");
         }
     }
 

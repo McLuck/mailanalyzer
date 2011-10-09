@@ -22,7 +22,7 @@ import org.apache.commons.mail.SimpleEmail;
  * @author lucasisrael
  */
 public class SendMail {
-
+    public static final String TAG = "Utilitário de envio de email";
     private String mailSMTPServer;
     private String mailSMTPServerPort;
     private String user, password;
@@ -115,7 +115,7 @@ public class SendMail {
                         }
                     }
                 } catch (Exception e) {
-                    L.d(this.getClass().getSimpleName(), e);
+                    L.e(TAG, this, "falha ao adicionar copia de destinatário para o envio do email.", e);
                 }
 
                 //Setando a origem do email
@@ -126,8 +126,7 @@ public class SendMail {
                 msg.setContent(getMessage(), "text/html");
 
             } catch (Exception e) {
-                System.out.println(">> Erro: Completar Mensagem");
-                e.printStackTrace();
+                L.e(TAG, this, "Falha ao completar mensagem", e);
             }
 
             //Objeto encarregado de enviar os dados para o email
@@ -145,9 +144,7 @@ public class SendMail {
                 tr.sendMessage(msg, msg.getAllRecipients());
                 tr.close();
             } catch (Exception e) {
-                // TODO Auto-generated catch block
-                L.d(this.getClass().getSimpleName(), e);
-                //e.printStackTrace();
+                L.e(TAG, this, "Falha ao enviar email configurações avançadas de SSL", e);
             }
 
 
@@ -168,7 +165,7 @@ public class SendMail {
                 email.send();
 
             } catch (EmailException e) {
-                L.d(this.getClass().getSimpleName(), e);
+                L.e(TAG, this, "Falha ao enviar email sem usar configuração SSL", e);
             }
         }
         session = null;

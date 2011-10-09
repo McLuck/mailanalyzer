@@ -20,7 +20,7 @@ import br.com.mailanalyzer.utils.cripto.Encriptador;
  * @author McLuck
  */
 public class ActiveReceiverImplementation implements Receiver, InterfaceComposeFlow, PropertyRetriever {
-
+    public static final String TAG = "Recebedor Ativo";
     public ActiveReceiverImplementation(ActiveReceiver activeReceiver) {
         this.activeReceiver = activeReceiver;
     }
@@ -48,7 +48,7 @@ public class ActiveReceiverImplementation implements Receiver, InterfaceComposeF
     public void execute() {
         switch (activeReceiver.getOtype()) {
             case Base.RECEIVER_TYPE_EMAIL: {
-                L.d("ActiveReceiverImplementation", "Buscando no email: " + activeReceiver.getUsuario());
+                L.d(TAG, this, "Buscando no email: " + activeReceiver.getUsuario());
                 EmailReader reader = new EmailReader();
 
                 reader.setHost("pop.gmail.com");
@@ -66,7 +66,7 @@ public class ActiveReceiverImplementation implements Receiver, InterfaceComposeF
                 senha = enc.decriptar(senha);
                 message = reader.receive(activeReceiver.getHost(), activeReceiver.getUsuario(), senha);
 
-                L.d("ActiveReceiverImplementation", "Finalizando recebimento de mensagens por email. Mensagens encontradas: " + message.length);
+                L.d(TAG, this, "Finalizando recebimento de mensagens por email. Mensagens encontradas: " + message.length);
 
                 //Seta o tipo de recebimento nas mensagens que chegam.
                 if (message != null) {

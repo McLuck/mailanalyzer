@@ -40,7 +40,7 @@ public class ActiveReceiverService implements  Runnable{
             if(canSearch()){
                 ActiveReceiverFlow flowRec = new ActiveReceiverFlow(activeReceiver);
                 flowRec.init();
-                L.d(TAG, "Iniciando Fluxo de consulta.");
+                L.d(TAG, this, "Iniciando fluxo de consulta");
                 setTimerNow();
             }
 

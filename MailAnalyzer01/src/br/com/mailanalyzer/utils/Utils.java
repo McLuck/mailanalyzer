@@ -18,7 +18,7 @@ import org.apache.commons.lang.StringUtils;
 public class Utils {
 
     public static void printMessage(Message m) {
-        if (Config.DEBUG_MODE) {
+        if (Config.LOG.PRINT_IN_CONSOLE) {
             System.out.println();
             System.out.println("--------- PRINT-MESSAGE");
             System.out.println();

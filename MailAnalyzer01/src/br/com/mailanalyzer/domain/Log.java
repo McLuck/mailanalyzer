@@ -22,8 +22,8 @@ import javax.persistence.SequenceGenerator;
 public class Log extends DomainObject implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    private int ocorrencia;
-    private String detalhe, referencia;
+    private int ocorrencia, nivel;
+    private String detalhe, referencia, exceptionApp, tagApp;
 
     /**
      *
@@ -89,5 +89,47 @@ public class Log extends DomainObject implements Serializable {
      */
     public void setReferencia(String referencia) {
         this.referencia = referencia;
+    }
+
+    /**
+     * @return the nivel
+     */
+    public int getNivel() {
+        return nivel;
+    }
+
+    /**
+     * @param nivel the nivel to set
+     */
+    public void setNivel(int nivel) {
+        this.nivel = nivel;
+    }
+
+    /**
+     * @return the exceptionApp
+     */
+    public String getExceptionApp() {
+        return exceptionApp;
+    }
+
+    /**
+     * @param exceptionApp the exceptionApp to set
+     */
+    public void setExceptionApp(String exceptionApp) {
+        this.exceptionApp = exceptionApp;
+    }
+
+    /**
+     * @return the tagApp
+     */
+    public String getTagApp() {
+        return tagApp;
+    }
+
+    /**
+     * @param tagApp the tagApp to set
+     */
+    public void setTagApp(String tagApp) {
+        this.tagApp = tagApp;
     }
 }
