@@ -2,6 +2,7 @@ package br.com.mailanalyzer.commands;
 
 
 import br.com.mailanalyzer.domain.ProcessedMessage;
+import br.com.mailanalyzer.log.L;
 /**
  *
  * @author Bruno Marin Mota
@@ -13,8 +14,11 @@ import br.com.mailanalyzer.domain.ProcessedMessage;
  */
 public abstract class ProcessSubjectNotRequiredCommand extends SubjectFoundNotFieldsCommand{
 
+    public static final String TAG = "Comando para assunto não requerido";
+
     public ProcessSubjectNotRequiredCommand(ProcessedMessage processedMessage) {
         super(processedMessage);
+        L.d(TAG, this, "Mensagem processada");
     }
 
 }

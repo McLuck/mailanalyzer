@@ -6,6 +6,7 @@
 package br.com.mailanalyzer.commands;
 
 import br.com.mailanalyzer.domain.ProcessedMessage;
+import br.com.mailanalyzer.log.L;
 
 /**
  *
@@ -18,9 +19,11 @@ import br.com.mailanalyzer.domain.ProcessedMessage;
  */
 public abstract class SubjectFoundCommand extends CommandFluxo{
     private ProcessedMessage procMsg;
+    public static final String TAG = "Comando para assunto encontrado";
 
     public SubjectFoundCommand(ProcessedMessage procMsg){
         this.procMsg = procMsg;
+        L.d(TAG, this, "Mensagem processada");
     }
 
     /**

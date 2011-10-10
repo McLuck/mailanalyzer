@@ -22,20 +22,21 @@ public class ActiveReceiverCommand extends CommandFluxo {
 
     @Override
     public void run() {
-        //Recupera as mensagens entradas
-        if (!Config.isNivelLogBaixo()) {
-            L.d(TAG, this, "Iniciando execução de mensagens recebidas");
-        }
+        //Recupera as mensagens entradas     
+        L.d(TAG, this, "Iniciando execução de mensagens recebidas");
         ActiveReceiver receiver = (ActiveReceiver) getParameters().get(Base.FIELD_ACTIVE_RECEIVER);
         Object o = getParameters().get(Base.FIELD_MESSAGE);
         if (o == null) {
-            if (!Config.isNivelLogBaixo()) {
+            if (Config.isNivelLogMaximo()) {
                 L.d(TAG, this, "Mensagem é nula. Encerrando processo de mensagem recebida.");
             }
             return;
         }
 
         Message[] msgs = (Message[]) o;
+        if(!Config.isNivelLogBaixo()){
+            L.d(TAG, this, "Mensagem retornada");
+        }
 
         //Cria um fluxo diferente para cada mensagem
         for (Message m : msgs) {
@@ -46,6 +47,9 @@ public class ActiveReceiverCommand extends CommandFluxo {
             //Aqui inicia o tratamento da mensagem. Desnecessario para msgs que devem ser ignoradas.
             //Portanto, vamos adicionar, neste ponto, a excecao de fluxo.
             if (m.getAssunto().toLowerCase().contains(Base.TAG_PARA_IGNORAR_MENSAGEM)) {
+                if(Config.isNivelLogMaximo()){
+                    L.d(TAG, this, "Comando para assunto ignorado");
+                }
                 AssuntoIgnoradoCommand asign = new AssuntoIgnoradoCommand(); //Dispara comando para assunto ignorado.
                 Hashtable mapa = new Hashtable();
                 mapa.put(Base.MESSAGE_TEMP_ASSUNTO_IGNORADO, m);
@@ -56,6 +60,9 @@ public class ActiveReceiverCommand extends CommandFluxo {
             } else {
                 TratarMensagemFlow tratamento = new TratarMensagemFlow(m);
                 tratamento.init();
+                if(Config.isNivelLogMaximo()){
+                    L.d(TAG, this, "Tratamento da Mensagem");
+                }
             }
         }
         if (!Config.isNivelLogBaixo()) {
@@ -65,6 +72,9 @@ public class ActiveReceiverCommand extends CommandFluxo {
 
     @Override
     public boolean startNewThread() {
+        if(Config.isNivelLogMaximo()){
+            L.d(TAG, this, "Tarefa para manipulação de mensagem");
+        }
         return Config.THREAD_FOR_MESSAGES_HANDLING;
     }
 }

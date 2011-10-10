@@ -1,6 +1,7 @@
 package br.com.mailanalyzer.commands;
 
 import br.com.mailanalyzer.domain.ProcessedMessage;
+import br.com.mailanalyzer.log.L;
 /**
  *
  * @author Bruno Marin Mota
@@ -12,8 +13,11 @@ import br.com.mailanalyzer.domain.ProcessedMessage;
  */
 public abstract class SubjectFoundAllFieldsCommands extends SubjectFoundCommand {
 
+    public static final String TAG = "Comando para assunto encontrado e todos os campos encontrados";
+
 	public SubjectFoundAllFieldsCommands(ProcessedMessage processedMessage) {
             super(processedMessage);
+            L.d(TAG, this, "Mensagem processada");
 	}
 
     @Override

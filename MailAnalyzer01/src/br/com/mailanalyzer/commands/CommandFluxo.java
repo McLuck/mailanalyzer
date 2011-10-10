@@ -11,8 +11,6 @@ public abstract class CommandFluxo implements Command{
     private Hashtable parameters;
     private String nomeFluxo;
     protected Object firstObject;
-    
-    
 
     /**
      * @return the parameters

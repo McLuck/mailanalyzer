@@ -53,6 +53,9 @@ public class MensagemTratadaCommand extends CommandFluxo {
             Analisador analisador = new GerenciamentoAnalisador.Analisador();
             ActiveReceiver a = (ActiveReceiver)getParameters().get(Base.FIELD_ACTIVE_RECEIVER);
             if(a==null){
+                if(Config.isNivelLogMaximo()){
+                    L.d(TAG, this, "Campo do recebedor ativo nulo");
+                }
                 a = Base.ACTIVE_SERVICES[0].getReceiver();
             }
             analisador.setReceiver(a);

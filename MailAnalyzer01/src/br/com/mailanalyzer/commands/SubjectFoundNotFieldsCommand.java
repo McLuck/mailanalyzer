@@ -1,6 +1,7 @@
 package br.com.mailanalyzer.commands;
 
 import br.com.mailanalyzer.domain.ProcessedMessage;
+import br.com.mailanalyzer.log.L;
 
 /**
  *
@@ -14,13 +15,13 @@ import br.com.mailanalyzer.domain.ProcessedMessage;
 public abstract class SubjectFoundNotFieldsCommand extends SubjectFoundCommand{
 
     private boolean required = false;
+    public static final String TAG = "Comando para assunto encontrado";
     public boolean isRequired(){
         return required;
     }
 
    public SubjectFoundNotFieldsCommand(ProcessedMessage procMsg ) {
        super(procMsg);
+       L.d(TAG, this, "Mensagem processada");
    }
-
 }
-
