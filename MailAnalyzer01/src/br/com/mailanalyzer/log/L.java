@@ -39,12 +39,13 @@ public class L implements Runnable {
         return instance;
     }
 
-    private static String GET_OCORRENCIA(int oco){
+    public static String GET_OCORRENCIA(int oco){
         switch(oco){
             case ERRO:return "ERRO";
             case INFO:return "INFO";
             case AVISO:return "AVISO";
             case FATAL:return "FATAL";
+            case DEBUG:return "DEBUG";
         }
         return "";
     }

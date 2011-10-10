@@ -14,7 +14,7 @@ import br.com.mailanalyzer.domain.DomainObject;
 public interface BaseInterfaceDAO<T extends DomainObject> {
 
     /** Quantidade de registros por paginação */
-    Integer QTD_REGISTROS_PAGINA = 9;
+    Integer QTD_REGISTROS_PAGINA = 100;
 
     /**
      * Atualiza um objeto na base de dados.

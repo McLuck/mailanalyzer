@@ -29,9 +29,14 @@ public abstract class Fluxo {
     }
 
     public void init() {
+        L.d(name, this, "Iniciando Fluxo");
+
         index = 0;
         if (componentsFlow == null || componentsFlow.length == 0) {
             //mainRunnable.run();
+            if(Config.isNivelLogMaximo()){
+                L.d(name, this, "Iniciando sem nenhum comando. Indo direto para o comando do fluxo.");
+            }
             executeCommand();
         } else {
             if (componentsFlow[index] instanceof MutableComponent) {

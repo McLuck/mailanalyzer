@@ -24,6 +24,8 @@ public abstract class BaseDAO<T extends DomainObject> implements BaseInterfaceDA
     private Class<T> domainObject;
     private HB hibernateUtil;
     protected boolean isLOGGING = false;
+    private int qtdRegistro = QTD_REGISTROS_PAGINA;
+   
 
     /**
      * Cria uma nova instância do tipo {@link BaseDAO}.
@@ -112,6 +114,9 @@ public abstract class BaseDAO<T extends DomainObject> implements BaseInterfaceDA
         Order order = this.getOrdemLista();
         if (order != null) {
             criteria.addOrder(order);
+        }
+        if(qtdRegistro!= QTD_REGISTROS_PAGINA || isLOGGING){
+            criteria.setMaxResults(qtdRegistro);
         }
         return GenericsUtil.checkedList(criteria.list(), this.domainObject);
     }
@@ -202,5 +207,19 @@ public abstract class BaseDAO<T extends DomainObject> implements BaseInterfaceDA
     protected Session getSession() {
         return ((Session) hibernateUtil.getNewSession());
         //return this.sessionFactory.getCurrentSession();
+    }
+
+    /**
+     * @return the qtdRegistro
+     */
+    public int getQtdRegistro() {
+        return qtdRegistro;
+    }
+
+    /**
+     * @param qtdRegistro the qtdRegistro to set
+     */
+    public void setQtdRegistro(int qtdRegistro) {
+        this.qtdRegistro = qtdRegistro;
     }
 }
