@@ -8,7 +8,9 @@ import br.com.mailanalyzer.compose.FiltroHtml;
 import br.com.mailanalyzer.compose.FiltroSubstituirCaracter;
 import br.com.mailanalyzer.compose.FiltroSubstituirGirias;
 import br.com.mailanalyzer.domain.Message;
+import br.com.mailanalyzer.log.L;
 import br.com.mailanalyzer.main.Base;
+import br.com.mailanalyzer.main.Config;
 
 /**
  *
@@ -16,6 +18,8 @@ import br.com.mailanalyzer.main.Base;
  * @author Lobos
  */
 public class TratarMensagemFlow extends Fluxo {
+
+    public static final String TAG = "Fluxo de Tratar Mensagem";
 
     @Override
     public CommandFluxo getCommandFluxo() {
@@ -31,5 +35,8 @@ public class TratarMensagemFlow extends Fluxo {
                     new FiltroCorrigirOrtografia()
                 });
         firstObject = m;
+        if(!Config.isNivelLogBaixo()){
+            L.d(TAG, this, "Passou pelo Fluxo de Tratar Mensagem");
+        }
     }
 }

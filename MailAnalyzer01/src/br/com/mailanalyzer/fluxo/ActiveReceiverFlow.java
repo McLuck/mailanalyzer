@@ -11,7 +11,9 @@ import br.com.mailanalyzer.commands.CommandFluxo;
 import br.com.mailanalyzer.compose.ActiveReceiverImplementation;
 import br.com.mailanalyzer.compose.SaveMessage;
 import br.com.mailanalyzer.domain.ActiveReceiver;
+import br.com.mailanalyzer.log.L;
 import br.com.mailanalyzer.main.Base;
+import br.com.mailanalyzer.main.Config;
 
 /**
  * 
@@ -23,11 +25,15 @@ import br.com.mailanalyzer.main.Base;
  */
 public class ActiveReceiverFlow extends Fluxo {
 
+    public static final String TAG = "Fluxo do recebedor ativo";
     public ActiveReceiverFlow(ActiveReceiver activeReceiver){
         super(Base.ACTIVE_RECEIVER_FLOW, new InterfaceComposeFlow[]{
             new ActiveReceiverImplementation(activeReceiver),
             new SaveMessage()
         });
+        if(!Config.isNivelLogBaixo()){
+            L.d(TAG, this, "Realizado Fluxo do Recebedor Ativo");
+        }
     }
 
     @Override

@@ -8,6 +8,7 @@ import java.util.Hashtable;
 public abstract class Fluxo {
 
     private Runnable mainRunnable;
+    public static final String TAG = "Fluxo";
 
     public void setMAIN_RETURN(Runnable mainRunnable) {
         this.mainRunnable = mainRunnable;
@@ -29,24 +30,33 @@ public abstract class Fluxo {
     }
 
     public void init() {
-        L.d(name, this, "Iniciando Fluxo");
+        L.d(TAG, this, "Iniciando Fluxo");
 
         index = 0;
         if (componentsFlow == null || componentsFlow.length == 0) {
             //mainRunnable.run();
             if(Config.isNivelLogMaximo()){
-                L.d(name, this, "Iniciando sem nenhum comando. Indo direto para o comando do fluxo.");
+                L.d(TAG, this, "Iniciando sem nenhum comando. Indo direto para o comando do fluxo.");
             }
             executeCommand();
         } else {
             if (componentsFlow[index] instanceof MutableComponent) {
                 if (index > 0 && (componentsFlow[index - 1] instanceof PropertyRetriever)) {
+                    if(Config.isNivelLogMaximo()){
+                        L.d(TAG, this, "Iniciando comando retiever");
+                    }
                     Object retiever = ((PropertyRetriever) componentsFlow[index - 1]).getPropertyValue();
                     ((MutableComponent) componentsFlow[index]).updateComponent(retiever);
                 } else {
+                    if(Config.isNivelLogMaximo()){
+                        L.d(TAG, this, "Iniciando comando firstObject");
+                    }
                     ((MutableComponent) componentsFlow[index]).updateComponent(firstObject);
                 }
                 if (componentsFlow[index].stopFlow()) {
+                    if(Config.isNivelLogMaximo()){
+                        L.d(TAG, this, "Parando Fluxo");
+                    }
                     System.gc();
                     return;
                 }
