@@ -3,6 +3,8 @@ package br.com.mailanalyzer.analise2.adapter;
 
 import br.com.mailanalyzer.analise2.Raiz;
 import br.com.mailanalyzer.analise2.Elemento;
+import br.com.mailanalyzer.dao.ElementoDAO;
+import br.com.mailanalyzer.dao.PalavraDAO;
 import br.com.mailanalyzer.domain.ComposicaoDomain;
 import br.com.mailanalyzer.domain.ElementoDomain;
 
@@ -22,7 +24,7 @@ public class ElementoAdapter {
         this.dominio = dominio;
         logica = new Elemento();
         logica.setId(dominio.getId());
-        logica.setPalavra(dominio.getPalavra(), Raiz.CARREGAR_SINONIMOS);
+        logica.setPalavra(dominio.getPalavra().getPalavra(), Raiz.CARREGAR_SINONIMOS);
         logica.setPeso(dominio.getPeso());
     }
 
@@ -30,7 +32,7 @@ public class ElementoAdapter {
         this.logica = elemento;
         this.dominio = new ElementoDomain();
         dominio.setId(elemento.getId());
-        dominio.setPalavra(elemento.getPalavra());
+        dominio.setPalavra(PalavraDAO.getInstance().getPalavra(elemento.getPalavra()));
         dominio.setPeso(elemento.getPeso());
         dominio.setPai(pai);
         dominio.setDataRegistro(new java.util.Date().getTime());

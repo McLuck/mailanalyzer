@@ -2,6 +2,7 @@ package br.com.mailanalyzer.dao;
 
 import br.com.mailanalyzer.dao.interfaces.BaseInterfaceDAO;
 import br.com.mailanalyzer.domain.DomainObject;
+import br.com.mailanalyzer.log.L;
 import br.com.mailanalyzer.utils.GenericsUtil;
 import java.io.Serializable;
 import java.util.List;
@@ -70,17 +71,17 @@ public abstract class BaseDAO<T extends DomainObject> implements BaseInterfaceDA
         try {
             getSession().getTransaction().commit();
         } catch (Exception e) {
-            System.err.println("Commit foi chamado, mas não existe uma conexão aberta.");
+            L.e("BASEDAO", this, "Commit foi chamado, mas não existe uma conexão aberta.", e);
         }
         try {
             getSession().flush();
         } catch (Exception e) {
-            System.err.println("Falha ao fazer descarga na sessão do Hibernate.");
+            L.e("BASEDAO", this, "Falha ao fazer descarga na sessão do Hibernate.", e);
         }
         try {
             getSession().close();
         } catch (Exception ex) {
-            System.err.println("DAO - Falha ao fechar conexão.");
+            L.e("BASEDAO", this, "DAO - Falha ao fechar conexão.", ex);
         }
     }
 

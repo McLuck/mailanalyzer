@@ -23,7 +23,9 @@ public class Log extends DomainObject implements Serializable {
 
     private static final long serialVersionUID = 1L;
     private int ocorrencia, nivel;
-    private String detalhe, referencia, exceptionApp, tagApp;
+    private String detalhe, referencia, tagApp;
+    
+    private String exceptionApp;
 
     /**
      *

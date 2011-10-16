@@ -68,7 +68,14 @@ public class GerenciamentoAnalisador {
         public Raiz analisar(Message msg) {
             int posicao = posicaoComMaiorPossibilidade(getPesos(msg.getMensagem()));
             if (posicao >= 0) {
-                r = matrizes.get(posicao);
+                if(Raiz.VALIDAR_DIFERENCA_MINIMA){
+                    if((primeiro-segundo) >= Raiz.DIFERENCA_MINIMA){
+                        r = matrizes.get(posicao);
+                    }else{
+                        L.i(TAG, this, "Mensagem foi encontrada, mas nao atendeu diferenca minima configurado em Raiz");
+                        r = null;
+                    }
+                }
             } else {
                 r = null;
             }
@@ -93,7 +100,7 @@ public class GerenciamentoAnalisador {
                 SubjectNotFoundCommand sCommand = getNotFoundCommand();
                 sCommand.setParameters(new Hashtable());
                 sCommand.getParameters().put("msg", msg);
-                sCommand.getParameters().put("receiver", receiver);
+                sCommand.getParameters().put("receiver", receiver!=null?receiver:"");
                 sCommand.run();
             } else {
                 SubjectFoundCommand sCommand = getSubjectFound();
@@ -110,11 +117,20 @@ public class GerenciamentoAnalisador {
                     sCommand2.getParameters().put("assunto", r.getAssunto());
                     sCommand2.run();
                 } else {
-                    sCommand.setParameters(new Hashtable());
-                    sCommand.getParameters().put("msg", msg);
-                    sCommand.getParameters().put("receiver", receiver);
-                    sCommand.getParameters().put("assunto", r.getAssunto());
-                    sCommand.run();
+                    try{
+                        sCommand.setParameters(new Hashtable());
+                        sCommand.getParameters().put("msg", msg);
+                        sCommand.getParameters().put("receiver", receiver);
+                        sCommand.getParameters().put("assunto", r.getAssunto());
+                        sCommand.run();
+                    }catch(Exception e){
+                        L.e("Analisador", this, "Erro ao executar comando de assunto encontrado.", e);
+                    }
+                    try{
+                        r.autoAprender(msg.getMensagem());
+                    }catch(Exception e){
+                        L.e("Analisador", this, "Erro ao aprender com mensagem recebida", e);
+                    }
                 }
             }
         }
@@ -130,13 +146,16 @@ public class GerenciamentoAnalisador {
             }
             return (pesos);
         }
-
+        int primeiro=0, segundo=0;
         private int posicaoComMaiorPossibilidade(List<Integer> results) {
             int maior = 0;
             int posicao = -1;
             for (int i = 0; i < results.size(); i++) {
                 if (results.get(i) > maior) {
                     posicao = i;
+                    segundo = maior;
+                    maior = results.get(i);
+                    primeiro = maior;
                 }
             }
             return posicao;

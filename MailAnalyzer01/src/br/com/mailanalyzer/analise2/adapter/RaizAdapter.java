@@ -16,6 +16,8 @@ import java.util.ArrayList;
  * @contact mcluck.ti@gmail.com
  * @version 1.0
  * @Date 25-09-2011
+ *
+ * ALTERADO EM: 15/10/11 - Adicionando aprendizado automatico e apontamento de palavras
  */
 public class RaizAdapter {
 
@@ -25,6 +27,11 @@ public class RaizAdapter {
     public RaizAdapter(RaizDomain dominio) {
         this.dominio = dominio;
         raiz = new Raiz();
+
+        //Adicionado para teste com cache
+        raiz.setDominio(dominio);
+
+
         raiz.setId(dominio.getId());
         raiz.setAssunto(dominio.getAssunto());
         raiz.setAgregacoes(new ArrayList<Composicao>());
@@ -32,24 +39,7 @@ public class RaizAdapter {
         raiz.setMandatorios(new ArrayList<Composicao>());
         for (ComposicaoDomain cpd : dominio.getComposicoes()) {
             ComposicaoAdapter ca = new ComposicaoAdapter(cpd);
-            switch (ca.getComposical().getTipo()) {
-                case Composicao.TIPO.AGREGACAO: {
-                    raiz.getAgregacoes().add(ca.getComposical());
-                    break;
-                }
-                case Composicao.TIPO.BASE: {
-                    raiz.setBase(ca.getComposical());
-                    break;
-                }
-                case Composicao.TIPO.ELIMINATORIO: {
-                    raiz.getEliminatorios().add(ca.getComposical());
-                    break;
-                }
-                case Composicao.TIPO.MANDATORIO: {
-                    raiz.getMandatorios().add(ca.getComposical());
-                    break;
-                }
-            }
+            raiz.addComposicao(ca.getComposical(), ca.getComposical().getTipo());
         }
     }
 

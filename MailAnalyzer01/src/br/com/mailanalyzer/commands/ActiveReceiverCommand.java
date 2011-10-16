@@ -46,7 +46,7 @@ public class ActiveReceiverCommand extends CommandFluxo {
 
             //Aqui inicia o tratamento da mensagem. Desnecessario para msgs que devem ser ignoradas.
             //Portanto, vamos adicionar, neste ponto, a excecao de fluxo.
-            if (m.getAssunto().toLowerCase().contains(Base.TAG_PARA_IGNORAR_MENSAGEM)) {
+            if (m.getAssunto().toLowerCase().contains(Base.TAG_PARA_IGNORAR_MENSAGEM.toLowerCase())) {
                 if(Config.isNivelLogMaximo()){
                     L.d(TAG, this, "Comando para assunto ignorado");
                 }

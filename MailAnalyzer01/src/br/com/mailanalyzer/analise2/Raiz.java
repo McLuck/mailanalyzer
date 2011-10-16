@@ -1,9 +1,19 @@
 package br.com.mailanalyzer.analise2;
 
 
+import br.com.mailanalyzer.analise2.adapter.ComposicaoAdapter;
+import br.com.mailanalyzer.dao.ComposicaoDAO;
+import br.com.mailanalyzer.dao.PalavraDAO;
+import br.com.mailanalyzer.domain.ComposicaoDomain;
+import br.com.mailanalyzer.domain.ElementoDomain;
+import br.com.mailanalyzer.domain.Palavra;
+import br.com.mailanalyzer.domain.RaizDomain;
 import br.com.mailanalyzer.domain.Subject;
+import br.com.mailanalyzer.utils.ListPalavra;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  *
@@ -17,11 +27,30 @@ import java.util.List;
  *
  * REFATORADO: dia 24 de setembro.
  * MOTIVO: Alteracao da estrutura
+ *
+ * ALTERADO EM: 15/10/11 - Adicionando aprendizado automatico e apontamento de palavras
  */
 public class Raiz {
 
     public static boolean PROCURAR_EM_SINONIMOS = true;
     public static boolean CARREGAR_SINONIMOS = false;
+    /**
+     * Esta opcao permite ativa ou desativar a validacao de assuntos encontrados. <br/>
+     * Se um assunto encontrado nao possuir diferenca de relevancia minima entre uma e outra
+     * entao e considerado como assunto nao encontrado. <br/>
+     * DEFAULT: <b>false</b> <br />
+     * Valor da diferenca pode ser informado em <b>Raiz.DIFERENCA_MINIMA</b>
+     */
+    public static boolean VALIDAR_DIFERENCA_MINIMA = true;
+
+    /**
+     * Diferenca minima entre uma e outra raiz. <br/>
+     * Um assunto so sera considerado correto se a diferenca de relevancia entre duas raiz for
+     * maior ou igual este valor. <br />
+     * DEFAULT: <b>30</b><br/>
+     * Para que esta preferencia seja considerada, e necessario habilitar em <b>Raiz.VALIDAR_DIFERENCA_MINIMA</b>
+     */
+    public static int DIFERENCA_MINIMA = 30;
     public static final String TAG = "Raiz";
     private int id;
     private Subject assunto;
@@ -29,10 +58,85 @@ public class Raiz {
     private Composicao base;
     private List<Composicao> agregacoes;
     private List<Composicao> mandatorios;
+    private RaizDomain dominio;
     private List<Composicao> eliminatorios;
+    private Set<String> setPalavras = new TreeSet<String>();
     public void setBaseConhecimento(String base){
         this.baseConhecimento = base;
     }
+
+    /**
+     * Metodo adicionado para aprender palavras novas com mensagens já interpretadas
+     * @param mensagem
+     */
+    public void autoAprender(String mensagem){
+        mensagem = UtilsString.NORMALIZAR(mensagem);
+        ListPalavra lista1 = PalavraDAO.getInstance().getPalavrasSalvas(mensagem);
+        ComposicaoDAO cdao = new ComposicaoDAO();
+        ComposicaoDomain c = new ComposicaoDomain();
+        c.setRaiz(dominio);
+        c.setSequencial(false);
+        c.setPeso(Peso.MINIMO);
+        c.setTipo(Composicao.TIPO.AGREGACAO);
+        c.setElementos(new ArrayList<ElementoDomain>());
+        for (Palavra p : lista1) {
+            addComposicao(p, c);
+        }
+        if(!c.getElementos().isEmpty()){
+            Object o = cdao.salvar(c);
+            cdao.commit();
+            if(o instanceof ComposicaoDomain){
+                c = (ComposicaoDomain)o;
+            }else if(o instanceof Integer){
+                c = cdao.obter((Integer)o);
+            }
+        }
+
+        ComposicaoAdapter cadapt = new ComposicaoAdapter(c);
+        Composicao c2 = cadapt.getComposical();
+        cdao.close();
+        cdao.clear();
+        agregacoes.add(c2);
+    }
+
+    private void addComposicao(Palavra p, ComposicaoDomain c){
+        if(setPalavras.add(p.getPalavra())){
+            ElementoDomain e = new ElementoDomain();
+            e.setPai(c);
+            e.setPeso(Peso.MINIMO);
+            e.setPalavra(p);
+        }
+    }
+
+    public void addComposicao(Composicao c, int tipo){
+        if(agregacoes==null){
+            agregacoes = new ArrayList<Composicao>();
+        }
+        if(eliminatorios==null){
+            eliminatorios = new ArrayList<Composicao>();
+        }
+        if(mandatorios==null){
+            mandatorios = new ArrayList<Composicao>();
+        }
+        if(base==null){
+            base = new Composicao();
+        }
+        switch(tipo){
+            case Composicao.TIPO.AGREGACAO:{
+                agregacoes.add(c);break;
+            }
+            case Composicao.TIPO.BASE:{
+                base = c;break;
+            }
+            case Composicao.TIPO.ELIMINATORIO: {
+                eliminatorios.add(c);break;
+            }
+            case Composicao.TIPO.MANDATORIO:{
+                mandatorios.add(c);break;
+            }
+        }
+    }
+
     /**
      * Add composicao nesta raiz de assunto
      * @param composicao Um objeto nao nulo de composicao
@@ -62,6 +166,9 @@ public class Raiz {
             Elemento e = new Elemento();
             e.setPalavra(s, CARREGAR_SINONIMOS);
             base.getElementos().add(e);
+
+            //Add no set
+            setPalavras.add(s);
         }
     }
 
@@ -82,6 +189,9 @@ public class Raiz {
             Elemento e = new Elemento();
             e.setPalavra(s, CARREGAR_SINONIMOS);
             base.getElementos().add(e);
+
+            //Add no set
+            setPalavras.add(s);
         }
     }
 
@@ -105,6 +215,9 @@ public class Raiz {
             e.setPeso(Peso.MUITO_RELEVANTE * 2);
             e.setPalavra(s, CARREGAR_SINONIMOS);
             c.getElementos().add(e);
+
+            //Add no set
+            setPalavras.add(s);
         }
         mandatorios.add(c);
     }
@@ -128,6 +241,9 @@ public class Raiz {
             e.setPeso(peso);
             e.setPalavra(s, CARREGAR_SINONIMOS);
             c.getElementos().add(e);
+
+            //Add no set
+            setPalavras.add(s);
         }
         if (peso == Peso.INCORRETO) {
             c.setTipo(Composicao.TIPO.ELIMINATORIO);
@@ -159,6 +275,9 @@ public class Raiz {
             e.setPeso(Peso.INCORRETO);
             e.setPalavra(s, CARREGAR_SINONIMOS);
             c.getElementos().add(e);
+
+            //Add no set
+            setPalavras.add(s);
         }
         eliminatorios.add(c);
     }
@@ -343,5 +462,19 @@ public class Raiz {
      */
     public void setEliminatorios(List<Composicao> eliminatorios) {
         this.eliminatorios = eliminatorios;
+    }
+
+    /**
+     * @return the dominio
+     */
+    public RaizDomain getDominio() {
+        return dominio;
+    }
+
+    /**
+     * @param dominio the dominio to set
+     */
+    public void setDominio(RaizDomain dominio) {
+        this.dominio = dominio;
     }
 }

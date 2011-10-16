@@ -71,4 +71,5 @@ public class GenericsUtil {
     public static <T> List<T> checkedList(List list, Class<T> type) {
         return Collections.checkedList(list, type);
     }
+    
 }

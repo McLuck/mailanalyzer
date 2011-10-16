@@ -306,6 +306,7 @@ public class L implements Runnable {
         }
         log.setExceptionApp(sb.toString());
         listaLog.add(log);
+        printLog(log);
     }
 
     private void salvar() {

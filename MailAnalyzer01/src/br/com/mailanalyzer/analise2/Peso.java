@@ -38,6 +38,11 @@ public class Peso {
      * Para indicar elementos com relevancia normal
      */
     public static final int NORMAL = 5;
+
+    /**
+     * Para indicar elementos com pouco pesos. Elementos adicionados automaticamentes terão pesos mínimos.
+     */
+    public static final int MINIMO = 1;
     /**
      * Para indicar elementos com pouca relevancia
      */

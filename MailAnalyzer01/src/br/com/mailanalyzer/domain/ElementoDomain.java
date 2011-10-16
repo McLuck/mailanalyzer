@@ -23,7 +23,11 @@ import javax.persistence.Table;
 @Table(name = "elemento")
 public class ElementoDomain extends DomainObject {
     private int peso;
-    private String palavra;
+//    private String palavra;
+
+    @ManyToOne(cascade={CascadeType.ALL}, targetEntity=Palavra.class)
+    @JoinColumn(name="palavra_id", nullable=false)
+    private Palavra palavra;
 
     @ManyToOne(cascade = {CascadeType.ALL}, targetEntity = ComposicaoDomain.class)
     @JoinColumn(name = "composicao_id", nullable = false)
@@ -43,19 +47,19 @@ public class ElementoDomain extends DomainObject {
         this.peso = peso;
     }
 
-    /**
-     * @return the palavra
-     */
-    public String getPalavra() {
-        return palavra;
-    }
-
-    /**
-     * @param palavra the palavra to set
-     */
-    public void setPalavra(String palavra) {
-        this.palavra = palavra;
-    }
+//    /**
+//     * @return the palavra
+//     */
+//    public String getPalavra() {
+//        return palavra;
+//    }
+//
+//    /**
+//     * @param palavra the palavra to set
+//     */
+//    public void setPalavra(String palavra) {
+//        this.palavra = palavra;
+//    }
 
     /**
      * @return the pai
@@ -69,5 +73,19 @@ public class ElementoDomain extends DomainObject {
      */
     public void setPai(ComposicaoDomain pai) {
         this.pai = pai;
+    }
+
+    /**
+     * @return the palavra
+     */
+    public Palavra getPalavra() {
+        return palavra;
+    }
+
+    /**
+     * @param palavra the palavra to set
+     */
+    public void setPalavra(Palavra palavra) {
+        this.palavra = palavra;
     }
 }
