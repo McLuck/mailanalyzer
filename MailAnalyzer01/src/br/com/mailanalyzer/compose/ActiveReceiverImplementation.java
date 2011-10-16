@@ -49,30 +49,34 @@ public class ActiveReceiverImplementation implements Receiver, InterfaceComposeF
         switch (activeReceiver.getOtype()) {
             case Base.RECEIVER_TYPE_EMAIL: {
                 L.d(TAG, this, "Buscando no email: " + activeReceiver.getUsuario());
-                EmailReader reader = new EmailReader();
+                try{
+                    EmailReader reader = new EmailReader();
 
-                reader.setHost("pop.gmail.com");
-                reader.setAutenticador("true");
-                reader.setCharset("UTF-8");
-                reader.setDebug("false");
-                reader.setPort("995");
-                reader.setProtocolo("pop3");
-                reader.setSocketclass("javax.net.ssl.SSLSocketFactory");
-                reader.setSocketport("995");
-                reader.setFallback("true");
-                reader.setStarttls("true");
-                String senha = activeReceiver.getSenha();
-                Encriptador enc = new Encriptador(activeReceiver.getUsuario());
-                senha = enc.decriptar(senha);
-                message = reader.receive(activeReceiver.getHost(), activeReceiver.getUsuario(), senha);
+                    reader.setHost("pop.gmail.com");
+                    reader.setAutenticador("true");
+                    reader.setCharset("UTF-8");
+                    reader.setDebug("false");
+                    reader.setPort("995");
+                    reader.setProtocolo("pop3");
+                    reader.setSocketclass("javax.net.ssl.SSLSocketFactory");
+                    reader.setSocketport("995");
+                    reader.setFallback("true");
+                    reader.setStarttls("true");
+                    String senha = activeReceiver.getSenha();
+                    Encriptador enc = new Encriptador(activeReceiver.getUsuario());
+                    senha = enc.decriptar(senha);
+                    message = reader.receive(activeReceiver.getHost(), activeReceiver.getUsuario(), senha);
 
-                L.d(TAG, this, "Finalizando recebimento de mensagens por email. Mensagens encontradas: " + message.length);
+                    L.d(TAG, this, "Finalizando recebimento de mensagens por email. Mensagens encontradas: " + message.length);
 
-                //Seta o tipo de recebimento nas mensagens que chegam.
-                if (message != null) {
-                    for (int i = 0; i < message.length; i++) {
-                        message[i].setTipoRecebimento(Base.RECEIVER_TYPE_EMAIL);
+                    //Seta o tipo de recebimento nas mensagens que chegam.
+                    if (message != null) {
+                        for (int i = 0; i < message.length; i++) {
+                            message[i].setTipoRecebimento(Base.RECEIVER_TYPE_EMAIL);
+                        }
                     }
+                }catch(Exception e){
+                    L.e(TAG, this, "Erro ao receber mensagem", e);
                 }
 
                 /*

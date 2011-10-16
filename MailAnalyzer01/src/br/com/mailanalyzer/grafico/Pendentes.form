@@ -39,12 +39,14 @@
                               <Component id="addAgregacao" pref="507" max="32767" attributes="0"/>
                               <EmptySpace pref="2" max="-2" attributes="0"/>
                           </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <Component id="addMandatorio" pref="504" max="32767" attributes="0"/>
+                          <Component id="sequencial" alignment="0" min="-2" pref="444" max="-2" attributes="0"/>
+                          <Group type="102" alignment="1" attributes="0">
+                              <Group type="103" groupAlignment="1" attributes="0">
+                                  <Component id="addEliminatorio" alignment="0" pref="504" max="32767" attributes="0"/>
+                                  <Component id="addMandatorio" alignment="1" pref="504" max="32767" attributes="0"/>
+                              </Group>
                               <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
                           </Group>
-                          <Component id="addEliminatorio" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="sequencial" alignment="0" min="-2" pref="444" max="-2" attributes="0"/>
                       </Group>
                   </Group>
               </Group>

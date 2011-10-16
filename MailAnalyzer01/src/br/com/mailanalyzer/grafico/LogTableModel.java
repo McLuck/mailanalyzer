@@ -15,7 +15,7 @@ import java.util.List;
  */
 public class LogTableModel extends GenericTableModel<Log>{
 
-    private String[] columnNames = { "Quando", "Ocorrência", "TAG"};
+    private String[] columnNames = { "Quando", "Ocorrência", "TAG", "Classe"};
     private List<Log> logs;
 
     public LogTableModel() {
@@ -104,6 +104,7 @@ public class LogTableModel extends GenericTableModel<Log>{
             case 0: return Converte.ToStringDataVisual(ap.getDataRegistro()).concat(" - ").concat(Converte.DateToStringTimer(ap.getDataRegistro()));
             case 1: return L.GET_OCORRENCIA(ap.getOcorrencia());
             case 2: return ap.getTagApp();
+            case 3: return ap.getReferencia();
         }
         return null;
     }

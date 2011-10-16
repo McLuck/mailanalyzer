@@ -1,5 +1,7 @@
 package br.com.mailanalyzer.utils;
 
+import br.com.mailanalyzer.log.L;
+import br.com.mailanalyzer.main.Config;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -23,6 +25,7 @@ import javax.mail.internet.InternetAddress;
  * @author lucasisrael
  */
 public class EmailReader {
+    public static final String TAG = "Leitor de emails";
 
     /*public static void main(String[] args) {
     // TODO Auto-generated method stub
@@ -55,7 +58,7 @@ public class EmailReader {
     private String protocolo = "pop3";
     public static boolean IS_SESSION_OPENED = false;
 
-    public br.com.mailanalyzer.domain.Message[] receive(String popServer, String popUser, String popPassword) {
+    public br.com.mailanalyzer.domain.Message[] receive(String popServer, String popUser, String popPassword) throws Exception {
 
         br.com.mailanalyzer.domain.Message[] mensgs = null;
         Store store = null;
@@ -63,6 +66,7 @@ public class EmailReader {
 
         while (IS_SESSION_OPENED) {
             //Sessao aberta, aguarda
+            L.d(TAG, this, "Sessao mail aberta, aguardando encerramento da sessao para busca de email.");
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException ex) {
@@ -192,7 +196,8 @@ public class EmailReader {
             }
 
         } catch (Exception ex) {
-            ex.printStackTrace();
+            L.e(TAG, this, "Erro ao receber mensagem.", ex);
+            throw ex;
         } finally {
             // -- Close down nicely --
             try {
@@ -220,6 +225,9 @@ public class EmailReader {
      * @param message
      */
     public static void printMessage(Message message) {
+        if(!Config.LOG.PRINT_IN_CONSOLE){
+            return;
+        }
         try {
             // Get the header information
             String from = ((InternetAddress) message.getFrom()[0]).getPersonal();

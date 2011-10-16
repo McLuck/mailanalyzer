@@ -8,13 +8,13 @@ import br.com.mailanalyzer.exemplo.commands.CommandAssuntoNaoEncontrado;
 import br.com.mailanalyzer.fluxo.MainFluxo;
 import br.com.mailanalyzer.grafico.FormTermos;
 import br.com.mailanalyzer.grafico.FormWizard;
+import br.com.mailanalyzer.grafico.ListaLog;
 import br.com.mailanalyzer.grafico.ListaPendentes;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
 import javax.swing.ImageIcon;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -86,6 +86,7 @@ public class Teste implements Runnable {
         MenuItem eliminatoria = new MenuItem("Nova Composicao Eliminatoria");
         MenuItem substituicaoTerm = new MenuItem("Nova Substituicao de palavras");
         MenuItem ctxMandatorio = new MenuItem("Nova Composicao Contx Mandatorio");
+        MenuItem logs = new MenuItem("Ver LOG");
 
 
 
@@ -95,6 +96,7 @@ public class Teste implements Runnable {
 
         popup.addSeparator();
         popup.add(displayMenu);
+        popup.add(logs);
         displayMenu.add(substituicaoTerm);
         displayMenu.add(agregacao);
         displayMenu.add(eliminatoria);
@@ -120,6 +122,14 @@ public class Teste implements Runnable {
                 ListaPendentes form = new ListaPendentes(lista);
                 form.setVisible(true);
                 adao.close();
+            }
+        });
+
+        logs.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                ListaLog.getinstance().setVisible(true);
             }
         });
 

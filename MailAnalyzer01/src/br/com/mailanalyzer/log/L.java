@@ -29,6 +29,17 @@ public class L implements Runnable {
     private static boolean run = true;
     public static long INTERVALO = 1000;
 
+    public static String getColor(int tipo){
+        switch(tipo){
+            case INFO: return "#FFFAFA";
+            case DEBUG: return "#ADD8E6";
+            case AVISO: return "#87CEFA";
+            case ERRO: return "#F08080";
+            case FATAL: return "#CD5C5C";
+            default : return "#FFFFFF";
+        }
+    }
+
     private static L getInstance() {
         if (instance == null) {
             instance = new L();
