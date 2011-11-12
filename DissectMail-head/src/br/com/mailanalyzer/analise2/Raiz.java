@@ -288,7 +288,7 @@ public class Raiz {
         //Procura palavras mandatorias, caso nao encontre, responde com 0;
         boolean verificado = false;
         for (Composicao cp : mandatorios) {
-            int c = cp.getRelevancia(cp, procurado);
+            int c = cp.getRelevancia(procurado);
             verificado = c >= cp.getRelevanciaTotal();
             if (verificado) {
                 break;
@@ -303,7 +303,7 @@ public class Raiz {
         //Testa os eliminatorios
         verificado = false;
         for (Composicao cp : eliminatorios) {
-            int c = cp.getRelevancia(cp, procurado);
+            int c = cp.getRelevancia(procurado);
             //Caso seja menor que zero, entao existe ponto de bloqueio
             verificado = c < 0;
             if (verificado) {
@@ -315,11 +315,11 @@ public class Raiz {
         }
 
         //Testa a base principal para pegar o peso inicial
-        int pesoCorrente = base.getRelevancia(base, procurado);
+        int pesoCorrente = base.getRelevancia(procurado);
 
         //Soma agregacoes
         for (Composicao cp : agregacoes) {
-            pesoCorrente += cp.getRelevancia(cp, procurado);
+            pesoCorrente += cp.getRelevancia(procurado);
         }
 
         return pesoCorrente;
