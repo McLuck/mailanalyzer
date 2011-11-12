@@ -52,42 +52,58 @@ public class Elemento {
      * @return the relevancia
      */
     public int getRelevancia(Composicao c) {
-        //redefine o Peso antes de iniciar comparações.
-        //Despresa pesos de palavras irrelevantes.
         this.peso = Peso.GET_PESO(palavra, peso);
-
-        if(Config.isNivelLogMaximo()){
-            L.d(TAG, this, "Procurando em composição. ID: "+id+" - palavra: "+palavra);
-        }
-        
-        int temp = 0;
+        int relevancia = 0;
         for (Elemento e : c.getElementos()) {
-            //procura na palavra
-            if (e.getPalavra().trim().equals(palavra.trim())) {
-                temp += peso;
+            boolean encontrado = false;
+            int lev = Levenshtein.getLevenshteinDistance(palavra, e.getPalavra());
+            if(peso<0 && lev == 0){
+               relevancia += peso; //Trata eliminatorias
+               encontrado = true;
+            }else if(peso-lev>=0){
+               relevancia += (peso - lev);
+               encontrado = true;
             }
-            //procura nos sinonimos
-            if (Raiz.PROCURAR_EM_SINONIMOS) {
+            if (!encontrado && Raiz.PROCURAR_EM_SINONIMOS) {
                 for (String s : sinonimos) {
-                    if (e.getPalavra().trim().equals(s.trim())) {
-                        temp += peso;
+                    if (e.getPalavra().equals(s)) {
+                        lev = Levenshtein.getLevenshteinDistance(palavra, s);
+                        if(peso<0 && lev==0){
+                            relevancia += peso;
+                            break;
+                        }else if(peso-lev>=0){
+                            relevancia += peso-lev;
+                            break;
+                        }
                     }
                 }
             }
         }
-        //se nao encontrar nenhuma palavra, nao retorna nada
-        return temp;
+        return relevancia;
     }
 
     public int getRelevancia(String palavra){
         this.peso = Peso.GET_PESO(this.palavra, peso);
         int temp = 0;
-        if (palavra.trim().equals(this.palavra.trim())) {
-                temp += peso;
+        boolean encontrado = false;
+        int lev = Levenshtein.getLevenshteinDistance(palavra, this.palavra);
+        if(lev==0 && peso <0){
+            temp += peso;
+        }else if (peso-lev>=0){
+            temp += peso-lev;
         }
-        if(Raiz.PROCURAR_EM_SINONIMOS){
+        encontrado = temp!=0;
+
+        if(!encontrado && Raiz.PROCURAR_EM_SINONIMOS){
             for(String s : sinonimos){
-                temp += palavra.trim().equals(s.trim())?peso:0;
+                lev = Levenshtein.getLevenshteinDistance(palavra, s);
+                if(lev==0 && peso <0){
+                    temp += peso;
+                    break;
+                }else if (peso-lev>=0){
+                    temp += peso-lev;
+                    break;
+                }
             }
         }
         return temp;
@@ -169,5 +185,5 @@ public class Elemento {
     public void setSinonimos(String[] sinonimos) {
         this.sinonimos = sinonimos;
     }
-    
+
 }

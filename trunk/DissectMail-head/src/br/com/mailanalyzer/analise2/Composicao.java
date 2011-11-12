@@ -48,17 +48,17 @@ public class Composicao implements Comparable<Composicao> {
         peso = Peso.NORMAL;
     }
 
-    public int getRelevancia(Composicao conhecimento, Composicao procurado) {
+    public int getRelevancia(Composicao procurado) {
         if(Config.isNivelLogMaximo()){
             L.d(TAG, this, "Procurando em composição. ID: "+id+" - texto original da composição: "+textoOriginal);
         }
         int soma = peso;
         if (!sequencial) {
-            for (Elemento i : conhecimento.getElementos()) {
+            for (Elemento i : getElementos()) {
                 soma += i.getRelevancia(procurado);
             }
         } else {
-            //Se for sequencial, so deve contar alguma coisa, se encontrar na mesma sequencia
+            //Se for sequencial, so deve contar alguma coisa se encontrar na mesma sequencia
             for (int i = 0; i < procurado.getElementos().size(); i++) {
                 int temp = 0;
                 if (elementos.get(0).getRelevancia(procurado.getElementos().get(i).getPalavra()) > 0) {
