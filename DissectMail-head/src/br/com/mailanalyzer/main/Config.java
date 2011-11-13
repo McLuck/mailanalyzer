@@ -419,6 +419,118 @@ public class Config {
             HB.changeDefault = true;
             HB.POOL_SIZE = size;
         }
+        /**
+         * Set MEMCACHED_CACHE_PROVIDER_CLASS para o Hibernate. <br>
+         * Default: Memcached
+         * @param providerClass
+         */
+        public static void SET_CACHE_PROVIDER_CLASS(String providerClass){
+            HB.changeDefault = true;
+            HB.MEMCACHED_CACHE_PROVIDER_CLASS = providerClass;
+        }
+
+        /**
+         * Set MEMCACHED_USE_QUERY_CACHE para Memcached <br>
+         * Default: true
+         * @param useQ
+         */
+        public static void SET_MEMCACHED_USE_QUERY_CACHE(boolean useQ){
+            HB.MEMCACHED_USE_QUERY_CACHE = useQ;
+            HB.changeDefault = true;
+        }
+        /**
+         * Set MEMCACHED_SERVERS. Configura os servidores Memcached. <br>
+         * Default: localhost:11211 <br>
+         * Para separar os servidores Memcached, use o formato "host:port host2:port" usando espacos
+         * para separar os enderecos de hosts
+         * @param servers
+         */
+        public static void SET_MEMCACHED_SERVERS(String servers){
+            HB.MEMCACHED_SERVERS = servers;
+            HB.changeDefault = true;
+        }
+        /**
+         * Set MEMCACHED_TIMESECONDS para Memcached<br>
+         * default: 300
+         * @param timeSeconds
+         */
+        public static void SET_MEMCACHED_TIMESECONDS(int timeSeconds){
+            HB.MEMCACHED_TIMESECONDS = timeSeconds;
+            HB.changeDefault = true;
+        }
+        /**
+         * SET MEMCACHED_KEY_STRATEGY para o Memcached<br>
+         * Default: com.googlecode.hibernate.memcached.HashCodeKeyStrategy
+         * @param keyStrat
+         */
+        public static void SET_MEMCACHED_KEY_STRATEGY(String keyStrat){
+            HB.MEMCACHED_KEY_STRATEGY = keyStrat;
+            HB.changeDefault = true;
+        }
+        /**
+         * Set MEMCACHED_READ_BUFFER_SIZE para o Memcached<br>
+         * Default: DefaultConnectionFactory.DEFAULT_READ_BUFFER_SIZE = 16384
+         * @param readBufferSize
+         */
+        public static void SET_MEMCACHED_READ_BUFFER_SIZE(int readBufferSize){
+            HB.MEMCACHED_READ_BUFFER_SIZE = readBufferSize;
+            HB.changeDefault = true;
+        }
+        /**
+         * Set MEMCACHED_OPERATION_QUEUE_LENGTH para Memcached
+         * Default: 16384
+         * @param operation
+         */
+        public static void SET_MEMCACHED_OPERATION_QUEUE_LENGTH(int operation){
+            HB.MEMCACHED_OPERATION_QUEUE_LENGTH = operation;
+            HB.changeDefault = true;
+        }
+        /**
+         * Set MEMCACHED_TIMEOUT para o Memcached<br>
+         * Default: DefaultConnectionFactory.DEFAULT_OPERATION_TIMEOUT = 1000
+         * @param timeout
+         */
+        public static void SET_MEMCACHED_TIMEOUT(int timeout){
+            HB.MEMCACHED_TIMEOUT = timeout;
+            HB.changeDefault = true;
+        }
+        /**
+         * Set MEMCACHED_HASH_ALGORITHM para Memcached<br>
+         * Default: HashAlgorithm.NATIVE_HASH
+         * @param algortimo
+         */
+        public static void SET_MEMCACHED_HASH_ALGORITHM(String algortimo){
+            HB.MEMCACHED_HASH_ALGORITHM = algortimo;
+            HB.changeDefault = true;
+        }
+        /**
+         * Set MEMCACHED_CONNECTION_FACTORY para o Memcached<br>
+         * Default: DefaultConnectionFactory
+         * @param connectionFactory
+         */
+        public static void SET_MEMCACHED_CONNECTION_FACTORY(String connectionFactory){
+            HB.MEMCACHED_CONNECTION_FACTORY = connectionFactory;
+            HB.changeDefault = true;
+        }
+
+        /**
+         * Set MEMCACHED_CLEAR_SUPPORTED para o Memcached<br>
+         * <b>NAO USAR EM AMBIENTE DE PRODUCAO. HABILITAR APENAS PARA TESTES.</b><br>
+         * Default: false
+         * @param clearSupport
+         */
+        public static void SET_MEMCACHED_CLEAR_SUPPORTED(boolean clearSupport){
+            HB.MEMCACHED_CLEAR_SUPPORTED = clearSupport;
+            HB.changeDefault = true;
+        }
+        /**
+         * Habilita ou desabilita o uso do memcached.<br>
+         * Caso esta opcao seja alterada, deve ser "setado" tambem as configuracoes do usuario e senha (pois irao para o padrao).
+         * @param usarMemcached
+         */
+        public static void SET_USE_MEMCACHED(boolean usarMemcached){
+            HB.setUseMemcached(usarMemcached);
+        }
     }
 
     /**

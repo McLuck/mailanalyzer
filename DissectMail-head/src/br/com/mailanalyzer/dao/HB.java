@@ -13,7 +13,16 @@ import org.hibernate.Session;
  *
  */
 public class HB {
-
+    private static boolean useMemcached = true;
+    /**
+     * Habilita ou desabilita o Memcached<br>
+     * Caso seja alterado, deve ser configurado todos os outros parametrod do BD (usuario e senha)
+     * @param use
+     */
+    public static void setUseMemcached(boolean use){
+        useMemcached = use;
+        changeDefault = true;
+    }
     private static HB instancia = null;
     private SessionFactory sessionFactory;
     private final ThreadLocal<Session> sessionThread = new ThreadLocal<Session>();
@@ -34,6 +43,53 @@ public class HB {
      * Default: org.hibernate.connection.C3P0ConnectionProvider
      */
     public static String PROVIDER_CLASS = "org.hibernate.connection.C3P0ConnectionProvider";
+    /**
+     *Default: com.googlecode.hibernate.memcached.MemcachedCacheProvider
+     */
+    public static String MEMCACHED_CACHE_PROVIDER_CLASS = "com.googlecode.hibernate.memcached.MemcachedCacheProvider";
+    /**
+     * Default: true
+     */
+    public static boolean MEMCACHED_USE_QUERY_CACHE = true;
+    /**
+     * Default: localhost:11211
+     */
+    public static String  MEMCACHED_SERVERS = "localhost:11211";
+    /**
+     * Default: 300
+     */
+    public static int MEMCACHED_TIMESECONDS = 300;
+    /**
+     * Default: com.googlecode.hibernate.memcached.HashCodeKeyStrategy
+     */
+    public static String MEMCACHED_KEY_STRATEGY = "com.googlecode.hibernate.memcached.HashCodeKeyStrategy";
+    /**
+     * Default disponivel em: DefaultConnectionFactory.DEFAULT_READ_BUFFER_SIZE <br>
+     * Default: 16384
+     */
+    public static int MEMCACHED_READ_BUFFER_SIZE = 16384;
+    /**
+     * Default disponivel em: DefaultConnectionFactory.DEFAULT_OP_QUEUE_LEN <br>
+     * Default: 16384
+     */
+    public static int MEMCACHED_OPERATION_QUEUE_LENGTH = 16384;
+    /**
+     * Default: DefaultConnectionFactory.DEFAULT_OPERATION_TIMEOUT = 1000
+     */
+    public static int MEMCACHED_TIMEOUT = 1000;
+    /**
+     * Default: HashAlgorithm.NATIVE_HASH
+     */
+    public static String MEMCACHED_HASH_ALGORITHM = "HashAlgorithm.NATIVE_HASH";
+    /**
+     * Default: DefaultConnectionFactory
+     */
+    public static String MEMCACHED_CONNECTION_FACTORY = "DefaultConnectionFactory";
+    /**
+     * Default: false<br/>
+     * Em producao nao usar true 
+     */
+    public static boolean MEMCACHED_CLEAR_SUPPORTED = false;
     /**
      * Default: hibernate.c3p0.max_size = 10
      */
@@ -96,7 +152,30 @@ public class HB {
             // Create the SessionFactory from standard (hibernate.cfg.xml) 
             // config file.
             if (changeDefault) {
-                AnnotationConfiguration conf = new AnnotationConfiguration().configure().setProperty("hibernate.connection.url", CONNECTION_URL).setProperty("hibernate.connection.username", USERNAME).setProperty("hibernate.connection.password", PASSWORD).setProperty("hibernate.dialect", DIALECT).setProperty("hibernate.connection.driver_class", DRIVER_CLASS).setProperty("hibernate.connection.provider_class", PROVIDER_CLASS).setProperty("hibernate.c3p0.max_size", String.valueOf(POOL_MAX_SIZE)).setProperty("hibernate.c3p0.timeout", String.valueOf(POOL_TIMEOUT))
+                AnnotationConfiguration conf;
+                if(useMemcached){
+                     conf = new AnnotationConfiguration().configure().setProperty("hibernate.connection.url", CONNECTION_URL).setProperty("hibernate.connection.username", USERNAME).setProperty("hibernate.connection.password", PASSWORD).setProperty("hibernate.dialect", DIALECT).setProperty("hibernate.connection.driver_class", DRIVER_CLASS).setProperty("hibernate.connection.provider_class", PROVIDER_CLASS).setProperty("hibernate.c3p0.max_size", String.valueOf(POOL_MAX_SIZE)).setProperty("hibernate.c3p0.timeout", String.valueOf(POOL_TIMEOUT))
+                            .setProperty("hibernate.c3p0.max_statements", String.valueOf(POOL_MAX_STATEMENT))
+                            .setProperty("hibernate.c3p0.idle_test_period", String.valueOf(POOL_TEST_PERIOD))
+                            .setProperty("hibernate.c3p0.acquire_increment", String.valueOf(POOL_ACQUIRE_INCREMENT))
+                            .setProperty("hibernate.transaction.auto_close_session", String.valueOf(AUTO_CLOSE_SESSION))
+                            .setProperty("hibernate.connection.pool_size", String.valueOf(POOL_SIZE))
+                            .setProperty("hibernate.connection.release_mode", RELEASE_MODE)
+                            .setProperty("hibernate.current_session_context_class", SESSION_CONTEXT_CLASS)
+                            .setProperty("hibernate.hbm2ddl.auto", HBM2DLL_AUTO)
+                            .setProperty("hibernate.cache.provider_class", MEMCACHED_CACHE_PROVIDER_CLASS)
+                            .setProperty("hibernate.cache.use_query_cache", String.valueOf(MEMCACHED_USE_QUERY_CACHE))
+                            .setProperty("hibernate.memcached.servers", MEMCACHED_SERVERS)
+                            .setProperty("hibernate.memcached.cacheTimeSeconds", String.valueOf(MEMCACHED_TIMESECONDS))
+                            .setProperty("hibernate.memcached.keyStrategy", MEMCACHED_KEY_STRATEGY)
+                            .setProperty("hibernate.memcached.readBufferSize", String.valueOf(MEMCACHED_READ_BUFFER_SIZE))
+                            .setProperty("hibernate.memcached.operationQueueLength", String.valueOf(MEMCACHED_OPERATION_QUEUE_LENGTH))
+                            .setProperty("hibernate.memcached.operationTimeout", String.valueOf(MEMCACHED_TIMEOUT))
+//                            .setProperty("hibernate.memcached.hashAlgorithm", MEMCACHED_HASH_ALGORITHM)
+                            .setProperty("hibernate.memcached.connectionFactory", MEMCACHED_CONNECTION_FACTORY)
+                            .setProperty("hibernate.memcached.clearSupported",String.valueOf(MEMCACHED_CLEAR_SUPPORTED));
+                }else{
+                    conf = new AnnotationConfiguration().configure().setProperty("hibernate.connection.url", CONNECTION_URL).setProperty("hibernate.connection.username", USERNAME).setProperty("hibernate.connection.password", PASSWORD).setProperty("hibernate.dialect", DIALECT).setProperty("hibernate.connection.driver_class", DRIVER_CLASS).setProperty("hibernate.connection.provider_class", PROVIDER_CLASS).setProperty("hibernate.c3p0.max_size", String.valueOf(POOL_MAX_SIZE)).setProperty("hibernate.c3p0.timeout", String.valueOf(POOL_TIMEOUT))
                         .setProperty("hibernate.c3p0.max_statements", String.valueOf(POOL_MAX_STATEMENT))
                         .setProperty("hibernate.c3p0.idle_test_period", String.valueOf(POOL_TEST_PERIOD))
                         .setProperty("hibernate.c3p0.acquire_increment", String.valueOf(POOL_ACQUIRE_INCREMENT))
@@ -105,6 +184,8 @@ public class HB {
                         .setProperty("hibernate.connection.release_mode", RELEASE_MODE)
                         .setProperty("hibernate.current_session_context_class", SESSION_CONTEXT_CLASS)
                         .setProperty("hibernate.hbm2ddl.auto", HBM2DLL_AUTO);
+                }
+
 
                 sessionFactory = conf.buildSessionFactory();
 
