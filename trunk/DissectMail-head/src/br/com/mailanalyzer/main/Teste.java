@@ -29,7 +29,7 @@ public class Teste implements Runnable {
     public static void main(String[] args) {
         //Seta para ambiente de teste. (Isto ira habilitar a resposta automatica da mensagem)
         Config.IS_TEST_ENVIRONMENT = false;
-
+        
         //Seta modo debug. Isto ira habilitar o andamento dos processos no console.
         Config.LOG.PRINT_IN_CONSOLE = true;
 
