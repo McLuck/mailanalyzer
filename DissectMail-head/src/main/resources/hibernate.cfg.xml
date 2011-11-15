@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+  <session-factory>
+    <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+    <!--property name="hibernate.dialect">org.hibernate.dialect.DerbyDialect</property-->
+    <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+    <property name="hibernate.connection.provider_class">org.hibernate.connection.C3P0ConnectionProvider</property>
+<!--    <property name="hibernate.connection.url">jdbc:mysql://mysql.mcluck.com.br/mcluckbr8</property>-->
+    
+    <property name="hibernate.connection.url">jdbc:mysql://localhost/mcluckbr8</property>
+    <property name="hibernate.c3p0.max_size">10</property>
+    <property name="hibernate.c3p0.min_size">5</property>
+    <property name="hibernate.c3p0.timeout">300</property>
+   
+    <property name="hibernate.c3p0.max_statements">50</property>
+    <property name="hibernate.c3p0.idle_test_period">3000</property>
+    <property name="hibernate.connection.username">root</property>
+    <property name="hibernate.connection.password">123456</property>
+    <property name="hibernate.c3p0.acquire_increment">3</property>
+    <property name="hibernate.transaction.auto_close_session">false</property>
+    <property name="hibernate.connection.pool_size">5</property>
+    <property name="hibernate.connection.release_mode">after_transaction</property>
+    <property name="hibernate.current_session_context_class">thread</property>
+    <property name="hibernate.hbm2ddl.auto">update</property>
+    <property name="hibernate.show_sql">false</property>
+
+
+    <!-- Configuracoes Memcached -->
+    <property name="hibernate.cache.provider_class">com.googlecode.hibernate.memcached.MemcachedCacheProvider</property>
+    <property name="hibernate.cache.use_query_cache">true</property>
+    <property name="hibernate.memcached.servers">localhost:11211</property>
+    <property name="hibernate.memcached.cacheTimeSeconds">300</property>
+    <property name="hibernate.memcached.keyStrategy">com.googlecode.hibernate.memcached.HashCodeKeyStrategy</property>
+    <property name="hibernate.memcached.readBufferSize">16384</property>
+    <property name="hibernate.memcached.operationQueueLength">16384</property>
+    <property name="hibernate.memcached.operationTimeout">1000</property>
+    <property name="hibernate.memcached.connectionFactory">DefaultConnectionFactory</property>
+    <property name="hibernate.memcached.clearSupported">false</property>
+
+    <mapping class="br.com.mailanalyzer.domain.TermVariation" />
+    <mapping class="br.com.mailanalyzer.domain.DomainObject" />
+    <mapping class="br.com.mailanalyzer.domain.ActiveReceiver" />
+    <mapping class="br.com.mailanalyzer.domain.Message" />
+    <mapping class="br.com.mailanalyzer.domain.ProcessedMessage" />
+    <mapping class="br.com.mailanalyzer.domain.Field" />
+    <mapping class="br.com.mailanalyzer.domain.Log" />
+    <mapping class="br.com.mailanalyzer.domain.Subject" />
+    <mapping class="br.com.mailanalyzer.domain.Status" />
+    <mapping class="br.com.mailanalyzer.domain.TermVariation" />
+    <mapping class="br.com.mailanalyzer.domain.RaizDomain" />
+    <mapping class="br.com.mailanalyzer.domain.ElementoDomain" />
+    <mapping class="br.com.mailanalyzer.domain.ComposicaoDomain" />
+    <mapping class="br.com.mailanalyzer.domain.HtmlCode" />
+    <mapping class="br.com.mailanalyzer.domain.AssuntosPendentes" />
+    <mapping class="br.com.mailanalyzer.domain.Palavra" />
+    <mapping class="br.com.mailanalyzer.domain.Texto" />
+  </session-factory>
+</hibernate-configuration>
