@@ -27,7 +27,7 @@ public class FiltroSubstituirGirias implements InterfaceComposeFlow, PropertyRet
     public void execute() {
         try {
         	if(Config.isNivelLogMaximo()){
-        		L.d(TAG, this.getClass(), "Iniciando filtro de Substituição de termos na mensagem: \n".concat(msg));
+        		L.d(TAG, this.getClass(), "Iniciando filtro de Substituicao de termos na mensagem: \n".concat(msg));
         	}
             if (msg == null) {
                 stop = true;
@@ -35,7 +35,7 @@ public class FiltroSubstituirGirias implements InterfaceComposeFlow, PropertyRet
             }
             msg = Substituir(msg);
             if(Config.isNivelLogMaximo()){
-        		L.d(TAG, this.getClass(), "Aplicou filtro de substituição de termos na mensagem: \n".concat(msg));
+        		L.d(TAG, this.getClass(), "Aplicou filtro de substituicao de termos na mensagem: \n".concat(msg));
         	}
         } catch (Exception e) {
             L.e("Filtro de girias", this, "Falhou ao tentar substituir termos na mensagem", e);
