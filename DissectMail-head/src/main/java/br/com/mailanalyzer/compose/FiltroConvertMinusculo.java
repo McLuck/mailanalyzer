@@ -21,7 +21,7 @@ public class FiltroConvertMinusculo implements InterfaceComposeFlow, PropertyRet
     public void execute() {
         try {
         	if(Config.isNivelLogMaximo()){
-        		L.d(TAG, this.getClass(), "Iniciando filtro para convers‹o para minœsculo na mensagem: \n".concat(msg));
+        		L.d(TAG, this.getClass(), "Iniciando filtro para conversao para minusculo na mensagem: \n".concat(msg));
         	}
             if (msg == null) {
                 stop = true;
@@ -29,7 +29,7 @@ public class FiltroConvertMinusculo implements InterfaceComposeFlow, PropertyRet
             }
             msg = parse(msg);
             if(Config.isNivelLogMaximo()){
-        		L.d(TAG, this.getClass(), "Filtro para convers‹o para minœsculo foi aplicado. Mensagem: \n".concat(msg));
+        		L.d(TAG, this.getClass(), "Filtro para convers‹o para minusculo foi aplicado. Mensagem: \n".concat(msg));
         	}
         } catch (Exception ex) {
             L.e("Filtro converção para minusculos", this, "Falhou em converter caracteres para minusculos", ex);
