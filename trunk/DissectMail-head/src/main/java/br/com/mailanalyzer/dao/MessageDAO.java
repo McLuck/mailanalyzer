@@ -23,6 +23,14 @@ public class MessageDAO extends BaseDAO<Message> implements MessageInterfaceDAO{
     public MessageDAO(){
         super(Message.class);
     }
+    
+    private static MessageDAO instance;
+    public static MessageDAO getInstance(){
+    	if(instance == null){
+    		instance = new MessageDAO();
+    	}
+    	return instance;
+    }
 
     /**
      * {@inheritDoc}

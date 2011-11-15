@@ -6,6 +6,7 @@
 package br.com.mailanalyzer.compose;
 
 import br.com.mailanalyzer.dao.HB;
+import br.com.mailanalyzer.dao.MessageDAO;
 import br.com.mailanalyzer.dao.actions.ActionMessage;
 import br.com.mailanalyzer.domain.Message;
 import br.com.mailanalyzer.fluxo.InterfaceComposeFlow;
@@ -31,15 +32,16 @@ public class SaveMessage implements InterfaceComposeFlow, MutableComponent, Prop
             stop = true;
             return;
         }
-            
-        ActionMessage dao = new ActionMessage();
+          
+        MessageDAO dao = MessageDAO.getInstance();
         for(int i=0;i<message.length;i++){
-            try{
-                HB.getInstancia().closeSession();
-            }catch(Exception e){}
-            
-            dao.setMessage(message[i]);
-            dao.salvar();
+        	try{
+        		dao.salvar(message[i]);
+        		dao.commit();
+        		L.d("Salvar mensagem", this.getClass(), "Salvou mensagem: ".concat(message[i].getMensagem()).concat("  \nMesagem de: ".concat(message[i].getOrigem())));
+        	}catch(Exception e){
+        		L.e("Salvar mensagem", this.getClass(), "Erro ao commitar uma mensagem no Banco de Dados. Mensagem: \n".concat(message[i].getMensagem()).concat(" \nMensagem enviada de: ".concat(message[i].getOrigem())), e);
+        	}
         }
         L.i("Salvar mensagem", this, "Salvou mensagem no banco de dados");
     }
