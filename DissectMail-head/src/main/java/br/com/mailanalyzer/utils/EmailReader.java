@@ -103,6 +103,7 @@ public class EmailReader {
 
             // -- Get hold of a POP3 message store, and connect to it --
             //store = session.getStore("pop3");
+            
             store = session.getStore(getProtocolo());
             store.connect(popServer, 995, popUser, popPassword);
             //store.connect(popServer, popUser, popPassword);

@@ -60,7 +60,7 @@ public class Elemento {
             if(peso<0 && lev == 0){
                relevancia += peso; //Trata eliminatorias
                encontrado = true;
-            }else if(peso-lev>=0){
+            }else if(peso-lev>=0 && lev <= Levenshtein.getPorcentagem(30, palavra.length()<e.getPalavra().length()?palavra:e.getPalavra())){
                relevancia += (peso - lev);
                encontrado = true;
             }
@@ -89,7 +89,7 @@ public class Elemento {
         int lev = Levenshtein.getLevenshteinDistance(palavra, this.palavra);
         if(lev==0 && peso <0){
             temp += peso;
-        }else if (peso-lev>=0){
+        }else if (peso-lev>=0 && lev <= Levenshtein.getPorcentagem(30, (palavra.length()< this.palavra.length())?palavra:this.palavra)){
             temp += peso-lev;
         }
         encontrado = temp!=0;
@@ -100,7 +100,7 @@ public class Elemento {
                 if(lev==0 && peso <0){
                     temp += peso;
                     break;
-                }else if (peso-lev>=0){
+                }else if (peso-lev>=0 && lev <= Levenshtein.getPorcentagem(30, (palavra.length()< s.length())?palavra:s)){
                     temp += peso-lev;
                     break;
                 }
