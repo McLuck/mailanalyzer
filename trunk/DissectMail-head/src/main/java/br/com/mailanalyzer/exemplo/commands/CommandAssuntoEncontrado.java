@@ -57,7 +57,7 @@ public class CommandAssuntoEncontrado extends SubjectFoundCommand{
             html = hdao.obter(5);
         }else if(assunto.getName().toLowerCase().trim().equals("matricula do aluno'")){
             html = hdao.obter(2);
-        }else if(assunto.getName().toLowerCase().trim().equals("grade hor‡ria do aluno")){
+        }else if(assunto.getName().toLowerCase().trim().equals("grade horá‡ria do aluno")){
             html = hdao.obter(6);
         }else if(assunto.getName().toLowerCase().trim().equals("histórico escolar do aluno'")){
             html = hdao.obter(3);

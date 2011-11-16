@@ -1,6 +1,7 @@
 package br.com.mailanalyzer.main;
 
 import br.com.mailanalyzer.analise2.GerenciamentoAnalisador;
+import br.com.mailanalyzer.analise2.Raiz;
 import br.com.mailanalyzer.dao.AssuntosPendentesDAO;
 import br.com.mailanalyzer.domain.ActiveReceiver;
 import br.com.mailanalyzer.domain.AssuntosPendentes;
@@ -34,8 +35,13 @@ public class Teste implements Runnable {
 		
 		//Desabilita correcao ortografica automatica
 		Config.USAR_CORRECAO_ORTOGRAFICA = false;
-		 
-
+		
+		//Valida diferenca entre dois assuntos
+		Raiz.VALIDAR_DIFERENCA_MINIMA = true;
+		
+		//Valida assuntos com baixa relevancia
+		Raiz.VALIDAR_RELEVANCIA_MINIMA = true;
+		
 		// Seta modo debug. Isto ira habilitar o andamento dos processos no
 		// console.
 		Config.LOG.PRINT_IN_CONSOLE = true;

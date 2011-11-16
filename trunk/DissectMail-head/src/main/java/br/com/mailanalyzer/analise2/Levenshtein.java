@@ -90,7 +90,7 @@ public class Levenshtein {
      */
     public static final int PORCENTAGEM_PADRAO = 30;
 
-    private static int getPorcentagem(double p, String s){
+    public static int getPorcentagem(double p, String s){
         return (int)(s.length()*p/100);
     }
 

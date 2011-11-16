@@ -42,6 +42,22 @@ public class Raiz {
      * Valor da diferenca pode ser informado em <b>Raiz.DIFERENCA_MINIMA</b>
      */
     public static boolean VALIDAR_DIFERENCA_MINIMA = true;
+    
+    /**
+     * Esta opcao permite ativar ou desativar a consideracao de mensagens com pesos minimos pare ser consideradas
+     * reconhecidas. <br>
+     * Se o peso minimo (Raiz.RELEVANCIA_MINIMA) estiver estabelecido como 100, qualquer relevancia abaixo deste valor
+     * sera desconsiderada.
+     */
+    public static boolean VALIDAR_RELEVANCIA_MINIMA = true;
+    
+    /**
+     * Relevancia minima que uma determinada mensagem deve ter para ser considerada como correta.
+     * Para este valor ser levado em consideracao, deve-se setar true em Raiz.VALIDAR_RELEVANCIA_MINIMA <br>
+     * Qualquer mensagem com relevancia abaixo deste valor, nao sera considerada.<br>
+     * <b>Default:</b> 100
+     */
+    public static int RELEVANCIA_MINIMA = 100;
 
     /**
      * Diferenca minima entre uma e outra raiz. <br/>
