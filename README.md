@@ -1,4 +1,3 @@
-This is the repository for the project DissectMail?. Welcome and thank you for your cooperation. 
 
 Nomes
 
